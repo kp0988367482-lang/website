@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seoulmate 韓國生活導航</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+            animation: marquee 18s linear infinite;
+            color: #fff;
+            background: #222;
+            padding: 8px 0;
+            font-size: 1.1rem;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .hero {
+            background: linear-gradient(120deg, #4e54c8 0%, #8f94fb 100%);
+            color: #fff;
+            padding: 60px 0 40px 0;
+            text-align: center;
+        }
+
+        .service-card {
+            min-height: 220px;
+        }
+
+        .site-footer {
+            background: #222;
+            color: #fff;
+            padding: 24px 0 12px 0;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+            color: #4e54c8 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">Seoulmate</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">首頁</a></li>
+                    <li class="nav-item"><a class="nav-link" href="arrival-guide.html">落地指南</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rental-guide.html">租屋攻略</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pricing.html">服務收費</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cases.html">成功案例</a></li>
+                    <li class="nav-item"><a class="nav-link" href="brand.html">品牌識別</a></li>
+                    <li class="nav-item"><a class="nav-link" href="whyus.html">Why Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="b2b.html">B2B 提案</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Marquee -->
+    <div class="marquee">🎉 免費下載：2024 韓國生活落地攻略、租屋避坑指南、簽證全流程 SOP！ | 1:1 諮詢服務開放預約 | B2B 企業合作專案歡迎洽詢</div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="display-5 fw-bold mb-3">Seoulmate 韓國生活導航</h1>
+            <p class="lead mb-4">最懂華語圈的韓國生活顧問，10年在地經驗，陪你全流程落地、租屋、簽證、醫美、創業、B2B 專案。</p>
+            <a href="arrival-guide.html" class="btn btn-warning btn-lg me-2">免費落地攻略</a>
+            <a href="pricing.html" class="btn btn-outline-light btn-lg">服務方案</a>
+        </div>
+    </section>
+
+    <!-- 服務卡片區塊 -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="mb-4 text-center">熱門服務</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card service-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">落地全流程顧問</h5>
+                            <p class="card-text">入境、住所申報、ARC、銀行、手機、健保、生活設施一站式協助。</p>
+                            <a href="arrival-guide.html" class="btn btn-primary">了解流程</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card service-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">租屋避坑專案</h5>
+                            <p class="card-text">五大租屋類型、押金制度、找房六步驟、合約審查、現場陪同。</p>
+                            <a href="rental-guide.html" class="btn btn-primary">租屋攻略</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card service-card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">1:1 諮詢/企業合作</h5>
+                            <p class="card-text">留學、醫美、電商、簽證、B2B 專案，10年經驗，量身規劃。</p>
+                            <a href="pricing.html#consult" class="btn btn-primary">預約諮詢</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 網站地圖 -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="mb-4 text-center">網站地圖</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="index.html">首頁</a></li>
+                        <li class="list-group-item"><a href="arrival-guide.html">落地指南</a></li>
+                        <li class="list-group-item"><a href="rental-guide.html">租屋攻略</a></li>
+                        <li class="list-group-item"><a href="pricing.html">服務收費</a></li>
+                        <li class="list-group-item"><a href="cases.html">成功案例</a></li>
+                        <li class="list-group-item"><a href="brand.html">品牌識別</a></li>
+                        <li class="list-group-item"><a href="whyus.html">Why Us</a></li>
+                        <li class="list-group-item"><a href="b2b.html">B2B 提案</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div>© 2026 Seoulmate. All rights reserved. | 韓國生活導航顧問</div>
+            <div class="mt-2" style="font-size:0.9em;">本網站提供資訊與顧問服務，非官方機構。合作洽詢：info@seoulmate.com</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
