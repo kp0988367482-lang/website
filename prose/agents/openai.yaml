@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prose"
+  short_description: "Help with Prose tasks and workflows"
+  default_prompt: "Use $prose to route or run an OpenProse workflow or .prose program."

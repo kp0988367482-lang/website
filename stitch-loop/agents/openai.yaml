@@ -1,0 +1,4 @@
+interface:
+  display_name: "Stitch Loop"
+  short_description: "Help with Stitch Loop tasks"
+  default_prompt: "Use $stitch-loop to build or refine a Stitch page through an iterative workflow."

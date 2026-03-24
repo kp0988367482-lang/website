@@ -1,0 +1,4 @@
+interface:
+  display_name: "Secrets Management"
+  short_description: "Help with Secrets Management tasks"
+  default_prompt: "Use $secrets-management to secure CI/CD secrets and reduce exposure of credentials."
