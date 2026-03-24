@@ -1,18 +1,52 @@
 {
-    "name": "seoualmate-workspace",
-    "private": true,
-    "workspaces": [
-        "apps/*"
-    ],
-    "scripts": {
-        "dev": "cd apps/landing && npm run dev",
-        "dev:core": "cd apps/core/frontend && npm run dev",
-        "dev:admin": "cd apps/admin && npm run dev",
-        "dev:landing": "cd apps/landing && npm run dev",
-        "build:core": "cd apps/core/frontend && npm run build",
-        "build:admin": "cd apps/admin && npm run build",
-        "build:landing": "cd apps/landing && npm run build",
-        "api:core": "cd apps/core/backend && .venv/bin/python -m uvicorn main:app --reload --host 127.0.0.1 --port 8000",
-        "install:all": "npm install && cd apps/core/frontend && npm install"
-    }
+  "name": "seoulmate-web",
+  "version": "1.0.0",
+  "description": "SeoulMate Platform - Korea Everything",
+  "main": "paypal_server.js",
+  "scripts": {
+    "start": "node paypal_server.js",
+    "dev": "nodemon paypal_server.js",
+    "doctor": "node scripts/check-env.js",
+    "detect-incomplete": "node scripts/detect-incomplete.js",
+    "check-skills": "node scripts/validate-skills-index.js",
+    "check-env": "node scripts/check-env.js",
+    "test": "jest",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^4.22.1",
+    "follow-redirects": "^1.15.11",
+    "node-fetch": "^2.7.0",
+    "stripe": "^20.4.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "nodemon": "^3.1.14"
+  },
+  "overrides": {
+    "@tootallnate/once": "3.0.1"
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kp0988367482-lang/website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kp0988367482-lang/website/issues"
+  },
+  "homepage": "https://github.com/kp0988367482-lang/website#readme"
 }
