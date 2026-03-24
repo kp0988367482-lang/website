@@ -1,0 +1,7 @@
+[
+  {"step": "plan", "status": "pending", "detail": "需求訪談、現場評估、規劃方案"},
+  {"step": "to do", "status": "pending", "detail": "設備採購、排程、安裝前準備"},
+  {"step": "do", "status": "pending", "detail": "現場安裝、線路整理、設備設定"},
+  {"step": "check", "status": "pending", "detail": "功能測試、畫面確認、用戶驗收"},
+  {"step": "sent", "status": "pending", "detail": "產生報告、交付文件、通知客戶"}
+]
