@@ -1,0 +1,32 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "games",
+      "queryScope": "Collection",
+      "fields": [
+        {
+          "fieldPath": "creatorId",
+          "order": "Ascending"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "Descending"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "games",
+      "queryScope": "Collection",
+      "fields": [
+        {
+          "fieldPath": "isPublic",
+          "order": "Ascending"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "Descending"
+        }
+      ]
+    }
+  ]
+}
