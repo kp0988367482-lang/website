@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>SeoulMate Toolkit.md</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body { max-width: 800px; margin: 2em auto; font-family: sans-serif; }
+    #content { background: #fff; padding: 2em; border-radius: 8px; box-shadow: 0 2px 8px #0001; }
+  </style>
+</head>
+<body>
+  <h1>SeoulMate Toolkit.md</h1>
+  <div id="content">載入中...</div>
+  <script>
+    fetch('/public/toolkit.md')
+      .then(r => r.text())
+      .then(md => {
+        document.getElementById('content').innerHTML = marked.parse(md);
+      })
+      .catch(e => {
+        document.getElementById('content').innerText = '載入失敗：' + e;
+      });
+  </script>
+</body>
+</html>
