@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>SeoulMate Elite | Global Intelligence Command</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@200;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#E5C76B",
+                        "gold": "#E5C76B",
+                        "cyber-blue": "#00E5FF",
+                        "midnight": "#020203",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "accent": ["Bebas Neue", "sans-serif"],
+                        "title": ["Montserrat", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            --gold-glow: rgba(229, 199, 107, 0.4);
+            --blue-glow: rgba(0, 229, 255, 0.2);
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ── GRAIN TEXTURE ── */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* ── RADIAL AMBIENT GLOW ── */
+        .ambient-glow {
+            position: fixed;
+            width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 50% -20%, rgba(229, 199, 107, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bebas { font-family: 'Bebas Neue'; }
+        
+        /* ── ADVANCED BENTO ── */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(200px, auto);
+            gap: 1rem;
+        }
+        .bento-2x2 { grid-column: span 2; grid-row: span 2; }
+        .bento-2x1 { grid-column: span 2; grid-row: span 1; }
+        .bento-1x2 { grid-column: span 1; grid-row: span 2; }
+
+        @media (max-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 640px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-2x2, .bento-2x1, .bento-1x2 { grid-column: span 1; grid-row: span 1; }
+        }
+
+        /* ── COMMAND CARD ── */
+        .command-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .command-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(229, 199, 107, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .command-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: rgba(229, 199, 107, 0.3);
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8), 
+                        0 0 20px 0 var(--gold-glow);
+        }
+
+        .command-card:hover::before { opacity: 1; }
+
+        .card-glitch-line {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+            transform: translateY(-100%);
+            transition: transform 0.8s ease;
+        }
+        .command-card:hover .card-glitch-line {
+            transform: translateY(200px);
+            animation: scanline 2s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(400px); }
+        }
+
+        /* ── HERO SHOCKER ── */
+        .hero-visual {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 30%, #000 100%);
+        }
+
+        .text-glow-gold { text-shadow: 0 0 15px var(--gold-glow); }
+        .btn-gold {
+            background: linear-gradient(135deg, #E5C76B 0%, #B8964B 100%);
+            box-shadow: 0 0 30px rgba(229, 199, 107, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-gold:hover {
+            box-shadow: 0 0 50px rgba(229, 199, 107, 0.5);
+            transform: scale(1.05);
+        }
+
+        .status-dot {
+            width: 6px; height: 6px;
+            background: #00E5FF;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00E5FF;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 0.4; transform: scale(1); }
+        }
+
+        /* ── MARQUEE ANIMATION ── */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 30s linear infinite;
+            display: inline-block;
+            padding-left: 100%;
+        }
+        .pause-marquee {
+            animation-play-state: paused;
+        }
+    </style>
+
+</head>
+<body class="min-h-screen">
+    <div class="ambient-glow"></div>
+
+    <!-- Navigation (Command Bar) -->
+    <nav class="sticky top-0 z-[1000] border-b border-white/5 bg-black/60 backdrop-blur-xl">
+        <div class="max-w-[1440px] mx-auto px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="/" class="flex items-center group">
+                    <span class="bebas text-4xl tracking-[4px] text-white group-hover:text-primary transition-colors">SEOULMATE<span class="text-primary italic">31</span></span>
+                </a>
+                <div class="hidden lg:flex items-center gap-10 text-[10px] uppercase font-black tracking-[3px] text-slate-500">
+                    <a class="hover:text-primary hover:text-glow-gold transition-all" href="/">Operations</a>
+                    <a class="text-primary text-glow-gold" href="product_showcase.html">Intel Assets</a>
+                    <a class="hover:text-primary transition-all" href="/benefits">Elite Tier</a>
+                    <a class="hover:text-primary transition-all" href="comparison_hub.html">Signals</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-8">
+                <div class="hidden md:flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                    <div class="status-dot"></div>
+                    <span id="network-status" class="text-[9px] font-bold tracking-widest text-cyber-blue uppercase">Live Network: Active</span>
+                </div>
+                <!-- SIGNAL DECODER (Translator) -->
+                <button onclick="toggleDecoder()" class="flex items-center gap-2 px-3 py-1.5 border border-white/10 rounded-lg hover:bg-white/5 transition-all group">
+                    <span class="material-symbols-outlined text-sm text-primary">translate</span>
+                    <span id="lang-label" class="text-[9px] font-black tracking-[2px] uppercase group-hover:text-primary">Decode: EN</span>
+                </button>
+                <a id="access-cta" href="/benefits" class="bg-primary text-black px-8 py-3 rounded-xl bebas text-xl tracking-widest btn-gold">AUTHENTICATE ACCESS</a>
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-[1440px] mx-auto px-8 py-10 relative z-10">
+        
+        <!-- Hero Section: The Intelligence Hub -->
+        <section class="mb-16">
+            <div class="hero-visual mb-12">
+                <img src="premium_intel_hub_hero_1772961628024.png" alt="Intelligence Command" class="w-full h-[500px] object-cover opacity-80" />
+                <div class="hero-overlay"></div>
+                <div class="absolute bottom-12 left-12 max-w-2xl">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 bg-primary/10 border border-primary/20 rounded-md text-primary text-[10px] font-bold tracking-[2px] uppercase">Level 3 Clearance</span>
+                        <span class="text-slate-500 text-[10px] tracking-[2px] uppercase">System Latency: 4ms</span>
+                    </div>
+                    <h2 class="text-6xl md:text-8xl font-black mb-6 bebas tracking-[4px] leading-tight">THE ULTIMATE<br/>K-INTEL HUB</h2>
+                    <p class="text-slate-400 text-lg max-w-lg font-light leading-relaxed">
+                        Accessing decrypted market signals, exclusive relocation blueprints, and the most influential networks in the Republic of Korea. 
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Intelligence Bulletin (Today's Recommendation) -->
+        <section class="mb-12">
+            <div class="relative group bg-primary/5 border border-primary/20 rounded-2xl p-1 flex items-center overflow-hidden">
+                <!-- Ticker Label -->
+                <div class="bg-primary text-black px-6 py-3 rounded-xl bebas text-xl tracking-widest z-10 flex items-center gap-2 shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-lg">campaign</span>
+                    今日推薦
+                </div>
+                
+                <!-- Ticker Content -->
+                <div class="flex-1 overflow-hidden whitespace-nowrap pl-6 relative">
+                    <div class="inline-block animate-marquee group-hover:pause-marquee text-slate-300 text-xs font-bold tracking-[2px] uppercase">
+                        [TOP SECRET] 2026 GANGNAM REAL ESTATE FORECAST REVEALED — 
+                        [ALPHA SIGNAL] HYBE ENTERTAINMENT NEW STRATEGY LEAKED — 
+                        [INTEL PICK] HOW TO BYPASS KOREAN BANKING RESTRICTIONS — 
+                        [JOIN ELITE] 31 SPOTS REMAINING FOR THE 31ST QUARTER
+                    </div>
+                    <!-- Transparent Gradient Fades -->
+                    <div class="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-black/20 to-transparent"></div>
+                    <div class="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-black/20 to-transparent"></div>
+                </div>
+
+                <a href="/benefits" class="hidden sm:flex items-center gap-2 px-6 text-primary text-[10px] font-black tracking-widest uppercase hover:underline">
+                    Access Now <span class="material-symbols-outlined text-sm">arrow_right_alt</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Bento Grid Command Center -->
+        <section class="mb-24">
+            <div class="flex justify-between items-end mb-10 border-b border-white/10 pb-6">
+                <div>
+                    <h3 class="bebas text-4xl tracking-widest mb-2">Available Signals</h3>
+                    <p class="text-slate-500 text-xs tracking-widest uppercase">Select asset to initialize transmission</p>
+                </div>
+                <div class="flex gap-4">
+                    <button class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:bg-white/5 transition-all">
+                        <span class="material-symbols-outlined text-sm">filter_list</span>
+                    </button>
+                    <button class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:bg-white/5 transition-all">
+                        <span class="material-symbols-outlined text-sm">grid_view</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bento-grid">
+                <!-- FEATURED ASSET (2x2) -->
+                <div class="command-card bento-2x2 p-10 flex flex-col justify-between group cursor-pointer" onclick="location.href='/benefits'">
+                    <div class="card-glitch-line"></div>
+                    <div>
+                        <div class="flex justify-between items-start mb-8">
+                            <span class="material-symbols-outlined text-5xl text-primary text-glow-gold">hub</span>
+                            <span class="text-[10px] font-black tracking-widest text-primary border border-primary/30 px-3 py-1 rounded">HOT TARGET</span>
+                        </div>
+                        <h4 class="text-4xl font-black mb-2 title tracking-tight group-hover:text-primary transition-colors">Market Decision Engine</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed max-w-md">Our proprietary L2 engine for analyzing Korea's real estate and stock market trends. High-frequency data simplified for elite decisions.</p>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="flex -space-x-4">
+                            <div class="w-10 h-10 rounded-full border-2 border-black bg-slate-800 flex items-center justify-center text-[10px] font-bold">V1</div>
+                            <div class="w-10 h-10 rounded-full border-2 border-black bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">Pro</div>
+                        </div>
+                        <div class="flex items-center gap-2 text-primary font-bold text-[11px] uppercase tracking-[2px] group-hover:translate-x-2 transition-transform">
+                            Initialize Signal <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RELOCATION BLUEPRINT (1x2) -->
+                <div class="command-card bento-1x2 p-8 flex flex-col justify-between group cursor-pointer" onclick="location.href='/benefits'">
+                    <div class="card-glitch-line"></div>
+                    <div>
+                        <span class="material-symbols-outlined text-4xl mb-6 text-slate-400 group-hover:text-primary transition-all">apartment</span>
+                        <h4 class="text-2xl font-bold mb-4">Relocation Matrix</h4>
+                        <p class="text-slate-500 text-xs leading-relaxed">Exclusive access to Gangnam and Hannam-dong off-market listings and logistics concierge.</p>
+                    </div>
+                    <div class="pt-6 border-t border-white/5">
+                        <span class="text-[9px] font-bold tracking-[2px] text-slate-600 uppercase">Integrity Score: 99.8%</span>
+                    </div>
+                </div>
+
+                <!-- SIGNAL 3 (2x1) -->
+                <div class="command-card bento-2x1 p-8 flex flex-col justify-center group cursor-pointer" onclick="location.href='/benefits'">
+                    <div class="card-glitch-line"></div>
+                    <div class="flex items-center gap-8">
+                        <div class="w-24 h-24 bg-white/5 rounded-2xl flex items-center justify-center border border-white/5">
+                            <span class="material-symbols-outlined text-4xl text-cyber-blue">security</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <h4 class="text-2xl font-bold">Alpha Intelligence</h4>
+                                <span class="px-2 py-0.5 bg-cyber-blue/10 text-cyber-blue text-[8px] font-bold rounded">ENCRYPTED</span>
+                            </div>
+                            <p class="text-slate-500 text-sm max-w-sm">Private political and corporate signals not available to the mainstream media.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIGNAL 4 (1x1) -->
+                <div class="command-card p-6 flex flex-col justify-between group cursor-pointer hover:bg-primary/5" onclick="location.href='/benefits'">
+                    <div class="card-glitch-line"></div>
+                    <span class="material-symbols-outlined text-3xl text-slate-400">language</span>
+                    <div>
+                        <h4 class="font-bold text-lg">Global Concierge</h4>
+                        <p class="text-[10px] text-slate-500 mt-1">Direct support in 5 languages.</p>
+                    </div>
+                </div>
+
+                <!-- SIGNAL 5 (1x1) -->
+                <div class="command-card p-6 flex flex-col justify-between group cursor-pointer hover:bg-cyber-blue/5" onclick="location.href='/benefits'">
+                    <div class="card-glitch-line"></div>
+                    <span class="material-symbols-outlined text-3xl text-slate-400">groups</span>
+                    <div>
+                        <h4 class="font-bold text-lg">Circle Connect</h4>
+                        <p class="text-[10px] text-slate-500 mt-1">Networking with Seoul elites.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Footer -->
+        <footer class="mt-32 border-t border-white/5 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col gap-2">
+                <span class="bebas text-2xl tracking-[4px]">SEOULMATE<span class="text-primary italic">31</span></span>
+                <p class="text-[10px] text-slate-500 tracking-[1px] uppercase">© 2026 Republic of Korea. All Signal Transmissions Secured.</p>
+            </div>
+            <div class="flex gap-10 text-[9px] font-bold tracking-[2px] uppercase text-slate-500">
+                <a href="#" class="hover:text-primary">Terms of Intel</a>
+                <a href="#" class="hover:text-primary">Privacy Shield</a>
+                <a href="#" class="hover:text-primary">System Logs</a>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Global Grain Filter Overlay -->
+    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; background: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.1; mix-blend-mode: overlay;"></div>
+
+    <script src="db.js"></script>
+    <script>
+        // ── MEMBERSHIP STATUS CHECK (Zero-Server / LocalStorage) ──
+        function getActiveUser() {
+            const session = window.FutureDB?.getSession?.();
+            if (session) {
+                const plan = (session.plan || 'free').toLowerCase();
+                return {
+                    isLoggedIn: true,
+                    plan,
+                    role: plan,
+                };
+            }
+
+            const legacyUser = JSON.parse(localStorage.getItem('seoulmate_user') || '{}');
+            return {
+                isLoggedIn: Boolean(legacyUser.email || legacyUser.isPremium || legacyUser.role),
+                plan: (legacyUser.role || (legacyUser.isPremium ? 'elite' : 'free')).toLowerCase(),
+                role: (legacyUser.role || '').toLowerCase(),
+            };
+        }
+
+        function checkAccess() {
+            const user = getActiveUser();
+            const cta = document.getElementById('access-cta');
+            const statusLabel = document.getElementById('network-status');
+            
+            if (!user.isLoggedIn) return;
+
+            if (cta) {
+                cta.textContent = user.plan === 'elite' || user.plan === 'pro'
+                    ? 'COMMAND CENTER GRANTED'
+                    : 'MEMBER CENTER';
+                cta.classList.remove('btn-gold');
+                cta.classList.add('bg-emerald-500', 'text-white', 'shadow-emerald-500/20');
+                cta.href = user.role === 'admin' ? 'admin.html' : 'member_center.html';
+            }
+            if (statusLabel) statusLabel.textContent = `Identity: ${user.plan.toUpperCase()} Member`;
+        }
+
+        // ── SIGNAL DECODER (Translation with Glitch Effect) ──
+        let currentLang = 'EN';
+        const langs = ['EN', 'ZH', 'KR'];
+
+        function syncDecoderLabel() {
+            const label = document.getElementById('lang-label');
+            if (!label) return;
+
+            if (window.SeoulMateTranslator) {
+                currentLang = window.SeoulMateTranslator.getShortLabel();
+            }
+            label.innerText = `Decode: ${currentLang}`;
+        }
+        
+        function toggleDecoder() {
+            const nextIdx = (langs.indexOf(currentLang) + 1) % langs.length;
+            const targetLang = langs[nextIdx];
+            const label = document.getElementById('lang-label');
+            
+            // Start "Decoding" Animation
+            let iterations = 0;
+            const originalText = `Decode: ${targetLang}`;
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@&";
+            
+            const interval = setInterval(() => {
+                label.innerText = originalText.split("")
+                    .map((char, index) => {
+                        if(index < iterations) return originalText[index];
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join("");
+                
+                if(iterations >= originalText.length) clearInterval(interval);
+                iterations += 1/3;
+            }, 30);
+
+            currentLang = targetLang;
+            if (window.SeoulMateTranslator) {
+                window.SeoulMateTranslator.setLanguage(targetLang);
+            }
+            console.log(`System switched to: ${targetLang}`);
+        }
+
+        // ── MOUSE TRACKING GLOW ──
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.querySelector('.ambient-glow');
+            if (glow) {
+                const x = (e.clientX / window.innerWidth) * 100;
+                const y = (e.clientY / window.innerHeight) * 100;
+                glow.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(229, 199, 107, 0.08) 0%, transparent 60%)`;
+            }
+        });
+
+        window.addEventListener('load', () => {
+            checkAccess();
+            syncDecoderLabel();
+        });
+    </script>
+    <script src="translator.js"></script>
+
+</body>
+</html>

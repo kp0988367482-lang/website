@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeoulMate | L2 Terminal Console</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #050505;
+            color: #ddff00;
+            font-family: 'Fira Code', monospace;
+            overflow: hidden;
+            /* Prevent scrolling on the main page to keep the terminal vibe */
+        }
+
+        /* Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.6;
+        }
+
+        /* Screen Flicker */
+        .flicker {
+            animation: flicker 0.15s infinite;
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 255, 65, 0.02);
+            z-index: 40;
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 0.95;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.95;
+            }
+        }
+
+        /* Blinking Cursor */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background-color: #00ff41;
+            vertical-align: text-bottom;
+            animation: blink 1s step-end infinite;
+            margin-left: 4px;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Status Light */
+        .status-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #00ff41;
+            box-shadow: 0 0 10px #00ff41;
+            animation: pulse-light 2s infinite;
+        }
+
+        @keyframes pulse-light {
+            0% {
+                opacity: 0.8;
+                box-shadow: 0 0 8px #00ff41;
+            }
+
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 15px #00ff41;
+            }
+
+            100% {
+                opacity: 0.8;
+                box-shadow: 0 0 8px #00ff41;
+            }
+        }
+
+        /* Input reset */
+        input:focus {
+            outline: none;
+        }
+
+        .terminal-container {
+            height: calc(100vh - 8rem);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #00ff41 #050505;
+        }
+
+        .terminal-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-container::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        .terminal-container::-webkit-scrollbar-thumb {
+            background-color: #00aa2b;
+            border-radius: 4px;
+        }
+
+        .module-card {
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            background: rgba(0, 255, 65, 0.05);
+            transition: all 0.2s;
+        }
+
+        .module-card:hover {
+            border-color: #00ff41;
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8 flex flex-col h-screen">
+
+    <div class="scanlines"></div>
+    <div class="flicker"></div>
+
+    <!-- Header -->
+    <header
+        class="flex justify-between items-center mb-6 border-b border-[#00ff41] pb-4 backdrop-blur-sm relative z-10">
+        <div>
+            <h1 class="text-2xl font-bold tracking-widest text-[#00ff41] shadow-sm">SYS.SEOULMATE.L2</h1>
+            <p class="text-xs opacity-70">AUTHORIZED PERSONNEL ONLY // CLASSIFIED ACCESS</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs uppercase tracking-widest opacity-80">SYS_STATUS: ONLINE</span>
+            <div class="status-light"></div>
+        </div>
+    </header>
+
+    <div class="flex flex-col md:flex-row gap-6 flex-1 min-h-0 relative z-10">
+
+        <!-- Sidebar: Module Cards -->
+        <div class="w-full md:w-1/4 flex flex-col gap-4 overflow-y-auto pr-2">
+            <div class="text-sm border-b border-gray-700 pb-2 mb-2 text-gray-400">AVAILABLE MODULES</div>
+
+            <button class="module-card text-left p-4 rounded cursor-pointer"
+                onclick="executeCommand('run engine_init')">
+                <div class="text-xs text-gray-400 mb-1">[MOD_01]</div>
+                <div class="font-bold text-white mb-2">Engine Init</div>
+                <div class="text-xs opacity-70">Initialize core SeoulMate monetization engines.</div>
+            </button>
+
+            <button class="module-card text-left p-4 rounded cursor-pointer"
+                onclick="executeCommand('run referral_net')">
+                <div class="text-xs text-gray-400 mb-1">[MOD_02]</div>
+                <div class="font-bold text-white mb-2">Referral Net</div>
+                <div class="text-xs opacity-70">Deploy B2B medical & logistics networking spiders.</div>
+            </button>
+
+            <button class="module-card text-left p-4 rounded cursor-pointer"
+                onclick="executeCommand('run housing_protocol')">
+                <div class="text-xs text-gray-400 mb-1">[MOD_03]</div>
+                <div class="font-bold text-[#facc15] mb-2">Housing Protocol</div>
+                <div class="text-xs opacity-70 text-gray-300">Extract Seoul real-estate arbitrage opportunities.</div>
+            </button>
+
+            <button class="module-card text-left p-4 rounded cursor-pointer"
+                onclick="executeCommand('scan market_trends')">
+                <div class="text-xs text-gray-400 mb-1">[SYS_CMD]</div>
+                <div class="font-bold text-white mb-2">Market Scanner</div>
+                <div class="text-xs opacity-70">Analyze K-Beauty & K-Pop emerging searches.</div>
+            </button>
+        </div>
+
+        <!-- Main Terminal Area -->
+        <div
+            class="flex-1 border border-[#00ff41] bg-black p-4 rounded-lg relative flex flex-col shadow-[0_0_30px_rgba(0,255,65,0.15)]">
+            <div
+                class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00ff41] to-transparent opacity-50">
+            </div>
+
+            <div id="terminal-output" class="terminal-container flex-1 mb-4 whitespace-pre-wrap word-break">
+                <!-- Initial Boot Sequence -->
+                SeoulMate OS v2.4.1 (Kernel 5.15.0-x64)
+                Booting system processes... [OK]
+                Loading encrypted modules... [OK]
+                Establishing secure neural link... [OK]
+
+                Welcome to the SeoulMate L2 Command Center.
+                Type 'help' to see available commands.
+
+                root@seoulmate:~#
+            </div>
+
+            <!-- Input Area -->
+            <div class="flex items-center text-[#00ff41] mt-auto">
+                <span class="mr-2">root@seoulmate:~#</span>
+                <input type="text" id="terminal-input"
+                    class="bg-transparent border-none flex-1 text-[#00ff41] caret-transparent" autocomplete="off"
+                    spellcheck="false" autofocus>
+                <div class="cursor" id="custom-cursor"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Terminal Logic -->
+    <script>
+        const outputEl = document.getElementById('terminal-output');
+        const inputEl = document.getElementById('terminal-input');
+        const cursorEl = document.getElementById('custom-cursor');
+
+        // Keep focus on input when clicking terminal area
+        document.querySelector('.terminal-container').parentElement.addEventListener('click', () => {
+            inputEl.focus();
+        });
+
+        // Hide custom cursor when typing
+        inputEl.addEventListener('input', () => {
+            // We keep the cursor at the end to simulate actual terminal cursor
+            // It's tied to the input end visually via flex layout, but for exact block cursor positioning we'd need more complex logic.
+            // For simple terminal UI, the blinking block at the end works fine.
+        });
+
+        // Handle Enter key
+        inputEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                const cmd = this.value.trim();
+                if (cmd) {
+                    processCommand(cmd);
+                }
+                this.value = '';
+            }
+        });
+
+        // External function for module cards
+        window.executeCommand = function (cmd) {
+            inputEl.value = '';
+            processCommand(cmd);
+            inputEl.focus();
+        };
+
+        const commands = {
+            'help': `AVAILABLE COMMANDS:
+  help               - SHOW THIS MESSAGE
+  whoami             - PRINT CURRENT USER INFO
+  clear              - CLEAR TERMINAL OUTPUT
+  run [module]       - EXECUTE A SPECIFIC MODULE
+  scan [target]      - RUN RECONNAISSANCE SCAN
+  exit               - CLOSE TERMINAL (SIMULATED)
+  
+AVAILABLE MODULES FOR RUN:
+  engine_init, referral_net, housing_protocol`,
+
+            'whoami': `USER: root
+PERMISSIONS: OVERRIDE_ALL
+LOCATION: UNDISCLOSED (PROXY: KR_SEOUL_04)
+MISSION: MONETIZE EVERYTHING.`,
+
+            'exit': `Connection terminated by host. 
+Rebooting interface... (just kidding, stay here!)`
+        };
+
+        // Command Processing with typing animation
+        async function processCommand(cmdCommand) {
+            // Echo command
+            appendOutput(`<span class="text-white">root@seoulmate:~# ${cmdCommand}</span>`);
+
+            const args = cmdCommand.split(' ');
+            const mainCmd = args[0].toLowerCase();
+
+            if (mainCmd === 'clear') {
+                outputEl.innerHTML = '';
+                return;
+            }
+
+            if (commands[mainCmd] && args.length === 1) {
+                await typeText(commands[mainCmd]);
+            } else if (mainCmd === 'run') {
+                const target = args[1];
+                if (target === 'housing_protocol') {
+                    await runHousingProtocol();
+                } else if (target === 'engine_init') {
+                    await typeText(`[OK] Initializing Core Monetization Engines...\n[OK] Stripe Connected.\n[OK] PayPal Connected.\n[OK] All funnels armed and operational.`);
+                } else if (target === 'referral_net') {
+                    await typeText(`Deploying network spiders to KR_Medical and KR_Logistics databases...\nFound 14 new high-value partners.\nInjecting affiliate structures... Done. Expected ROAS +450%.`);
+                } else {
+                    await typeText(`Module '${target}' not found or unauthorized.`);
+                }
+            } else if (mainCmd === 'scan' && args[1] === 'market_trends') {
+                await runMarketScan();
+            } else {
+                await typeText(`bash: ${mainCmd}: command not found`);
+            }
+
+            // Scroll to bottom
+            outputEl.scrollTop = outputEl.scrollHeight;
+        }
+
+        function appendOutput(html) {
+            const div = document.createElement('div');
+            div.innerHTML = html;
+            outputEl.appendChild(div);
+            outputEl.scrollTop = outputEl.scrollHeight;
+        }
+
+        // Typewriter effect function
+        function typeText(text, speed = 10) {
+            return new Promise((resolve) => {
+                const div = document.createElement('div');
+                div.className = "text-[#00aa2b] py-1";
+                outputEl.appendChild(div);
+
+                let i = 0;
+                // Preserve newlines for innerText typing
+                const charArray = text.split('');
+
+                function type() {
+                    if (i < charArray.length) {
+                        div.innerHTML += charArray[i] === '\n' ? '<br>' : charArray[i];
+                        i++;
+                        outputEl.scrollTop = outputEl.scrollHeight;
+                        setTimeout(type, speed);
+                    } else {
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        // Special Animation: Housing Protocol
+        async function runHousingProtocol() {
+            await typeText("INITIATING HOUSING PROTOCOL...", 20);
+            await sleep(500);
+            await typeText(">> Accessing Real Estate Database KR-09...", 15);
+            await sleep(300);
+            await typeText(">> Filtering: Jeonse Arbitrage Opportunities...", 15);
+            await sleep(600);
+
+            const results = [
+                "MATCH: Gangnam-gu, 3-bed Apt. Gap: 15%",
+                "MATCH: Mapo-gu, Studio. Gap: 8% [HIGH YIELD]",
+                "MATCH: Yongsan-gu, Old Villa. Gap: 20% [REDEV POTENTIAL]"
+            ];
+
+            for (let r of results) {
+                await typeText(r, 10);
+                await sleep(200);
+            }
+
+            const finalDiv = document.createElement('div');
+            finalDiv.className = "text-[#facc15] font-bold mt-2 border border-[#facc15] p-2";
+            finalDiv.innerHTML = "PROTOCOL COMPLETE. 3 TARGETS ACQUIRED. AWAITING DEPLOYMENT ORDER.";
+            outputEl.appendChild(finalDiv);
+        }
+
+        // Special Animation: Market Scan
+        async function runMarketScan() {
+            await typeText("SCANNING K-TRENDS IN REAL TIME...", 20);
+
+            let progressBar = document.createElement('div');
+            outputEl.appendChild(progressBar);
+
+            for (let i = 1; i <= 20; i++) {
+                progressBar.innerHTML = `[${'#'.repeat(i)}${'.'.repeat(20 - i)}] ${i * 5}%`;
+                await sleep(50);
+            }
+
+            await typeText("\nTRENDS DETECTED:");
+            await typeText("1. Exosome Skin Boosters (Search Vol +400%)");
+            await typeText("2. K-Pop Dance Academies short-term (Foreigner Inbound +120%)");
+            await typeText("3. Rejuran Healer (Search Vol +250%)");
+            await typeText("\nRECOMMENDATION: GENERATE AFFILIATE CONTENT FOR #1 IMMEDIATELY.");
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>登入 — SeoulMate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #13131a;
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f0f0f5;
+            --muted: rgba(240, 240, 245, 0.45);
+            --c1: #FF3E5E;
+            --c3: #FF6B9D;
+            --mint: #00C9A7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: .15;
+        }
+
+        .g1 {
+            top: -100px;
+            left: -100px;
+            background: var(--c1);
+        }
+
+        .g2 {
+            bottom: -100px;
+            right: -100px;
+            background: var(--mint);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue';
+            font-size: 28px;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, var(--c1), var(--c3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 48px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, .5);
+            animation: up .5s ease;
+        }
+
+        @keyframes up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Bebas Neue';
+            font-size: 44px;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .sub {
+            color: var(--muted);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            margin-left: 12px;
+        }
+
+        .fg {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: .3s;
+        }
+
+        input:focus {
+            border-color: var(--mint);
+            box-shadow: 0 0 20px rgba(0, 201, 167, .1);
+        }
+
+        .btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--mint), #00A68B);
+            color: #fff;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-family: 'Bebas Neue';
+            font-size: 20px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: .3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 201, 167, .3);
+        }
+
+        .error {
+            display: none;
+            background: rgba(255, 62, 94, .1);
+            border: 1px solid rgba(255, 62, 94, .3);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: #ff8a9a;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .links {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .links a:hover {
+            color: var(--mint);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <nav><a href="index" class="logo">SEOULMATE</a></nav>
+
+    <div class="card">
+        <h1>WELCOME BACK</h1>
+        <p class="sub">登入您的 SeoulMate 會員帳號。</p>
+        <div class="error" id="errorMsg">
+            <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;">error</span>
+            電子郵件或密碼錯誤，請重試。
+        </div>
+        <form id="loginForm">
+            <div class="fg">
+                <label>電子郵件 Email</label>
+                <input type="email" id="email" placeholder="name@example.com" required />
+            </div>
+            <div class="fg">
+                <label>密碼 Password</label>
+                <input type="password" id="password" placeholder="••••••••" required />
+            </div>
+            <button type="submit" class="btn">登入 LOGIN →</button>
+        </form>
+        <div class="links">
+            還沒有帳號？ <a href="signup">立即註冊</a>
+        </div>
+    </div>
+
+    <script src="db_logs.js"></script>
+    <script src="db.js"></script>
+    <script>
+        // If already logged in, redirect
+        if (window.FutureDB?.isLoggedIn()) window.location.href = 'member.html';
+
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const user = window.FutureDB?.authenticate(email, password);
+            if (user) {
+                if (window.SystemLogger) SystemLogger.log('LOGIN_SUCCESS', { email });
+                window.location.href = 'member.html';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+                if (window.SystemLogger) SystemLogger.log('LOGIN_FAIL', { email });
+            }
+        });
+    </script>
+
+    <script src="translator.js"></script>
+</body>
+
+</html>

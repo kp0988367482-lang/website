@@ -1,0 +1,208 @@
+<html class="dark"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Outfit:wght@600;700&amp;family=DM+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2424eb",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#0F172A",
+                        "emerald-accent": "#10B981",
+                        "slate-panel": "rgba(30, 41, 59, 0.7)",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "outfit": ["Outfit", "sans-serif"],
+                        "mono": ["DM Mono", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .grid-overlay {
+            background-image: radial-gradient(circle, rgba(37, 99, 235, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(36, 36, 235, 0.05) 51%, transparent 100%);
+            background-size: 100% 4px;
+        }
+        .glass-panel {
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-border-primary {
+            box-shadow: 0 0 10px rgba(36, 36, 235, 0.3);
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-dark font-display text-slate-100 overflow-x-hidden">
+<div class="relative min-h-screen flex flex-col grid-overlay">
+<header class="flex items-center justify-between p-4 border-b border-white/10 bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">security</span>
+<div>
+<h1 class="font-outfit text-sm font-bold tracking-wider text-slate-100 uppercase">KR HQ SOC // CCTV COMMAND</h1>
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-emerald-accent animate-pulse-soft" id="cctv-system-status-dot"></span>
+<span class="text-[10px] font-mono text-emerald-accent uppercase tracking-tighter" id="cctv-system-status-text">Syncing CCTV</span>
+</div>
+<p class="text-[9px] font-mono text-slate-500 uppercase tracking-[0.2em]" id="cctv-system-mode">MODE: AUTO</p>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition-colors">
+                Return to Admin
+            </button>
+</header>
+<main class="flex-1 flex flex-col gap-4 p-4">
+<section class="grid grid-cols-2 gap-3">
+<div class="glass-panel bg-slate-panel p-3 rounded-xl">
+<p class="text-[10px] text-slate-400 font-mono uppercase">System Health</p>
+<div class="flex items-end gap-2">
+<span class="text-xl font-bold font-mono text-white leading-none" id="cctv-system-health">--</span>
+<span class="text-[10px] text-emerald-accent font-mono" id="cctv-health-detail">Loading...</span>
+</div>
+</div>
+<div class="glass-panel bg-slate-panel p-3 rounded-xl">
+<p class="text-[10px] text-slate-400 font-mono uppercase">Active Nodes</p>
+<div class="flex items-end gap-2">
+<span class="text-xl font-bold font-mono text-white leading-none" id="cctv-active-nodes">--</span>
+<span class="material-symbols-outlined text-emerald-accent text-sm leading-none">check_circle</span>
+</div>
+<p class="text-[10px] text-slate-500 font-mono uppercase mt-1" id="cctv-node-detail">Waiting for upstream</p>
+</div>
+</section>
+<section class="relative group">
+<div class="relative aspect-video rounded-xl overflow-hidden border border-primary/30 glow-border-primary bg-black shadow-2xl shadow-primary/10">
+<img class="w-full h-full object-cover opacity-80" data-alt="CCTV security footage of a modern corporate office hallway" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIsxWbfgWZ8VQXqhkLI-oAamggJTFNZwKopWOWkPAOqVSUlOfB9K_c7ChDm4bh8NyVYG4GTLETNy841XrRb61eJhegWhhF0N4zFwU2cny2Ib-SiPuupWH0wnNR9XiD9P9Ltq-TFzz-za1iU-PgxWnjiC8oqZiXv3q0oG0fBZf6C1FxR85U-e_Gi0j8y2i0BUrPE1kBCD_dwJurgVqWHO45zm_ydlihThKVVGrwDjjM7vGEy7I3sGhrxs7HFg_p7WanlsCwyWDLAxQ1"/>
+<div class="absolute inset-0 scanline pointer-events-none"></div>
+<div class="absolute top-4 left-4 flex items-center gap-2 px-2 py-1 bg-black/60 backdrop-blur-md rounded border border-red-500/50">
+<span class="size-2 rounded-full bg-red-600 animate-pulse"></span>
+<span class="text-[10px] font-mono font-bold text-red-500">REC</span>
+</div>
+<div class="absolute top-4 right-4 text-right font-mono text-[10px] text-white/70 drop-shadow-md">
+<p id="cctv-primary-sensor">SYNCING...</p>
+<p id="cctv-primary-timestamp">--</p>
+</div>
+<div class="absolute bottom-4 left-4 font-mono text-[9px] text-emerald-accent/80">
+<p id="cctv-primary-location">LOCATION: --</p>
+<p id="cctv-backend-label">BACKEND: --</p>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="size-48 border border-white/10 rounded-full flex items-center justify-center">
+<div class="size-24 border border-white/20 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-white/20 text-4xl">filter_center_focus</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-2 gap-4">
+<div class="flex flex-col gap-2">
+<button class="w-full py-3 rounded-xl bg-primary text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm">photo_camera</span> SNAP PHOTO
+                    </button>
+<button class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-xs flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">videocam</span> RECORD CLIP
+                    </button>
+</div>
+<div class="glass-panel bg-slate-panel rounded-xl p-3 flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Night Vision</span>
+<div class="w-8 h-4 bg-primary rounded-full relative">
+<div class="absolute right-0.5 top-0.5 size-3 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-slate-300">Motion Alerts</span>
+<div class="w-8 h-4 bg-white/10 rounded-full relative">
+<div class="absolute left-0.5 top-0.5 size-3 bg-slate-500 rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="glass-panel bg-slate-panel rounded-xl overflow-hidden">
+<div class="p-3 border-b border-white/10 flex items-center justify-between">
+<span class="text-[10px] font-mono font-bold text-slate-400">ACTIVE SENSOR GRID</span>
+<span class="text-[10px] font-mono text-slate-500" id="cctv-last-updated">Awaiting sync</span>
+</div>
+<div class="p-4 grid grid-cols-1 gap-2" id="cctv-node-list"></div>
+</section>
+<section class="flex flex-col gap-3">
+<h3 class="font-outfit text-xs font-bold uppercase tracking-widest text-slate-400 px-1">Daily Inspection Checklist</h3>
+<div class="glass-panel bg-slate-panel rounded-xl p-4 flex flex-col gap-4">
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="checkbox" class="rounded border-white/10 bg-white/5 text-primary focus:ring-primary">
+        <span class="text-sm text-slate-300 group-hover:text-white transition-colors">確認 CAM_04 主大廳畫面清晰無遮擋</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="checkbox" class="rounded border-white/10 bg-white/5 text-primary focus:ring-primary">
+        <span class="text-sm text-slate-300 group-hover:text-white transition-colors">檢查 7G 區域運動偵測靈敏度符合標準</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="checkbox" class="rounded border-white/10 bg-white/5 text-primary focus:ring-primary">
+        <span class="text-sm text-slate-300 group-hover:text-white transition-colors">驗證 伺服器機房 (SERVER_RM) 門禁記錄正常同步</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="checkbox" class="rounded border-white/10 bg-white/5 text-primary focus:ring-primary">
+        <span class="text-sm text-slate-300 group-hover:text-white transition-colors">備份 過去 24 小時之關鍵資安存檔</span>
+    </label>
+    <button class="w-full py-2.5 bg-emerald-accent/20 border border-emerald-accent text-emerald-accent font-bold rounded-lg text-xs hover:bg-emerald-accent hover:text-white transition-all mt-2">
+        提交檢查結果
+    </button>
+</div>
+</section>
+<section class="glass-panel bg-slate-panel rounded-xl overflow-hidden mb-20">
+<div class="p-3 border-b border-white/10 flex items-center justify-between">
+<span class="text-[10px] font-mono font-bold text-slate-400">TECHNICAL LOG FEED</span>
+<span class="material-symbols-outlined text-xs text-slate-500">terminal</span>
+</div>
+<div class="p-3 font-mono text-[10px] space-y-1.5 max-h-32 overflow-y-auto" data-log-format="modern" id="cctv-log-feed">
+<p class="text-slate-500"><span class="text-primary">[--:--:--]</span> Loading CCTV telemetry...</p>
+</div>
+<p class="px-3 pb-3 text-[10px] font-mono text-amber-300 min-h-4" id="cctv-warning-text"></p>
+</section>
+</main>
+<nav class="fixed bottom-0 inset-x-0 bg-background-dark/90 backdrop-blur-xl border-t border-white/10 px-6 py-3 flex justify-between items-center z-[60]">
+<a class="flex flex-col items-center gap-1 text-primary" href="/cctv_dashboard_v2.html">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1">videocam</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Feeds</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="/admin.html">
+<span class="material-symbols-outlined text-2xl">list_alt</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Logs</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="/member.html">
+<span class="material-symbols-outlined text-2xl">settings_input_component</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-500" href="/">
+<span class="material-symbols-outlined text-2xl">house</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+</a>
+</nav>
+</div>
+<script src="cctv_dashboard.js"></script>
+<script src="translator.js"></script></body>
+</html>

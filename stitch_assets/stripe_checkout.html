@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeoulMate | Stripe 快速結帳</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        gray: {
+                            100: '#F3F4F6',
+                            200: '#E5E7EB',
+                            900: '#111827',
+                        },
+                        blue: {
+                            500: '#3B82F6',
+                            600: '#2563EB',
+                        },
+                        emerald: {
+                            500: '#10B981',
+                        },
+                        amber: {
+                            500: '#F59E0B',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Flat Design Philosophy Implementation */
+        body {
+            background-color: #FFFFFF;
+            color: #111827;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Zero Artificial Depth: No Shadows */
+        * {
+            box-shadow: none !important;
+        }
+
+        /* Bold Typography */
+        h1, h2, h3 {
+            letter-spacing: -0.02em;
+        }
+
+        /* Custom Scrollbar for Flat Look */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F3F4F6;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3B82F6;
+            border-radius: 4px;
+        }
+
+        /* Background Decorations: Large Geometric Shapes */
+        .decoration-circle {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 9999px;
+            background: rgba(59, 130, 246, 0.05);
+            z-index: -1;
+            top: -200px;
+            right: -200px;
+        }
+        .decoration-square {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(16, 185, 129, 0.03);
+            transform: rotate(45deg);
+            z-index: -1;
+            bottom: -100px;
+            left: -100px;
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-500 selection:text-white">
+
+    <div class="decoration-circle"></div>
+    <div class="decoration-square"></div>
+
+    <!-- Header -->
+    <nav class="w-full bg-white border-b-2 border-gray-100 py-6">
+        <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+            <a href="index.html" class="font-extrabold text-2xl tracking-tight text-gray-900">SEOULMATE<span class="text-blue-500">.</span></a>
+            <div class="flex items-center gap-2 text-sm font-semibold opacity-60">
+                <span class="material-symbols-outlined text-sm">lock</span>
+                SECURE STRIPE CHECKOUT
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 pt-16 pb-32">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <!-- Left: Product Info & Benefits -->
+            <div class="lg:col-span-7">
+                <div class="mb-10">
+                    <span class="inline-block bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider mb-4">MEMBER ACCESS</span>
+                    <h1 class="text-5xl font-extrabold mb-6 leading-tight">SeoulMate <br><span class="text-blue-500">Elite Membership.</span></h1>
+                    <p class="text-lg text-gray-500 leading-relaxed mb-8">
+                        解鎖韓國在地核心資源：從醫美診所專屬折扣 (Affiliate)、精準物流獲客管道，到 1:1 商業策略諮詢預約。
+                    </p>
+                </div>
+
+                <!-- Bento-style Flat Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="bg-gray-100 p-8 rounded-lg transition-transform duration-200 hover:scale-[1.02] flex flex-col gap-4">
+                        <div class="h-14 w-14 bg-white rounded-full flex items-center justify-center text-blue-500">
+                            <span class="material-symbols-outlined text-3xl">verified_user</span>
+                        </div>
+                        <h3 class="font-bold text-xl">獨家醫美白名單</h3>
+                        <p class="text-sm text-gray-500">直接對接江南區高品質診所，避開觀光客陷阱，享有 B2B 合約價格。</p>
+                    </div>
+                    <div class="bg-gray-100 p-8 rounded-lg transition-transform duration-200 hover:scale-[1.02] flex flex-col gap-4">
+                        <div class="h-14 w-14 bg-white rounded-full flex items-center justify-center text-emerald-500">
+                            <span class="material-symbols-outlined text-3xl">local_shipping</span>
+                        </div>
+                        <h3 class="font-bold text-xl">物流與代購引流</h3>
+                        <p class="text-sm text-gray-500">提供 2026 最新物流費率對比表，並協助您對接高利潤的轉介紹 B2C 客群。</p>
+                    </div>
+                </div>
+
+                <!-- Featured Image - Bold & Flat -->
+                <div class="mt-8 bg-blue-500 h-80 rounded-lg overflow-hidden relative group">
+                    <img src="https://images.unsplash.com/photo-1542314545-09855561b369?auto=format&fit=crop&q=80&w=1200" 
+                         alt="Seoul City View" 
+                         class="w-full h-full object-cover mix-blend-multiply opacity-80 transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute bottom-6 left-6 text-white">
+                        <div class="text-3xl font-extrabold">2026 K-Business Engine</div>
+                        <div class="text-sm font-medium opacity-80">Empowering Solo Enterprises in Korea</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Checkout Sidebar -->
+            <div class="lg:col-span-5">
+                <div class="bg-gray-100 p-8 md:p-10 rounded-lg sticky top-24">
+                    <h2 class="text-2xl font-extrabold mb-8 uppercase tracking-widest text-gray-400">Order Summary</h2>
+                    
+                    <div class="space-y-6 mb-10">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="font-bold text-xl">Elite Pass (Annual)</div>
+                                <div class="text-sm text-gray-500">1 Year Unlimited Access</div>
+                            </div>
+                            <div class="text-2xl font-extrabold">$99.00</div>
+                        </div>
+                        <div class="flex justify-between items-center text-sm font-bold pt-6 border-t-2 border-gray-200">
+                            <span>TOTAL DUE TODAY</span>
+                            <span class="text-3xl font-extrabold text-blue-500" id="display-amount">$99.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Input Fields -->
+                    <div class="space-y-4 mb-8">
+                        <div>
+                            <label class="block text-xs font-extrabold uppercase tracking-widest text-gray-500 mb-2">Customer Name</label>
+                            <input type="text" id="buyer-name" placeholder="您的姓名" 
+                                   class="w-full h-14 bg-white rounded-md px-6 text-gray-900 font-medium border-2 border-transparent focus:border-blue-500 outline-none transition-all placeholder:text-gray-300">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-extrabold uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
+                            <input type="email" id="buyer-email" placeholder="example@gmail.com" 
+                                   class="w-full h-14 bg-white rounded-md px-6 text-gray-900 font-medium border-2 border-transparent focus:border-blue-500 outline-none transition-all placeholder:text-gray-300">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-extrabold uppercase tracking-widest text-gray-500 mb-2">Checkout Currency</label>
+                            <select id="currency-select" 
+                                    class="w-full h-14 bg-white rounded-md px-6 text-gray-900 font-extrabold border-2 border-transparent focus:border-blue-500 outline-none transition-all appearance-none cursor-pointer">
+                                <option value="USD">USD (United States Dollar)</option>
+                                <option value="KRW">KRW (South Korean Won)</option>
+                                <option value="TWD">TWD (Taiwan Dollar)</option>
+                                <option value="HKD">HKD (Hong Kong Dollar)</option>
+                                <option value="JPY">JPY (Japanese Yen)</option>
+                                <option value="CNY">CNY (Chinese Yuan)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button id="checkout-btn" class="w-full h-16 bg-blue-500 text-white font-extrabold text-lg rounded-md transition-all duration-200 hover:scale-105 hover:bg-blue-600 active:scale-95 flex items-center justify-center gap-3">
+                        <span id="btn-text">Proceed to Payment</span>
+                        <span id="loading-spinner" class="hidden animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                    </button>
+                    
+                    <div id="error-message" class="hidden mt-4 p-4 bg-red-100 text-red-600 rounded-md text-sm font-bold text-center"></div>
+
+                    <p class="text-[10px] text-center text-gray-400 font-bold uppercase tracking-widest mt-6">
+                        Powered by <span class="text-gray-900">Stripe</span> • Global Payment Logic 2.0
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 py-16">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="font-extrabold text-xl text-white tracking-tight mb-4">SEOULMATE<span class="text-blue-500">.</span></div>
+            <p class="text-gray-500 text-xs font-bold uppercase tracking-widest">© 2026 One-Person Business Methodology v2.0 Implementation</p>
+        </div>
+    </footer>
+
+    <script>
+        const checkoutBtn = document.getElementById('checkout-btn');
+        const btnText = document.getElementById('btn-text');
+        const spinner = document.getElementById('loading-spinner');
+        const errorEl = document.getElementById('error-message');
+        const currencySelect = document.getElementById('currency-select');
+        const displayAmount = document.getElementById('display-amount');
+
+        // Dynamic amounts just for visual feedback (actual conversion happens on server)
+        const rates = { USD: 1, KRW: 1350, TWD: 31.5, HKD: 7.82, JPY: 150, CNY: 7.2 };
+        currencySelect.addEventListener('change', () => {
+            const currency = currencySelect.value;
+            const rate = rates[currency] || 1;
+            const converted = (99 * rate).toLocaleString();
+            
+            if (currency === 'KRW' || currency === 'JPY') {
+                displayAmount.innerText = `${currency} ${Math.round(99 * rate)}`;
+            } else {
+                displayAmount.innerText = `${currency} ${converted}`;
+            }
+        });
+
+        checkoutBtn.addEventListener('click', async () => {
+            const buyerName = document.getElementById('buyer-name').value;
+            const buyerEmail = document.getElementById('buyer-email').value;
+            const currency = currencySelect.value;
+
+            if (!buyerName || !buyerEmail) {
+                showError('請填寫姓名與 Email 以進行結帳。');
+                return;
+            }
+
+            // UI State: Loading
+            checkoutBtn.disabled = true;
+            btnText.innerText = 'Connecting to Stripe...';
+            spinner.classList.remove('hidden');
+            errorEl.classList.add('hidden');
+
+            try {
+                const response = await fetch('/stripe-api/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount: 99.00,
+                        planName: 'SeoulMate Elite Membership (Annual)',
+                        buyerName,
+                        buyerEmail,
+                        currency
+                    })
+                });
+
+                const session = await response.json();
+
+                if (session.url) {
+                    // Redirect to Stripe Hosted Checkout
+                    window.location.href = session.url;
+                } else {
+                    throw new Error(session.error || '無法建立結帳階段');
+                }
+            } catch (err) {
+                showError('結帳失敗: ' + err.message);
+                checkoutBtn.disabled = false;
+                btnText.innerText = 'Proceed to Payment';
+                spinner.classList.add('hidden');
+            }
+        });
+
+        function showError(msg) {
+            errorEl.innerText = msg;
+            errorEl.classList.remove('hidden');
+        }
+    </script>
+    <script src="translator.js"></script>
+</body>
+</html>

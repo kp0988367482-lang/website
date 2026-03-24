@@ -1,0 +1,270 @@
+<!-- cspell:ignore SEOULMATE -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Fastlane Checkout | SeoulMate Elite</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
+    rel="stylesheet" />
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#D4AF37",
+            "gold": "#D4AF37",
+            "background-dark": "#030305",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"],
+            "bebas": ["Bebas Neue", "sans-serif"]
+          }
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #030305;
+    }
+    .bebas { font-family: 'Bebas Neue'; }
+    
+    .plan-card {
+        transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .plan-card.selected {
+        border-color: #D4AF37;
+        background-color: rgba(212, 175, 55, 0.05);
+    }
+    
+    .loader {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255, 255, 255, .1);
+      border-radius: 50%;
+      border-top-color: #D4AF37;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+
+<body class="text-slate-100 min-h-screen">
+  <div class="max-w-[1200px] mx-auto px-6 py-12">
+    <!-- Header -->
+    <header class="flex items-center justify-between mb-16">
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="flex items-center gap-1 text-slate-500 hover:text-white transition-colors">
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+          <span class="text-xs font-bold uppercase tracking-widest">Back</span>
+        </a>
+      </div>
+      <div class="flex items-center gap-2">
+        <h1 class="bebas text-3xl tracking-widest">SEOULMATE<span class="text-gold">31</span></h1>
+      </div>
+      <div class="w-10"></div> <!-- Spacer -->
+    </header>
+
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Left Column: Checkout Form -->
+      <div class="lg:col-span-12 xl:col-span-8 space-y-10">
+        <section>
+          <h2 class="bebas text-4xl mb-2 tracking-tight">THE INTEL PASS CHECKOUT</h2>
+          <p class="text-slate-400 text-sm">Complete your upgrade and gain immediate access to the core engine.</p>
+        </section>
+
+        <!-- Product Selection -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-2 mb-6">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gold text-black text-[10px] font-black">1</span>
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Select Intelligence Level</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Starter -->
+            <div id="card-starter" onclick="selectPlan('Starter Pass', 39, 'card-starter')" class="plan-card p-6 rounded-3xl border border-slate-800 bg-white/5 cursor-pointer hover:border-slate-500 relative">
+              <div class="flex flex-col h-full">
+                <span class="material-symbols-outlined text-gold mb-4">database</span>
+                <p class="bebas text-xl mb-1">Starter Pass</p>
+                <p class="text-[10px] text-slate-500 font-bold mb-4 uppercase">Basic Access</p>
+                <p class="bebas text-3xl mt-auto">$39<span class="text-sm text-slate-500 ml-1">/ YEAR</span></p>
+              </div>
+            </div>
+
+            <!-- Alpha -->
+            <div id="card-alpha" onclick="selectPlan('Alpha Pro', 99, 'card-alpha')" class="plan-card selected p-6 rounded-3xl border border-gold bg-gold/5 cursor-pointer relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-gold text-black text-[8px] font-black px-3 py-1 uppercase tracking-tighter">Most Popular</div>
+                <div class="flex flex-col h-full">
+                <span class="material-symbols-outlined text-gold mb-4">workspace_premium</span>
+                <p class="bebas text-xl mb-1 text-white">Alpha Pro</p>
+                <p class="text-[10px] text-slate-500 font-bold mb-4 uppercase">Core Intelligence</p>
+                <p class="bebas text-3xl mt-auto text-white">$99<span class="text-sm text-slate-500 ml-1">/ YEAR</span></p>
+              </div>
+            </div>
+
+            <!-- Elite -->
+            <div id="card-elite" onclick="selectPlan('Elite Concierge', 399, 'card-elite')" class="plan-card p-6 rounded-3xl border border-slate-800 bg-white/5 cursor-pointer hover:border-slate-500">
+              <div class="flex flex-col h-full">
+                <span class="material-symbols-outlined text-gold mb-4">stars</span>
+                <p class="bebas text-xl mb-1">Elite Pass</p>
+                <p class="text-[10px] text-slate-500 font-bold mb-4 uppercase">Maximum Leverage</p>
+                <p class="bebas text-3xl mt-auto">$399<span class="text-sm text-slate-500 ml-1">/ YEAR</span></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Customer Identity -->
+        <section class="space-y-4">
+          <div class="flex items-center gap-2 mb-6">
+            <span class="flex items-center justify-center w-6 h-6 rounded-full bg-gold text-black text-[10px] font-black">2</span>
+            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400">Identity Details</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-[10px] font-black uppercase text-slate-500 ml-1 tracking-widest">Legal Name / 護照姓名</label>
+              <input id="buyer-name" type="text" placeholder="e.g. Satoshi Nakamoto" class="w-full bg-white/5 border border-slate-800 rounded-2xl p-4 text-white focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all">
+            </div>
+            <div class="space-y-2">
+              <label class="text-[10px] font-black uppercase text-slate-500 ml-1 tracking-widest">Email Address / 聯絡信箱</label>
+              <input id="buyer-email" type="email" placeholder="intel@seoulmate.com" class="w-full bg-white/5 border border-slate-800 rounded-2xl p-4 text-white focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all">
+            </div>
+          </div>
+        </section>
+
+        <!-- Final Action -->
+        <section class="bg-white/5 border border-slate-800 rounded-3xl p-8 space-y-6">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-6">
+            <div>
+              <p class="text-xs text-slate-500 font-bold uppercase mb-1">Plan Summary</p>
+              <p id="summary-name" class="bebas text-2xl text-white">Alpha Pro / 核心專業版</p>
+            </div>
+            <div class="text-right">
+              <p id="summary-price" class="bebas text-4xl text-white">$99.00</p>
+              <p id="summary-twd" class="text-[10px] text-slate-500 font-bold">~ TWD 3,100 / year</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-4">
+            <button id="checkout-btn" class="w-full bg-white text-black font-black py-5 rounded-full text-lg hover:bg-gold transition-all flex items-center justify-center gap-3">
+              <span id="btn-icon" class="material-symbols-outlined">lock</span>
+              <span id="btn-text">PAY NOW & UPGRADE SECURELY</span>
+            </button>
+            <div id="payment-msg" class="text-center text-xs min-h-[16px]"></div>
+          </div>
+
+          <div class="flex justify-center gap-8 opacity-40">
+            <div class="flex items-center gap-2 text-[10px] font-bold">
+              <span class="material-symbols-outlined text-[16px]">verified_user</span> 256-BIT ENCRYPTED
+            </div>
+            <div class="flex items-center gap-2 text-[10px] font-bold">
+              <span class="material-symbols-outlined text-[16px]">bolt</span> INSTANT DELIVERY
+            </div>
+            <div class="flex items-center gap-2 text-[10px] font-bold">
+              <span class="material-symbols-outlined text-[16px]">public</span> GLOBAL ROAMING
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="db.js"></script>
+  <script type="module" src="firebase_config.js"></script>
+  <script>
+    let selectedPlan = { name: 'Alpha Pro', price: 99 };
+    const rates = { TWD: 31.5, KRW: 1350, HKD: 7.8 };
+
+    function selectPlan(name, price, cardId) {
+        selectedPlan = { name, price };
+        
+        // UI Updates
+        document.querySelectorAll('.plan-card').forEach(c => {
+            c.classList.remove('selected', 'border-gold', 'bg-gold/5');
+            c.classList.add('border-slate-800', 'bg-white/5');
+            c.querySelector('p.bebas').classList.remove('text-white');
+        });
+        
+        const card = document.getElementById(cardId);
+        card.classList.add('selected', 'border-gold', 'bg-gold/5');
+        card.classList.remove('border-slate-800', 'bg-white/5');
+        card.querySelector('p.bebas').classList.add('text-white');
+        
+        document.getElementById('summary-name').innerText = name;
+        document.getElementById('summary-price').innerText = `$${price}.00`;
+        
+        const twd = Math.round(price * 31.5);
+        document.getElementById('summary-twd').innerText = `~ TWD ${twd.toLocaleString()} / year`;
+    }
+
+    document.getElementById('checkout-btn').addEventListener('click', async () => {
+        const btn = document.getElementById('checkout-btn');
+        const icon = document.getElementById('btn-icon');
+        const text = document.getElementById('btn-text');
+        const msg = document.getElementById('payment-msg');
+
+        const name = document.getElementById('buyer-name').value.trim();
+        const email = document.getElementById('buyer-email').value.trim();
+
+        if (!name || !email) {
+            msg.innerHTML = '<span class="text-red-500 font-bold">Please complete your identity details.</span>';
+            return;
+        }
+
+        try {
+            btn.disabled = true;
+            icon.className = 'loader';
+            icon.innerText = '';
+            text.innerText = 'Redirecting to Secure Gateway...';
+            msg.innerText = '';
+
+            const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : window.location.origin;
+
+            const response = await fetch(`${API_BASE}/stripe-api/create-checkout-session`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: selectedPlan.price,
+                    planName: `Intel Pass: ${selectedPlan.name}`,
+                    buyerEmail: email,
+                    buyerName: name,
+                    currency: 'USD'
+                })
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data?.error || 'API could not establish session.');
+            }
+
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error('No redirect URL provided.');
+            }
+        } catch (err) {
+            console.error(err);
+            msg.innerHTML = `<span class="text-red-500">Error: ${err.message}</span>`;
+            btn.disabled = false;
+            icon.className = 'material-symbols-outlined';
+            icon.innerText = 'lock';
+            text.innerText = 'PAY NOW & UPGRADE SECURELY';
+        }
+    });
+  </script>
+  <script src="translator.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard | SeoulMate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet" />
+    <style>
+        * {
+            --color-dark: #0a0a0a;
+            --color-dark-light: #1a1a1a;
+            --color-pink: #ff2a5f;
+            --color-gold: #facc15;
+            --color-cyan: #00e5ff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-dark);
+            color: #ffffff;
+        }
+
+        .bebas { font-family: 'Bebas Neue', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .tab-item {
+            display: none;
+        }
+
+        .tab-item.active {
+            display: block;
+        }
+
+        .nav-btn {
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--color-cyan);
+            color: var(--color-cyan);
+        }
+
+        /* Mobile bottom nav */
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .bottom-nav { display: flex; }
+            main { padding-bottom: 80px; }
+        }
+
+        @media (min-width: 769px) {
+            .bottom-nav { display: none; }
+        }
+
+        .plan-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: inline-block;
+        }
+
+        .plan-badge.starter {
+            background: rgba(100, 200, 255, 0.1);
+            color: #64c8ff;
+            border: 1px solid rgba(100, 200, 255, 0.2);
+        }
+
+        .plan-badge.pro {
+            background: rgba(255, 42, 95, 0.1);
+            color: var(--color-pink);
+            border: 1px solid rgba(255, 42, 95, 0.2);
+        }
+
+        .plan-badge.elite {
+            background: rgba(250, 204, 21, 0.1);
+            color: var(--color-gold);
+            border: 1px solid rgba(250, 204, 21, 0.2);
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        tr:hover { background: rgba(255, 255, 255, 0.02); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="flex">
+        <!-- 側邊欄導航 (Desktop) -->
+        <aside class="sidebar w-64 bg-black/40 backdrop-blur border-r border-white/5 p-6 fixed left-0 top-0 h-screen overflow-y-auto">
+            <div class="mb-12">
+                <a href="index" class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-cyan-400 flex items-center justify-center font-bold text-black text-xs">SM</div>
+                    <h1 class="text-lg font-bold">SeoulMate</h1>
+                </a>
+            </div>
+
+            <nav class="space-y-2">
+                <button onclick="switchTab('overview')" class="nav-btn active w-full flex items-center gap-3 p-3 rounded-lg border border-transparent text-left text-sm font-medium text-slate-300 hover:text-white">
+                    <span class="material-symbols-outlined text-lg">dashboard</span>
+                    <span>總覽</span>
+                </button>
+                <button onclick="switchTab('plan')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg border border-transparent text-left text-sm font-medium text-slate-300 hover:text-white">
+                    <span class="material-symbols-outlined text-lg">card_membership</span>
+                    <span>我的方案</span>
+                </button>
+                <button onclick="switchTab('orders')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg border border-transparent text-left text-sm font-medium text-slate-300 hover:text-white">
+                    <span class="material-symbols-outlined text-lg">shopping_cart</span>
+                    <span>訂單記錄</span>
+                </button>
+                <button onclick="switchTab('inquiries')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg border border-transparent text-left text-sm font-medium text-slate-300 hover:text-white">
+                    <span class="material-symbols-outlined text-lg">support_agent</span>
+                    <span>我的諮詢</span>
+                </button>
+                <button onclick="switchTab('settings')" class="nav-btn w-full flex items-center gap-3 p-3 rounded-lg border border-transparent text-left text-sm font-medium text-slate-300 hover:text-white">
+                    <span class="material-symbols-outlined text-lg">settings</span>
+                    <span>設定</span>
+                </button>
+            </nav>
+
+            <div class="absolute bottom-6 left-6 right-6">
+                <button onclick="logout()" class="w-full px-4 py-2 bg-red-900/20 border border-red-400/30 rounded-lg text-sm font-medium text-red-300 hover:bg-red-900/40 transition">
+                    <span class="material-symbols-outlined inline text-base mr-2">logout</span>登出
+                </button>
+            </div>
+        </aside>
+
+        <!-- 主內容區域 -->
+        <main class="flex-1 md:ml-64 p-8 max-w-full">
+            <!-- 頂部導航欄 -->
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-4">
+                    <div id="pageTitle" class="text-3xl font-bold bebas">總覽</div>
+                    <div id="syncIndicator" class="hidden flex items-center gap-1.5 px-2 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/20 text-[10px] tracking-widest text-cyan-400 font-bold">
+                        <span class="material-symbols-outlined text-[12px] animate-spin">refresh</span> SYNCING
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold" id="headerName">Loading...</p>
+                        <p class="text-xs text-slate-500" id="headerPlan">Plan</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg bg-slate-800 border border-white/10 overflow-hidden" id="headerAvatar">
+                        <img src="https://api.dicebear.com/7.x/initials/svg?seed=User" alt="User">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 頁面內容區域 -->
+            <div class="space-y-6">
+                <!-- 1. 總覽頁面 -->
+                <div id="overview" class="tab-item active space-y-6">
+                    <div class="glass-card p-8">
+                        <h2 class="text-2xl font-bold mb-2">歡迎回來，<span id="welcomeName">Member</span></h2>
+                        <p class="text-slate-400">您的 SeoulMate 帳戶概覽</p>
+                    </div>
+
+                    <!-- 方案徽章 + 快速統計 -->
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="glass-card p-6">
+                            <div class="text-sm text-slate-400 mb-2">當前方案</div>
+                            <div id="overviewPlanBadge" class="plan-badge starter mb-3">Starter</div>
+                            <div class="text-xs text-slate-500" id="overviewPlanExpiry">30 天後到期</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="text-slate-400 text-sm mb-2">訂閱天數</div>
+                            <p class="text-3xl font-bold mono" id="overviewSubscribeDays">0</p>
+                        </div>
+                        <div class="stat-box">
+                            <div class="text-slate-400 text-sm mb-2">訂單總數</div>
+                            <p class="text-3xl font-bold mono" id="overviewOrderCount">0</p>
+                        </div>
+                    </div>
+
+                    <!-- 快速入口按鈕 -->
+                    <div class="glass-card p-6">
+                        <h3 class="font-bold mb-4">快速入口</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <a href="cctv_dashboard_v2" class="p-4 rounded-lg bg-white/5 border border-white/10 text-center hover:bg-white/10 transition text-sm font-medium">
+                                📹 CCTV 後台
+                            </a>
+                            <a href="ai_command_center" class="p-4 rounded-lg bg-white/5 border border-white/10 text-center hover:bg-white/10 transition text-sm font-medium">
+                                🤖 AI 指揮中心
+                            </a>
+                            <a href="contact-expert" class="p-4 rounded-lg bg-white/5 border border-white/10 text-center hover:bg-white/10 transition text-sm font-medium">
+                                👥 聯絡顧問
+                            </a>
+                            <a href="comparison_hub" class="p-4 rounded-lg bg-white/5 border border-white/10 text-center hover:bg-white/10 transition text-sm font-medium">
+                                📊 比較中心
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 我的方案頁面 -->
+                <div id="plan" class="tab-item space-y-6">
+                    <div class="glass-card p-8">
+                        <h2 class="text-2xl font-bold mb-2">我的方案</h2>
+                        <p class="text-slate-400">查看當前方案詳情與升級選項</p>
+                    </div>
+
+                    <div class="glass-card p-8">
+                        <div class="flex items-start justify-between mb-6">
+                            <div>
+                                <h3 class="text-xl font-bold mb-2" id="planName">Starter Plan</h3>
+                                <div id="planBadge" class="plan-badge starter">Starter</div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-slate-400 text-sm mb-2" id="planNextBilling">下次結帳：2026/04/09</p>
+                                <button class="px-4 py-2 bg-cyan-500/20 border border-cyan-400/50 rounded-lg text-cyan-300 text-sm font-medium hover:bg-cyan-500/30 transition">
+                                    升級方案
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="planFeatures" class="space-y-2 pt-6 border-t border-white/10">
+                            <!-- 動態生成功能列表 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 訂單記錄頁面 -->
+                <div id="orders" class="tab-item space-y-6">
+                    <div class="glass-card p-8">
+                        <h2 class="text-2xl font-bold mb-2">訂單記錄</h2>
+                        <p class="text-slate-400">您的所有 SeoulMate 訂單</p>
+                    </div>
+
+                    <div class="glass-card overflow-x-auto">
+                        <table id="ordersTable">
+                            <thead>
+                                <tr>
+                                    <th>日期</th>
+                                    <th>方案</th>
+                                    <th>金額</th>
+                                    <th>狀態</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersBody">
+                                <tr>
+                                    <td colspan="4" class="text-center py-8 text-slate-500">尚無訂單 · <a href="pricing" class="text-cyan-400 hover:underline">立即升級</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 4. 我的諮詢頁面 -->
+                <div id="inquiries" class="tab-item space-y-6">
+                    <div class="glass-card p-8">
+                        <h2 class="text-2xl font-bold mb-2">我的諮詢</h2>
+                        <p class="text-slate-400">您提交的所有諮詢記錄</p>
+                    </div>
+
+                    <div class="glass-card overflow-x-auto">
+                        <table id="inquiriesTable">
+                            <thead>
+                                <tr>
+                                    <th>提交日期</th>
+                                    <th>類別</th>
+                                    <th>狀態</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inquiriesBody">
+                                <tr>
+                                    <td colspan="4" class="text-center py-8 text-slate-500">尚未提交諮詢 · <a href="contact-expert" class="text-cyan-400 hover:underline">提交新諮詢</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 5. 設定頁面 -->
+                <div id="settings" class="tab-item space-y-6">
+                    <div class="glass-card p-8">
+                        <h2 class="text-2xl font-bold mb-2">帳戶設定</h2>
+                        <p class="text-slate-400">管理您的帳戶資訊</p>
+                    </div>
+
+                    <div class="glass-card p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">顯示名稱</label>
+                                <input type="text" id="settingsName" readonly class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-slate-300" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">郵箱地址</label>
+                                <input type="email" id="settingsEmail" readonly class="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-slate-300" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8 border-red-500/20 bg-red-900/10">
+                        <h3 class="text-lg font-bold text-red-300 mb-4">危險區域</h3>
+                        <button onclick="clearLocalData()" class="px-4 py-2 bg-red-900/40 border border-red-400/50 rounded-lg text-red-300 text-sm font-medium hover:bg-red-900/60 transition">
+                            清除本地數據
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 底部導航 (Mobile) -->
+    <nav class="bottom-nav fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur border-t border-white/5 px-4 py-3 justify-around h-20">
+        <button onclick="switchTab('overview')" class="nav-item flex flex-col items-center gap-1 p-2 text-xs">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span>總覽</span>
+        </button>
+        <button onclick="switchTab('plan')" class="nav-item flex flex-col items-center gap-1 p-2 text-xs">
+            <span class="material-symbols-outlined">card_membership</span>
+            <span>方案</span>
+        </button>
+        <button onclick="switchTab('orders')" class="nav-item flex flex-col items-center gap-1 p-2 text-xs">
+            <span class="material-symbols-outlined">shopping_cart</span>
+            <span>訂單</span>
+        </button>
+        <button onclick="switchTab('inquiries')" class="nav-item flex flex-col items-center gap-1 p-2 text-xs">
+            <span class="material-symbols-outlined">support_agent</span>
+            <span>諮詢</span>
+        </button>
+        <button onclick="switchTab('settings')" class="nav-item flex flex-col items-center gap-1 p-2 text-xs">
+            <span class="material-symbols-outlined">settings</span>
+            <span>設定</span>
+        </button>
+    </nav>
+
+    <script src="db.js"></script>
+    <script>
+        // ── 會話驗證 ──
+        const session = window.FutureDB?.getSession();
+        if (!session) {
+            window.location.href = 'login.html';
+        }
+
+        const PLAN_FEATURES = {
+            starter: ['基礎分析', 'Email 支援', '10 個報告'],
+            pro: ['進階分析', '優先支援', '無限報告', 'API 存取'],
+            elite: ['企業分析', '24/7 專屬顧問', '無限報告', 'API + Webhook', '客製報告']
+        };
+
+        // ── 頁面初始化 ──
+        async function initializePage() {
+            const name = session?.name || 'Member';
+            const email = session?.email || 'user@example.com';
+            const plan = session?.plan || 'starter';
+
+            // 頭部資訊
+            document.getElementById('headerName').textContent = name;
+            document.getElementById('headerPlan').textContent = (plan.charAt(0).toUpperCase() + plan.slice(1)) + ' Plan';
+            document.getElementById('headerAvatar').innerHTML = `<img src="https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}" alt="User">`;
+
+            // 總覽頁面
+            document.getElementById('welcomeName').textContent = name;
+            updateOverviewTab();
+
+            // 方案頁面
+            updatePlanTab(plan);
+
+            // 訂單頁面
+            updateOrdersTab(email);
+
+            // 諮詢頁面
+            updateInquiriesTab(email);
+
+            // 設定頁面
+            document.getElementById('settingsName').value = name;
+            document.getElementById('settingsEmail').value = email;
+
+            // 背景同步後端數據 (Prisma)
+            const indicator = document.getElementById('syncIndicator');
+            try {
+                if (indicator) indicator.classList.remove('hidden');
+                
+                const refreshed = await window.FutureDB?.syncWithBackend(email);
+                if (refreshed) {
+                    console.log('🔄 Data refreshed from backend, updating UI...');
+                    // 同步成功後靜默更新關鍵 UI 組件
+                    document.getElementById('headerPlan').textContent = (refreshed.plan || plan) + ' Plan';
+                    updateOverviewTab();
+                    updatePlanTab(refreshed.plan || plan);
+                    updateOrdersTab(email);
+                }
+            } catch (err) {
+                console.error('Backend sync failed:', err);
+            } finally {
+                if (indicator) indicator.classList.add('hidden');
+            }
+        }
+
+        function updateOverviewTab() {
+            const email = session?.email;
+            const plan = session?.plan || 'starter';
+            const orders = window.FutureDB?.getUserOrders(email) || [];
+            
+            // 計算訂閱天數
+            const allUsers = window.FutureDB?.getUsers() || [];
+            const user = allUsers.find(u => u.email === email);
+            let joinDays = 1;
+            if (user?.joinedAt) {
+                const diff = Date.now() - new Date(user.joinedAt).getTime();
+                joinDays = Math.max(1, Math.floor(diff / 86400000));
+            }
+
+            document.getElementById('overviewSubscribeDays').textContent = joinDays;
+            document.getElementById('overviewOrderCount').textContent = orders.length;
+
+            const planBadgeEl = document.getElementById('overviewPlanBadge');
+            planBadgeEl.className = 'plan-badge ' + plan;
+            planBadgeEl.textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+
+            const nextBilling = new Date(session.loginAt);
+            nextBilling.setDate(nextBilling.getDate() + 30);
+            document.getElementById('overviewPlanExpiry').textContent = nextBilling.toLocaleDateString('zh-TW');
+        }
+
+        function updatePlanTab(plan) {
+            const planNames = { starter: 'Starter 方案', pro: 'Pro 方案', elite: 'Elite 方案' };
+            const planPrices = { starter: '$99', pro: '$299', elite: '$999' };
+
+            document.getElementById('planName').textContent = planNames[plan] || 'Starter 方案';
+            
+            const badgeEl = document.getElementById('planBadge');
+            badgeEl.className = 'plan-badge ' + plan;
+            badgeEl.textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+
+            const nextBilling = new Date(session.loginAt);
+            nextBilling.setDate(nextBilling.getDate() + 30);
+            document.getElementById('planNextBilling').textContent = `下次結帳：${nextBilling.toLocaleDateString('zh-TW')}`;
+
+            const features = PLAN_FEATURES[plan] || [];
+            const featuresHtml = features.map(f => `
+                <div class="flex items-center gap-3 py-2">
+                    <span class="material-symbols-outlined text-cyan-400 text-lg">check_circle</span>
+                    <span>${f}</span>
+                </div>
+            `).join('');
+            
+            document.getElementById('planFeatures').innerHTML = featuresHtml;
+        }
+
+        function updateOrdersTab(email) {
+            const orders = window.FutureDB?.getUserOrders(email) || [];
+            const tbody = document.getElementById('ordersBody');
+
+            if (orders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-slate-500">尚無訂單 · <a href="pricing" class="text-cyan-400 hover:underline">立即升級</a></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td>${new Date(order.createdAt || Date.now()).toLocaleDateString('zh-TW')}</td>
+                    <td>${order.planName || 'Digital Service'}</td>
+                    <td>$${parseFloat(order.amount).toFixed(2)}</td>
+                    <td><span class="text-green-400">${order.status || 'completed'}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        function updateInquiriesTab(email) {
+            const inquiries = window.FutureDB?._get(window.FutureDB.KEYS.inquiries) || [];
+            const userInquiries = inquiries.filter(i => i.email === email || i.contact === email);
+            const tbody = document.getElementById('inquiriesBody');
+
+            if (userInquiries.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-8 text-slate-500">尚未提交諮詢 · <a href="contact-expert" class="text-cyan-400 hover:underline">提交新諮詢</a></td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = userInquiries.map(inq => `
+                <tr>
+                    <td>${new Date(inq.submittedAt || Date.now()).toLocaleDateString('zh-TW')}</td>
+                    <td>${inq.category || '一般諮詢'}</td>
+                    <td><span class="text-yellow-400">${inq.status || 'pending'}</span></td>
+                    <td><button class="text-cyan-400 hover:underline text-sm">查看</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function switchTab(tabName) {
+            // 隱藏所有標籤
+            document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            // 顯示選定標籤
+            document.getElementById(tabName).classList.add('active');
+            event?.target?.closest('button')?.classList.add('active');
+
+            // 更新頁面標題
+            const titles = {
+                overview: '總覽',
+                plan: '我的方案',
+                orders: '訂單記錄',
+                inquiries: '我的諮詢',
+                settings: '帳戶設定'
+            };
+            document.getElementById('pageTitle').textContent = titles[tabName] || '總覽';
+        }
+
+        function logout() {
+            if (confirm('要登出嗎？')) {
+                window.FutureDB?.endSession();
+                window.location.href = 'login.html';
+            }
+        }
+
+        function clearLocalData() {
+            if (confirm('要清除所有本地數據嗎？此操作無法撤銷。')) {
+                localStorage.clear();
+                alert('本地數據已清除');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // 初始化
+        initializePage();
+    </script>
+    <script src="translator.js"></script>
+</body>
+</html>

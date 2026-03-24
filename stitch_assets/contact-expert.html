@@ -1,0 +1,559 @@
+<!-- cspell:ignore SEOULMATE -->
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>專屬顧問諮詢 | SeoulMate KR HQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Bebas Neue', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#ff2a5f',
+                            purple: '#9d00ff',
+                            cyan: '#00e5ff',
+                            dark: '#0a0a0a',
+                            surface: '#141414',
+                            border: '#2a2a2a',
+                            green: '#00ff88'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10, 10, 10, 0.7);
+        }
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(16px);
+        }
+        .glow-pink {
+            box-shadow: 0 0 40px rgba(255, 42, 95, 0.15);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 40px rgba(0, 229, 255, 0.15);
+        }
+        .input-field {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid #2a2a2a;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #00e5ff;
+            box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.1);
+        }
+        .topic-card {
+            cursor: pointer;
+            border: 2px solid #2a2a2a;
+            background: rgba(20, 20, 20, 0.4);
+            transition: all 0.2s ease;
+        }
+        .topic-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .topic-card.selected {
+            border-color: #00e5ff;
+            background: rgba(0, 229, 255, 0.06);
+        }
+        .topic-card.selected .topic-icon {
+            color: #00e5ff;
+        }
+        .topic-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: #d1d5db;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        .topic-chip-muted {
+            color: #8b949e;
+        }
+        .topic-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+        .topic-metrics span {
+            padding: 4px 8px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #6b7280;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .step-indicator.active {
+            background: #00e5ff;
+            color: #000;
+        }
+        .step-indicator.done {
+            background: rgba(0, 229, 255, 0.2);
+            color: #00e5ff;
+        }
+        #success-overlay {
+            display: none;
+        }
+        #success-overlay.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Background Glow -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-pink/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-0 right-0 w-[600px] h-[400px] bg-brand-cyan/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Nav -->
+    <nav class="nav-blur sticky top-0 z-50 border-b border-brand-border px-6 py-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-brand-pink flex items-center justify-center font-black text-white text-xs">SM</div>
+                <span class="font-display text-xl tracking-widest text-white">SEOULMATE</span>
+            </a>
+            <a href="javascript:history.back()" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-lg">arrow_back</span>
+                返回上頁
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="max-w-6xl mx-auto px-6 pt-16 pb-10 text-center fade-in">
+        <div class="inline-flex items-center gap-2 bg-brand-pink/10 border border-brand-pink/20 text-brand-pink text-xs font-bold px-4 py-2 rounded-full mb-6 uppercase tracking-widest">
+            <span class="material-symbols-outlined text-sm">support_agent</span>
+            免費專屬諮詢
+        </div>
+        <h1 class="font-display text-5xl sm:text-7xl tracking-widest text-white mb-4">
+            找對專家<br><span class="text-brand-pink">省下百萬</span>
+        </h1>
+        <p class="text-gray-400 text-lg max-w-xl mx-auto">
+            告訴我們您的需求，我們的在地顧問將在 <strong class="text-white">24 小時內</strong> 以繁中與您聯繫，提供客製化解決方案。
+        </p>
+    </section>
+
+    <!-- Main Form -->
+    <main class="max-w-3xl mx-auto px-6 pb-24">
+
+        <!-- Step Indicators -->
+        <div class="flex items-center justify-center gap-4 mb-12 fade-in">
+            <div class="flex items-center gap-2">
+                <div class="step-indicator active w-8 h-8 rounded-full flex items-center justify-center text-xs font-black" id="step1-dot">1</div>
+                <span class="text-xs font-bold text-white hidden sm:block">選擇主題</span>
+            </div>
+            <div class="w-12 h-px bg-brand-border"></div>
+            <div class="flex items-center gap-2">
+                <div class="step-indicator w-8 h-8 rounded-full bg-brand-border text-gray-500 flex items-center justify-center text-xs font-black" id="step2-dot">2</div>
+                <span class="text-xs font-bold text-gray-500 hidden sm:block">填寫資訊</span>
+            </div>
+            <div class="w-12 h-px bg-brand-border"></div>
+            <div class="flex items-center gap-2">
+                <div class="step-indicator w-8 h-8 rounded-full bg-brand-border text-gray-500 flex items-center justify-center text-xs font-black" id="step3-dot">3</div>
+                <span class="text-xs font-bold text-gray-500 hidden sm:block">送出確認</span>
+            </div>
+        </div>
+
+        <!-- Step 1: Topic Selection -->
+        <div id="step1" class="fade-in">
+            <h2 class="text-2xl font-bold mb-2 text-center">您希望諮詢哪個領域？</h2>
+            <p class="text-gray-500 text-sm text-center mb-8">可單選，我們會安排對應的在地達人</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10">
+                <div class="topic-card rounded-2xl p-6" onclick="selectTopic(this, '醫美整形')">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="topic-chip">Consult Node 01</span>
+                        <span class="topic-chip topic-chip-muted">24H SLA</span>
+                    </div>
+                    <span class="material-symbols-outlined text-3xl text-brand-pink topic-icon mb-3 block">face_retouching_natural</span>
+                    <h3 class="font-bold text-lg mb-1">醫美整形規劃</h3>
+                    <p class="text-xs text-gray-500">韓國 Top 診所篩選、手術前後全程代辦、翻譯陪診</p>
+                    <div class="topic-metrics">
+                        <span>Pipeline: Premium</span>
+                        <span>Mode: 1:1</span>
+                    </div>
+                    <div class="mt-4 text-xs text-brand-pink font-bold">最熱門 🔥</div>
+                </div>
+                <div class="topic-card rounded-2xl p-6" onclick="selectTopic(this, '物流代購')">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="topic-chip">Consult Node 02</span>
+                        <span class="topic-chip topic-chip-muted">B2B Flow</span>
+                    </div>
+                    <span class="material-symbols-outlined text-3xl text-brand-cyan topic-icon mb-3 block">local_shipping</span>
+                    <h3 class="font-bold text-lg mb-1">B2B 物流代購</h3>
+                    <p class="text-xs text-gray-500">東大門南大門採購、國際物流報價、開戶申請</p>
+                    <div class="topic-metrics">
+                        <span>Routing: Vendor</span>
+                        <span>Ops: Cross-Border</span>
+                    </div>
+                </div>
+                <div class="topic-card rounded-2xl p-6" onclick="selectTopic(this, '廣告合作')">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="topic-chip">Consult Node 03</span>
+                        <span class="topic-chip topic-chip-muted">Media Stack</span>
+                    </div>
+                    <span class="material-symbols-outlined text-3xl text-yellow-400 topic-icon mb-3 block">campaign</span>
+                    <h3 class="font-bold text-lg mb-1">廣告 / 電子報合作</h3>
+                    <p class="text-xs text-gray-500">SeoulMate 平台版位購買、Newsletter 贊助洽談</p>
+                    <div class="topic-metrics">
+                        <span>Channel: Newsletter</span>
+                        <span>Tier: Sponsored</span>
+                    </div>
+                </div>
+                <div class="topic-card rounded-2xl p-6" onclick="selectTopic(this, '轉介紹白名單')">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="topic-chip">Consult Node 04</span>
+                        <span class="topic-chip topic-chip-muted">Partner Ops</span>
+                    </div>
+                    <span class="material-symbols-outlined text-3xl text-brand-green topic-icon mb-3 block">handshake</span>
+                    <h3 class="font-bold text-lg mb-1">B2B 轉介紹合作</h3>
+                    <p class="text-xs text-gray-500">廠商加入白名單、異業合作、佣金分潤洽談</p>
+                    <div class="topic-metrics">
+                        <span>Pipeline: Referral</span>
+                        <span>Model: Rev Share</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="step1-next" onclick="goToStep(2)" disabled
+                class="w-full py-4 rounded-2xl font-bold text-lg transition-all bg-brand-border text-gray-500 cursor-not-allowed"
+                data-active-class="bg-brand-cyan text-black hover:bg-[#00cce6] cursor-pointer shadow-[0_0_20px_rgba(0,229,255,0.3)]">
+                繼續填寫資訊 →
+            </button>
+        </div>
+
+        <!-- Step 2: Contact Form -->
+        <div id="step2" class="hidden fade-in">
+            <h2 class="text-2xl font-bold mb-2 text-center">告訴我們您的狀況</h2>
+            <p class="text-gray-500 text-sm text-center mb-8">資料僅用於諮詢聯繫，不作其他用途</p>
+
+            <div class="glass-panel rounded-3xl p-8 space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">您的稱呼 <span class="text-brand-pink">*</span></label>
+                        <input id="field-name" type="text" placeholder="例：王小姐" class="input-field w-full px-4 py-3 rounded-xl text-white text-sm" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">聯繫方式 <span class="text-brand-pink">*</span></label>
+                        <input id="field-contact" type="text" placeholder="Email 或 LINE ID" class="input-field w-full px-4 py-3 rounded-xl text-white text-sm" required>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">所在地區</label>
+                    <select id="field-region" class="input-field w-full px-4 py-3 rounded-xl text-white text-sm bg-transparent">
+                        <option value="" class="bg-brand-dark">— 請選擇 —</option>
+                        <option value="台灣" class="bg-brand-dark">🇹🇼 台灣</option>
+                        <option value="香港" class="bg-brand-dark">🇭🇰 香港</option>
+                        <option value="澳門" class="bg-brand-dark">🇲🇴 澳門</option>
+                        <option value="中國大陸" class="bg-brand-dark">🇨🇳 中國大陸</option>
+                        <option value="其他" class="bg-brand-dark">🌍 其他</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">諮詢主題</label>
+                    <div id="topic-display" class="px-4 py-3 rounded-xl text-brand-cyan text-sm font-bold bg-brand-cyan/5 border border-brand-cyan/20">
+                        —
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">具體需求 / 問題描述 <span class="text-brand-pink">*</span></label>
+                    <textarea id="field-message" rows="5" placeholder="請描述您的具體需求，越詳細越能讓顧問提前為您準備方案..."
+                        class="input-field w-full px-4 py-3 rounded-xl text-white text-sm resize-none" required></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">預計預算範圍（可選）</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="selectBudget(this, '5萬以下')" class="budget-btn px-3 py-2 rounded-xl text-xs font-bold border border-brand-border text-gray-400 hover:border-gray-500 transition-colors">NT$5萬以下</button>
+                        <button onclick="selectBudget(this, '5-20萬')" class="budget-btn px-3 py-2 rounded-xl text-xs font-bold border border-brand-border text-gray-400 hover:border-gray-500 transition-colors">NT$5–20萬</button>
+                        <button onclick="selectBudget(this, '20萬以上')" class="budget-btn px-3 py-2 rounded-xl text-xs font-bold border border-brand-border text-gray-400 hover:border-gray-500 transition-colors">NT$20萬以上</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+                <button onclick="goToStep(1)" class="flex-1 py-4 rounded-2xl font-bold text-sm border border-brand-border text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+                    ← 返回
+                </button>
+                <button onclick="goToStep(3)" class="flex-[3] py-4 rounded-2xl font-bold text-lg bg-brand-pink text-white hover:bg-[#e01f4f] transition-colors shadow-[0_0_20px_rgba(255,42,95,0.3)]">
+                    預覽並送出 →
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Confirm & Submit -->
+        <div id="step3" class="hidden fade-in">
+            <h2 class="text-2xl font-bold mb-2 text-center">確認諮詢資訊</h2>
+            <p class="text-gray-500 text-sm text-center mb-8">請確認以下資訊無誤後送出</p>
+
+            <div class="glass-panel rounded-3xl p-8 mb-8">
+                <div class="space-y-4" id="confirm-display"></div>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-5 mb-8 border-brand-cyan/20 bg-brand-cyan/5">
+                <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-brand-cyan mt-0.5">schedule</span>
+                    <div>
+                        <div class="font-bold text-sm text-white mb-1">預計回覆時間：24 小時內</div>
+                        <div class="text-xs text-gray-400">工作日 09:00–20:00 (台北時間)。送出後請留意 Email 及 LINE 通知。</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="goToStep(2)" class="flex-1 py-4 rounded-2xl font-bold text-sm border border-brand-border text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+                    ← 修改
+                </button>
+                <button id="submit-inquiry-btn" onclick="submitForm()" class="flex-[3] py-4 rounded-2xl font-bold text-lg bg-brand-pink text-white hover:bg-[#e01f4f] transition-colors shadow-[0_0_25px_rgba(255,42,95,0.4)]">
+                    <span class="material-symbols-outlined align-middle mr-1">send</span>
+                    確認送出諮詢
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Success Overlay -->
+    <div id="success-overlay" class="fixed inset-0 z-50 flex-col items-center justify-center bg-black/90 backdrop-blur-xl text-center px-6">
+        <div class="max-w-md mx-auto">
+            <div class="w-20 h-20 rounded-full bg-brand-green/10 border border-brand-green/30 flex items-center justify-center mx-auto mb-6">
+                <span class="material-symbols-outlined text-4xl text-brand-green">check_circle</span>
+            </div>
+            <h2 class="font-display text-5xl tracking-widest text-white mb-4">諮詢已送出！</h2>
+            <p class="text-gray-400 mb-8">我們已收到您的諮詢請求，顧問將在 <strong class="text-white">24 小時內</strong> 以繁中與您聯繫。</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="index.html" class="px-8 py-3 bg-white text-black rounded-2xl font-bold text-sm hover:bg-gray-200 transition-colors">回到首頁</a>
+                <a href="comparison_hub.html" class="px-8 py-3 bg-brand-surface border border-brand-border rounded-2xl font-bold text-sm text-gray-300 hover:text-white hover:border-gray-500 transition-colors">繼續瀏覽比較中心</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="db_logs.js"></script>
+    <script src="db.js"></script>
+    <script>
+        let selectedTopic = '';
+        let selectedBudget = '';
+        let isSubmitting = false;
+
+        // Fade-in init
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach(el => {
+                setTimeout(() => el.classList.add('visible'), 100);
+            });
+            hydrateInquiryForm();
+        });
+
+        function hydrateInquiryForm() {
+            const session = window.FutureDB?.getSession?.();
+            if (!session) return;
+
+            const nameField = document.getElementById('field-name');
+            const contactField = document.getElementById('field-contact');
+
+            if (nameField && !nameField.value) nameField.value = session.name || '';
+            if (contactField && !contactField.value) contactField.value = session.email || '';
+        }
+
+        function selectTopic(el, topic) {
+            document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedTopic = topic;
+            document.getElementById('topic-display').textContent = topic;
+
+            const btn = document.getElementById('step1-next');
+            btn.disabled = false;
+            btn.className = 'w-full py-4 rounded-2xl font-bold text-lg transition-all bg-brand-cyan text-black hover:bg-[#00cce6] cursor-pointer shadow-[0_0_20px_rgba(0,229,255,0.3)]';
+        }
+
+        function selectBudget(el, budget) {
+            document.querySelectorAll('.budget-btn').forEach(b => {
+                b.classList.remove('border-brand-cyan', 'text-brand-cyan', 'bg-brand-cyan/5');
+                b.classList.add('border-brand-border', 'text-gray-400');
+            });
+            el.classList.add('border-brand-cyan', 'text-brand-cyan', 'bg-brand-cyan/5');
+            el.classList.remove('border-brand-border', 'text-gray-400');
+            selectedBudget = budget;
+        }
+
+        function getInquiryValues() {
+            return {
+                name: document.getElementById('field-name').value.trim(),
+                contact: document.getElementById('field-contact').value.trim(),
+                message: document.getElementById('field-message').value.trim(),
+                region: document.getElementById('field-region').value || '未填寫',
+            };
+        }
+
+        function validateInquiryFields() {
+            const values = getInquiryValues();
+            if (!values.name || !values.contact || !values.message) {
+                alert('請填寫所有必填欄位（稱呼、聯繫方式、需求描述）');
+                return null;
+            }
+            return values;
+        }
+
+        function setSubmitButtonState(disabled) {
+            const button = document.getElementById('submit-inquiry-btn');
+            if (!button) return;
+            button.disabled = disabled;
+            button.classList.toggle('opacity-60', disabled);
+            button.classList.toggle('cursor-not-allowed', disabled);
+        }
+
+        function persistInquiry(inquiry) {
+            if (window.FutureDB?.saveInquiry) {
+                window.FutureDB.saveInquiry(inquiry);
+                return;
+            }
+
+            const inquiries = JSON.parse(localStorage.getItem('sm_inquiries') || '[]');
+            inquiries.push(inquiry);
+            localStorage.setItem('sm_inquiries', JSON.stringify(inquiries));
+        }
+
+        function goToStep(step) {
+            if (step === 2) {
+                // Validate step 1
+                if (!selectedTopic) {
+                    alert('請先選擇諮詢主題');
+                    return;
+                }
+            }
+            if (step === 3) {
+                // Validate step 2
+                const values = validateInquiryFields();
+                if (!values) return;
+                buildConfirmDisplay(values);
+            }
+
+            ['step1', 'step2', 'step3'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById('step' + step).classList.remove('hidden');
+            updateStepDots(step);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateStepDots(activeStep) {
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById('step' + i + '-dot');
+                dot.classList.remove('active', 'done', 'bg-brand-border', 'text-gray-500');
+                if (i < activeStep) {
+                    dot.classList.add('done');
+                    dot.innerHTML = '✓';
+                } else if (i === activeStep) {
+                    dot.classList.add('active');
+                    dot.textContent = i;
+                } else {
+                    dot.classList.add('bg-brand-border', 'text-gray-500');
+                    dot.textContent = i;
+                }
+            }
+        }
+
+        function buildConfirmDisplay(values) {
+            const rows = [
+                { label: '諮詢主題', value: selectedTopic, icon: 'bookmark' },
+                { label: '稱呼', value: values.name, icon: 'person' },
+                { label: '聯繫方式', value: values.contact, icon: 'contact_mail' },
+                { label: '所在地區', value: values.region, icon: 'location_on' },
+                { label: '預算範圍', value: selectedBudget || '未填寫', icon: 'payments' },
+                { label: '需求描述', value: values.message, icon: 'description' },
+            ];
+            document.getElementById('confirm-display').innerHTML = rows.map(r => `
+                <div class="flex gap-4 py-3 border-b border-brand-border last:border-0">
+                    <span class="material-symbols-outlined text-gray-600 mt-0.5 text-lg shrink-0">${r.icon}</span>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">${r.label}</div>
+                        <div class="text-sm text-white break-words">${r.value}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function submitForm() {
+            if (isSubmitting) return;
+
+            const values = validateInquiryFields();
+            if (!values) return;
+
+            isSubmitting = true;
+            setSubmitButtonState(true);
+
+            try {
+                const inquiry = {
+                    id: 'inq_' + Date.now(),
+                    type: selectedTopic,
+                    name: values.name,
+                    contact: values.contact,
+                    region: values.region,
+                    message: values.message,
+                    budget: selectedBudget || '未填寫',
+                    submittedAt: new Date().toISOString(),
+                    status: 'pending'
+                };
+
+                persistInquiry(inquiry);
+
+                if (window.SystemLogger) {
+                    SystemLogger.log('INQUIRY_SUBMITTED', { type: selectedTopic, contact: values.contact });
+                }
+            } catch (err) {
+                console.error('LocalStorage save failed', err);
+                alert('送出失敗，請稍後再試。');
+                isSubmitting = false;
+                setSubmitButtonState(false);
+                return;
+            }
+
+            const overlay = document.getElementById('success-overlay');
+            overlay.classList.add('show');
+        }
+    </script>
+    <script src="translator.js"></script>
+</body>
+</html>

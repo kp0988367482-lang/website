@@ -1,0 +1,360 @@
+<!-- cspell:ignore SEOULMATE videocam -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>會員中心 | SeoulMate KR HQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030305;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .glow {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(17, 212, 147, 0.06) 0%, rgba(3, 3, 5, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.025);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.045);
+            transform: translateY(-2px);
+        }
+        .highlight-card {
+            background: linear-gradient(135deg, rgba(17, 212, 147, 0.08), rgba(17, 212, 147, 0.02));
+            border: 1px solid rgba(17, 212, 147, 0.2);
+        }
+        .quick-link {
+            border: 1px solid #1a1a1a;
+            background: rgba(255,255,255,0.02);
+            transition: all 0.2s ease;
+        }
+        .quick-link:hover {
+            border-color: #2a2a2a;
+            background: rgba(255,255,255,0.05);
+            transform: translateX(4px);
+        }
+        .quick-kicker {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        .quick-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .quick-metrics span {
+            padding: 4px 8px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .badge-elite {
+            background: rgba(17, 212, 147, 0.12);
+            color: #11d493;
+            border: 1px solid rgba(17, 212, 147, 0.25);
+        }
+        .badge-pro {
+            background: rgba(0, 229, 255, 0.12);
+            color: #00e5ff;
+            border: 1px solid rgba(0, 229, 255, 0.25);
+        }
+        .badge-starter {
+            background: rgba(255, 255, 255, 0.08);
+            color: #aaa;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(17, 212, 147, 0.35); }
+            70% { box-shadow: 0 0 0 12px rgba(17, 212, 147, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(17, 212, 147, 0); }
+        }
+        .pulse-avatar {
+            animation: pulse-ring 2.5s ease infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div class="glow" style="top:-200px; right:-200px;"></div>
+    <div class="glow" style="bottom:-200px; left:-200px; background: radial-gradient(circle, rgba(0,229,255,0.04) 0%, rgba(3,3,5,0) 70%);"></div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 px-6 py-4 flex items-center justify-between border-b border-white/5 backdrop-blur-xl bg-black/30">
+        <a href="index.html" class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-emerald-400 flex items-center justify-center font-black text-black text-xs">SM</div>
+            <span class="text-xl font-bold tracking-tight">SeoulMate<span class="text-emerald-400">HQ</span></span>
+        </a>
+        <div class="flex items-center gap-3">
+            <div class="hidden sm:flex items-center gap-2 text-xs text-emerald-400 font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
+                MEMBER PORTAL
+            </div>
+            <button onclick="logout()" class="text-xs text-slate-500 hover:text-red-400 transition-colors font-bold px-3 py-1.5 border border-white/5 rounded-lg hover:border-red-400/20">
+                登出
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-5xl mx-auto px-6 py-12 space-y-8">
+
+        <!-- Welcome Banner -->
+        <div class="glass-card highlight-card rounded-3xl p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div class="flex items-center gap-5">
+                <div class="w-16 h-16 rounded-2xl bg-emerald-400 flex items-center justify-center font-black text-black text-2xl pulse-avatar shrink-0" id="avatarInitial">?</div>
+                <div>
+                    <p class="text-xs text-emerald-400 font-bold uppercase tracking-widest mb-1">已確認身份 · 歡迎回來</p>
+                    <h1 class="text-2xl font-extrabold" id="welcomeName">載入中...</h1>
+                    <p class="text-slate-400 text-sm mt-0.5" id="welcomeEmail">—</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-start sm:items-end gap-2">
+                <span class="badge badge-elite" id="planBadge">Elite</span>
+                <p class="text-[10px] text-slate-500 font-mono">ID: <span id="memberID">—</span></p>
+            </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="glass-card rounded-2xl p-5 text-center">
+                <span class="material-symbols-outlined text-emerald-400 text-2xl mb-2 block">workspace_premium</span>
+                <div class="text-xl font-extrabold font-mono text-white" id="statPlan">—</div>
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider mt-1">方案等級</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 text-center">
+                <span class="material-symbols-outlined text-slate-400 text-2xl mb-2 block">calendar_today</span>
+                <div class="text-xl font-extrabold font-mono text-white" id="statDays">—</div>
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider mt-1">加入天數</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 text-center">
+                <span class="material-symbols-outlined text-slate-400 text-2xl mb-2 block">receipt_long</span>
+                <div class="text-xl font-extrabold font-mono text-white" id="statOrders">—</div>
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider mt-1">訂單記錄</div>
+            </div>
+            <div class="glass-card rounded-2xl p-5 text-center">
+                <span class="material-symbols-outlined text-emerald-400 text-2xl mb-2 block">verified</span>
+                <div class="text-xl font-extrabold font-mono text-emerald-400">認證</div>
+                <div class="text-[10px] text-slate-500 uppercase tracking-wider mt-1">帳號狀態</div>
+            </div>
+        </div>
+
+        <!-- Quick Services -->
+        <div>
+            <h2 class="text-xs text-slate-500 font-black uppercase tracking-widest mb-4">快速進入服務</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a href="member.html" class="quick-link rounded-2xl p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-400/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-emerald-400">dashboard</span>
+                        </div>
+                        <div>
+                            <div class="quick-kicker">Ops Node 01</div>
+                            <div class="font-bold text-sm text-white">Elite 主控台</div>
+                            <div class="text-[11px] text-slate-500">完整儀表板、活動記錄、進階設定</div>
+                            <div class="quick-metrics"><span>Dashboard</span><span>Live Logs</span></div>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-600 group-hover:text-white transition-colors">chevron_right</span>
+                </a>
+                <a href="ai_command_center.html" class="quick-link rounded-2xl p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-purple-400/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-purple-400">smart_toy</span>
+                        </div>
+                        <div>
+                            <div class="quick-kicker">Ops Node 02</div>
+                            <div class="font-bold text-sm text-white">AI 指令中心</div>
+                            <div class="text-[11px] text-slate-500">智能任務自動化、報告生成</div>
+                            <div class="quick-metrics"><span>Automation</span><span>Agent Mode</span></div>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-600 group-hover:text-white transition-colors">chevron_right</span>
+                </a>
+                <a href="comparison_hub.html" class="quick-link rounded-2xl p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-400/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-cyan-400">compare_arrows</span>
+                        </div>
+                        <div>
+                            <div class="quick-kicker">Ops Node 03</div>
+                            <div class="font-bold text-sm text-white">比較中心</div>
+                            <div class="text-[11px] text-slate-500">醫美、物流、美妝全方位評比</div>
+                            <div class="quick-metrics"><span>Decision</span><span>Benchmarks</span></div>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-600 group-hover:text-white transition-colors">chevron_right</span>
+                </a>
+                <a href="cctv_dashboard_v2.html" class="quick-link rounded-2xl p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-red-400/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-red-400">videocam</span>
+                        </div>
+                        <div>
+                            <div class="quick-kicker">Ops Node 04</div>
+                            <div class="font-bold text-sm text-white">CCTV 監控台</div>
+                            <div class="text-[11px] text-slate-500">即時影像、事件記錄</div>
+                            <div class="quick-metrics"><span>Monitoring</span><span>24/7</span></div>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-600 group-hover:text-white transition-colors">chevron_right</span>
+                </a>
+                <a href="digital_shop.html" class="quick-link rounded-2xl p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-yellow-400/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-yellow-400">storefront</span>
+                        </div>
+                        <div>
+                            <div class="quick-kicker">Ops Node 05</div>
+                            <div class="font-bold text-sm text-white">數位商城</div>
+                            <div class="text-[11px] text-slate-500">會員專屬折扣、限定商品</div>
+                            <div class="quick-metrics"><span>Commerce</span><span>Instant Delivery</span></div>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-600 group-hover:text-white transition-colors">chevron_right</span>
+                </a>
+                <a href="contact-expert.html" class="quick-link rounded-2xl p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-pink-400/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-pink-400">support_agent</span>
+                        </div>
+                        <div>
+                            <div class="quick-kicker">Ops Node 06</div>
+                            <div class="font-bold text-sm text-white">預約顧問諮詢</div>
+                            <div class="text-[11px] text-slate-500">會員優先排位、免費一對一諮詢</div>
+                            <div class="quick-metrics"><span>Concierge</span><span>SLA 24H</span></div>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-600 group-hover:text-white transition-colors">chevron_right</span>
+                </a>
+                <a href="pricing.html" class="quick-link rounded-2xl p-5 flex items-center justify-between group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-xl bg-purple-400/10 flex items-center justify-center shrink-0">
+                            <span class="material-symbols-outlined text-purple-400">diamond</span>
+                        </div>
+                        <div>
+                            <div class="quick-kicker">Ops Node 07</div>
+                            <div class="font-bold text-sm text-white">方案與定價</div>
+                            <div class="text-[11px] text-slate-500">查看 Starter / Pro / Elite 方案</div>
+                            <div class="quick-metrics"><span>Seats</span><span>Billing</span></div>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-slate-600 group-hover:text-white transition-colors">chevron_right</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Announcement / Upgrade Prompt -->
+        <div id="upgrade-prompt" class="hidden glass-card rounded-3xl p-6 border-yellow-400/10 bg-gradient-to-r from-yellow-400/5 to-transparent">
+            <div class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-yellow-400 text-2xl mt-0.5">bolt</span>
+                <div>
+                    <div class="font-bold text-white mb-1">升級 Elite 享受更多權益</div>
+                    <p class="text-xs text-slate-400 mb-4">解鎖 AI 指令中心、CCTV 進階分析、B2B 轉介紹白名單優先資格</p>
+                    <a href="/benefits" class="inline-block bg-yellow-400 text-black text-xs font-black px-5 py-2 rounded-xl hover:bg-yellow-300 transition-colors">
+                        查看升級方案 →
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex items-center justify-between pt-6 border-t border-white/5">
+            <p class="text-[10px] text-slate-600 font-bold uppercase tracking-widest">SeoulMate KR HQ &copy; 2026</p>
+            <button onclick="logout()" class="text-[10px] text-slate-600 hover:text-red-400 transition-colors font-bold uppercase tracking-wider">
+                登出帳號
+            </button>
+        </div>
+
+    </main>
+
+    <script src="db_logs.js"></script>
+    <script src="db.js"></script>
+    <script>
+        const session = window.FutureDB?.getSession();
+
+        if (!session) {
+            window.location.href = 'login.html';
+        }
+
+        const name    = session?.name  || 'Member';
+        const email   = session?.email || '';
+        const plan    = (session?.plan || 'starter').toLowerCase();
+
+        // Name & Email
+        document.getElementById('welcomeName').textContent  = name;
+        document.getElementById('welcomeEmail').textContent = email;
+        document.getElementById('avatarInitial').textContent = name.charAt(0).toUpperCase();
+
+        // Member ID (simple hash from email)
+        const idHash = email.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+        document.getElementById('memberID').textContent = 'SM-' + (idHash % 90000 + 10000);
+
+        // Plan
+        document.getElementById('statPlan').textContent = plan.toUpperCase();
+        const badgeEl = document.getElementById('planBadge');
+        badgeEl.textContent = plan.toUpperCase();
+        if (plan === 'elite') {
+            badgeEl.className = 'badge badge-elite';
+        } else if (plan === 'pro') {
+            badgeEl.className = 'badge badge-pro';
+        } else {
+            badgeEl.className = 'badge badge-starter';
+            document.getElementById('upgrade-prompt').classList.remove('hidden');
+        }
+
+        // Orders
+        const orders = window.FutureDB?.getUserOrders(email) || [];
+        document.getElementById('statOrders').textContent = orders.length;
+
+        // Days joined
+        const allUsers = window.FutureDB?.getUsers() || [];
+        const user = allUsers.find(u => u.email === email);
+        if (user?.joinedAt) {
+            const diff = Date.now() - new Date(user.joinedAt).getTime();
+            document.getElementById('statDays').textContent = Math.max(1, Math.floor(diff / 86400000));
+        } else {
+            document.getElementById('statDays').textContent = '1';
+        }
+
+        function logout() {
+            window.FutureDB?.endSession();
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script src="translator.js"></script>
+</body>
+</html>

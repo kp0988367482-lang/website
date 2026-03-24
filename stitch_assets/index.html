@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SEOULMATE 31 Korea Decision Engine：從韓國真實問題、熱門比較、真實案例到決策工具，幫你找到最適合的韓國路線。">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>SEOULMATE 31 | Korea Decision Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bricolage+Grotesque:wght@400;500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #f7f1e6;
+            --paper-strong: #fff9f0;
+            --ink: #18120f;
+            --ink-soft: #2a211d;
+            --muted: #6d6359;
+            --line: rgba(24, 18, 15, 0.12);
+            --line-strong: rgba(24, 18, 15, 0.2);
+            --card: rgba(255, 249, 240, 0.88);
+            --card-dark: #1f1713;
+            --accent: #ff6b3d;
+            --accent-soft: #ffefe8;
+            --accent-2: #1d8b79;
+            --accent-3: #efb81e;
+            --shadow: 0 24px 60px rgba(62, 35, 20, 0.12);
+            --radius-xl: 28px;
+            --radius-lg: 20px;
+            --radius-md: 16px;
+            --max-width: 1240px;
+            --c2: #ff6b3d;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(255, 107, 61, 0.16), transparent 28%),
+                radial-gradient(circle at 85% 15%, rgba(29, 139, 121, 0.14), transparent 22%),
+                linear-gradient(180deg, #f8f3eb 0%, #f4ecdf 100%);
+            font-family: "Noto Sans TC", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        .page-noise {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: radial-gradient(circle at center, black 30%, transparent 92%);
+            opacity: 0.18;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shell {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            width: min(calc(100% - 32px), var(--max-width));
+            margin: 0 auto;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            padding: 18px 0 0;
+        }
+
+        .topbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 14px 18px;
+            border: 1px solid rgba(24, 18, 15, 0.1);
+            border-radius: 999px;
+            background: rgba(255, 249, 240, 0.74);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 10px 35px rgba(62, 35, 20, 0.08);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .brand-mark {
+            display: grid;
+            place-items: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), #ff9960);
+            color: white;
+            font-family: "Bebas Neue", sans-serif;
+            font-size: 26px;
+            letter-spacing: 1px;
+            box-shadow: 0 14px 30px rgba(255, 107, 61, 0.28);
+        }
+
+        .brand-copy {
+            min-width: 0;
+        }
+
+        .brand-name {
+            font-family: "Bricolage Grotesque", sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-sub {
+            color: var(--muted);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: var(--ink);
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+            white-space: nowrap;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 30px rgba(24, 18, 15, 0.18);
+        }
+
+        .hero {
+            padding: 56px 0 40px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .hero-card,
+        .signal-card,
+        .board-card,
+        .tool-card,
+        .service-card,
+        .case-card,
+        .guide-card,
+        .compare-card,
+        .problem-card {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-xl);
+            background: var(--card);
+            box-shadow: var(--shadow);
+        }
+
+        .hero-card {
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: "";
+            position: absolute;
+            inset: auto -10% -12% auto;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 61, 0.22), transparent 68%);
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255, 107, 61, 0.1);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+
+        .hero h1 {
+            margin: 18px 0 16px;
+            font-family: "Bricolage Grotesque", sans-serif;
+            font-size: clamp(42px, 7vw, 74px);
+            line-height: 0.94;
+            letter-spacing: -0.04em;
+            max-width: 12ch;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero-copy {
+            max-width: 62ch;
+            color: var(--ink-soft);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .problem-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 28px 0 32px;
+        }
+
+        .flow-chip {
+            padding: 10px 14px;
+            border: 1px dashed rgba(24, 18, 15, 0.18);
+            border-radius: 999px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .route-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .path-card {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            padding: 18px;
+            border: 1px solid rgba(24, 18, 15, 0.12);
+            border-radius: 22px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 244, 237, 0.88));
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .path-card:hover,
+        .path-card.active {
+            transform: translateY(-3px);
+            border-color: rgba(255, 107, 61, 0.4);
+            box-shadow: 0 16px 40px rgba(255, 107, 61, 0.14);
+        }
+
+        .path-card small {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .path-card strong {
+            font-size: 22px;
+            line-height: 1.2;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .metric-pill {
+            padding: 12px 14px;
+            border-radius: 18px;
+            background: rgba(24, 18, 15, 0.05);
+            min-width: 140px;
+        }
+
+        .metric-pill strong {
+            display: block;
+            font-size: 24px;
+            font-family: "Bricolage Grotesque", sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .metric-pill span {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .signal-card {
+            padding: 22px;
+            background:
+                linear-gradient(180deg, rgba(31, 23, 19, 0.98), rgba(18, 13, 11, 0.98)),
+                var(--card-dark);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .signal-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .signal-top strong {
+            font-size: 15px;
+            letter-spacing: 0.02em;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4effae;
+            box-shadow: 0 0 0 6px rgba(78, 255, 174, 0.16);
+        }
+
+        .signal-stack {
+            display: grid;
+            gap: 12px;
+        }
+
+        .signal-thread {
+            padding: 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .signal-thread span {
+            display: inline-flex;
+            margin-bottom: 8px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            background: rgba(255, 107, 61, 0.14);
+            color: #ffb69d;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .signal-thread h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
+            line-height: 1.35;
+        }
+
+        .signal-thread p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .signal-map {
+            padding: 16px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, rgba(255, 107, 61, 0.18), rgba(29, 139, 121, 0.14));
+            display: grid;
+            gap: 10px;
+        }
+
+        .signal-map strong {
+            font-size: 28px;
+            font-family: "Bricolage Grotesque", sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .signal-map p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+        }
+
+        .section {
+            padding: 32px 0 24px;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .section-head h2 {
+            margin: 8px 0 0;
+            font-family: "Bricolage Grotesque", sans-serif;
+            font-size: clamp(30px, 5vw, 50px);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .section-head p {
+            margin: 0;
+            max-width: 56ch;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .section-tag {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .problem-grid,
+        .compare-grid,
+        .guide-grid,
+        .case-grid,
+        .service-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .problem-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .problem-card,
+        .compare-card,
+        .guide-card,
+        .case-card,
+        .service-card {
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+        }
+
+        .problem-card:hover,
+        .compare-card:hover,
+        .guide-card:hover,
+        .case-card:hover,
+        .service-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 107, 61, 0.32);
+            box-shadow: 0 20px 40px rgba(62, 35, 20, 0.14);
+        }
+
+        .card-kicker {
+            display: inline-flex;
+            margin-bottom: 14px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(24, 18, 15, 0.06);
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .problem-card h3,
+        .compare-card h3,
+        .guide-card h3,
+        .case-card h3,
+        .service-card h3 {
+            margin: 0 0 10px;
+            font-size: 24px;
+            line-height: 1.2;
+            font-family: "Bricolage Grotesque", sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .problem-card p,
+        .compare-card p,
+        .guide-card p,
+        .case-card p,
+        .service-card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            color: var(--ink);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .problem-card.highlight {
+            background: linear-gradient(180deg, rgba(255, 107, 61, 0.08), rgba(255, 249, 240, 0.92));
+        }
+
+        .compare-wrap {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 320px;
+            gap: 16px;
+        }
+
+        .compare-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .compare-card strong {
+            display: block;
+            margin-top: 14px;
+            font-size: 13px;
+            color: var(--ink);
+        }
+
+        .board-card {
+            padding: 22px;
+        }
+
+        .board-card h3 {
+            margin: 0 0 16px;
+            font-size: 20px;
+            font-family: "Bricolage Grotesque", sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .board-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .board-item {
+            display: grid;
+            gap: 6px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: rgba(24, 18, 15, 0.04);
+        }
+
+        .board-item strong {
+            font-size: 15px;
+        }
+
+        .board-item span {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .guide-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .guide-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(255, 245, 232, 0.94));
+        }
+
+        .case-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .case-topline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--muted);
+        }
+
+        .case-result {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line);
+        }
+
+        .case-result strong {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .tool-shell {
+            display: grid;
+            grid-template-columns: minmax(0, 0.92fr) minmax(300px, 0.88fr);
+            gap: 16px;
+        }
+
+        .tool-card {
+            padding: 26px;
+        }
+
+        .tool-card h3 {
+            margin: 0 0 8px;
+            font-size: 32px;
+            font-family: "Bricolage Grotesque", sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .tool-card p {
+            margin: 0 0 18px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .field {
+            display: grid;
+            gap: 8px;
+        }
+
+        .field label {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--ink-soft);
+        }
+
+        .field select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--line-strong);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.88);
+            color: var(--ink);
+            outline: none;
+        }
+
+        .tool-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 18px;
+            border: 0;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 800;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: white;
+            box-shadow: 0 14px 30px rgba(24, 18, 15, 0.16);
+        }
+
+        .btn-secondary {
+            background: rgba(24, 18, 15, 0.06);
+            color: var(--ink);
+        }
+
+        .result-panel {
+            padding: 26px;
+            border-radius: var(--radius-xl);
+            background:
+                radial-gradient(circle at top right, rgba(255, 107, 61, 0.28), transparent 28%),
+                linear-gradient(180deg, #201713 0%, #140f0d 100%);
+            color: white;
+            box-shadow: 0 30px 60px rgba(32, 23, 19, 0.22);
+        }
+
+        .result-tag {
+            display: inline-flex;
+            margin-bottom: 16px;
+            padding: 7px 11px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffd5c7;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .result-panel h3 {
+            margin: 0;
+            font-size: 40px;
+            line-height: 1;
+            font-family: "Bricolage Grotesque", sans-serif;
+            letter-spacing: -0.04em;
+        }
+
+        .result-panel p {
+            color: rgba(255, 255, 255, 0.78);
+            line-height: 1.75;
+        }
+
+        .result-box {
+            margin-top: 18px;
+            padding: 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .result-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: white;
+        }
+
+        .result-list {
+            margin: 0;
+            padding-left: 18px;
+            color: rgba(255, 255, 255, 0.84);
+            line-height: 1.7;
+        }
+
+        .result-list li + li {
+            margin-top: 6px;
+        }
+
+        .result-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-radius: 999px;
+            background: white;
+            color: var(--ink);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .service-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .service-card.primary {
+            background: linear-gradient(180deg, rgba(255, 107, 61, 0.08), rgba(255, 249, 240, 0.96));
+        }
+
+        .service-footer {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .closing-banner {
+            margin: 24px 0 60px;
+            padding: 26px;
+            border: 1px solid rgba(24, 18, 15, 0.1);
+            border-radius: 30px;
+            background:
+                linear-gradient(135deg, rgba(255, 107, 61, 0.16), rgba(239, 184, 30, 0.12), rgba(29, 139, 121, 0.12)),
+                rgba(255, 249, 240, 0.9);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .closing-banner h2 {
+            margin: 0 0 10px;
+            font-size: clamp(32px, 4vw, 48px);
+            line-height: 1;
+            font-family: "Bricolage Grotesque", sans-serif;
+            letter-spacing: -0.04em;
+        }
+
+        .closing-banner p {
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.8;
+            max-width: 58ch;
+        }
+
+        footer {
+            padding: 0 0 44px;
+        }
+
+        .footer-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        [data-reveal] {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        [data-reveal].visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1080px) {
+            .hero-grid,
+            .compare-wrap,
+            .tool-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .problem-grid,
+            .case-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 860px) {
+            .topbar-inner {
+                border-radius: 28px;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 2px;
+            }
+
+            .route-grid,
+            .guide-grid,
+            .service-grid,
+            .compare-grid,
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card,
+            .signal-card,
+            .tool-card,
+            .result-panel {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                padding-top: 34px;
+            }
+
+            .container {
+                width: min(calc(100% - 20px), var(--max-width));
+            }
+
+            .problem-grid,
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .metric-pill {
+                min-width: 0;
+                flex: 1 1 100%;
+            }
+
+            .closing-banner {
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <div class="shell">
+        <header class="topbar">
+            <div class="container">
+                <div class="topbar-inner">
+                    <a href="/" class="brand" aria-label="SEOULMATE 31 首頁">
+                        <div class="brand-mark">31</div>
+                        <div class="brand-copy">
+                            <div class="brand-name">SEOULMATE 31</div>
+                            <div class="brand-sub">Korea Decision Engine</div>
+                        </div>
+                    </a>
+
+                    <nav class="nav-links" aria-label="主選單">
+                        <a href="#problems">Problems</a>
+                        <a href="#compare">Compare</a>
+                        <a href="#guides">Guides</a>
+                        <a href="#cases">Cases</a>
+                        <a href="#tools">Tools</a>
+                        <a href="#services">Services</a>
+                    </nav>
+                    <!-- Roll型技能導覽區 -->
+                    <div class="roll-nav-bar" style="margin-top:12px;">
+                        <div class="roll-nav-list">
+                            <a href="#consulting" class="roll-nav-item">諮詢</a>
+                            <a href="#shop" class="roll-nav-item">模板商店</a>
+                            <a href="#tools" class="roll-nav-item">決策工具</a>
+                            <a href="#blog" class="roll-nav-item">爆紅話題</a>
+                            <a href="#compare" class="roll-nav-item">比較平台</a>
+                            <a href="#affiliate" class="roll-nav-item">合作/廣告</a>
+                        </div>
+                    </div>
+                    </nav>
+
+                    <a id="member-cta" href="signup.html" class="nav-cta">登入 / 會員中心</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="container hero-grid">
+                    <article class="hero-card" data-reveal>
+                        <div class="eyebrow">SEOULMATE 31 / Problem → Compare → Decision → Action</div>
+                        <h1>很多人來韓國，<span>其實不知道自己在做什麼決定</span></h1>
+                        <p class="hero-copy">
+                            SEOULMATE 31 不是再做一個「韓國資訊網站」。
+                            我們把韓國真實問題、熱門比較、10 年在地案例和決策工具串成同一條路線，
+                            幫你更快知道自己應該留學、打工度假、找工作，還是先做商業佈局。
+                        </p>
+
+                        <div class="problem-flow" aria-label="漏斗流程">
+                            <div class="flow-chip">Problem Hook</div>
+                            <div class="flow-chip">熱門比較</div>
+                            <div class="flow-chip">真實案例</div>
+                            <div class="flow-chip">Decision Engine</div>
+                            <div class="flow-chip">Service Entry</div>
+                        </div>
+
+                        <div class="route-grid" aria-label="快速路線">
+                            <button class="path-card" type="button" data-preset="study">
+                                <small>Route 01</small>
+                                <strong>我想留學</strong>
+                                <span>先算語言、學費、停留身份，再決定語學堂還是學位路線。</span>
+                            </button>
+                            <button class="path-card" type="button" data-preset="holiday">
+                                <small>Route 02</small>
+                                <strong>我想打工度假</strong>
+                                <span>先確認工作現實、生活成本與韓文門檻，不要只看浪漫想像。</span>
+                            </button>
+                            <button class="path-card" type="button" data-preset="business">
+                                <small>Route 03</small>
+                                <strong>我想做生意</strong>
+                                <span>先驗證需求、通路、合作方，再決定要不要真的進場。</span>
+                            </button>
+                        </div>
+
+                        <div class="hero-meta">
+                            <div class="metric-pill">
+                                <strong>4 大入口</strong>
+                                <span>留學 / 打工度假 / 工作 / 商業佈局</span>
+                            </div>
+                            <div class="metric-pill">
+                                <strong>10 年在地</strong>
+                                <span>真實經驗比整理資訊更有轉換力</span>
+                            </div>
+                            <div class="metric-pill">
+                                <strong>3 分鐘</strong>
+                                <span>先用工具判斷，再決定要不要花錢</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <aside class="signal-card" data-reveal>
+                        <div class="signal-top">
+                            <strong>熱門討論 / Decision Feed</strong>
+                            <div class="live-dot" aria-hidden="true"></div>
+                        </div>
+
+                        <div class="signal-stack">
+                            <div class="signal-thread">
+                                <span>Most common mistake</span>
+                                <h3>先買機票，再開始想租房和保證金</h3>
+                                <p>資訊很多，但真正讓人卡住的是現金流、保證金和身份限制，不是旅遊攻略。</p>
+                            </div>
+
+                            <div class="signal-thread">
+                                <span>High intent traffic</span>
+                                <h3>「比較」比「介紹」更容易帶來 SEO 與決策</h3>
+                                <p>語學堂、診所、大學、物流公司，使用者其實不是想看資料，是想排除錯的選項。</p>
+                            </div>
+
+                            <div class="signal-thread">
+                                <span>Conversion trigger</span>
+                                <h3>真實案例 + 決策工具，比單純賣服務更容易成交</h3>
+                                <p>先讓人知道自己在哪一條路，再把對應的服務入口放在最後，轉換會更順。</p>
+                            </div>
+                        </div>
+
+                        <div class="signal-map">
+                            <strong>Korea Decision Engine</strong>
+                            <p>從「我遇到什麼問題」開始，不是從「我想看什麼內容」開始。這就是首頁定位要換掉的核心。</p>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="problems" class="section">
+                <div class="container">
+                    <div class="section-head" data-reveal>
+                        <div>
+                            <div class="section-tag">Problems</div>
+                            <h2>韓國真實問題</h2>
+                        </div>
+                        <p>第二區不講大方向，直接切進來韓國的人最常卡住的真實問題。這種內容最容易承接搜尋流量，也最容易引出比較與服務。</p>
+                    </div>
+
+                    <div class="problem-grid">
+                        <a href="korea-landing-page.html" class="problem-card highlight" data-reveal>
+                            <div class="card-kicker">Housing Shock</div>
+                            <h3>租房先被高保證金嚇到</h3>
+                            <p>不是只問月租多少，而是要先理解押金、短租、地區差異和現金壓力。</p>
+                            <div class="card-link">看租房問題拆解 →</div>
+                        </a>
+
+                        <a href="comparison_hub.html" class="problem-card" data-reveal>
+                            <div class="card-kicker">Tuition Reality</div>
+                            <h3>語學堂費用比預期高很多</h3>
+                            <p>學費、住宿、保險、簽證與生活費加總後，很多人的預算才第一次變真實。</p>
+                            <div class="card-link">看費用比較 →</div>
+                        </a>
+
+                        <a href="comparison_hub.html" class="problem-card" data-reveal>
+                            <div class="card-kicker">Clinic Gap</div>
+                            <h3>整形診所價格差很多</h3>
+                            <p>你看到的是報價單，真正該比的是翻譯、術後照護、醫師風格和追加費用。</p>
+                            <div class="card-link">看診所比較 →</div>
+                        </a>
+
+                        <a href="quiz-korea-ready.html" class="problem-card" data-reveal>
+                            <div class="card-kicker">Work Hunt</div>
+                            <h3>打工度假找不到穩定工作</h3>
+                            <p>不是工作不存在，而是語言、地區、時薪類型和期望落差沒有先校準。</p>
+                            <div class="card-link">先做適合度診斷 →</div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="compare" class="section">
+                <div class="container">
+                    <div class="section-head" data-reveal>
+                        <div>
+                            <div class="section-tag">Compare</div>
+                            <h2>熱門比較</h2>
+                        </div>
+                        <p>比較內容是最強的流量入口，因為使用者已經知道自己在做決策，只差一個可信的比較框架。</p>
+                    </div>
+
+                    <div class="compare-wrap">
+                        <div class="compare-grid">
+                            <a href="comparison_hub.html" class="compare-card" data-reveal>
+                                <div class="card-kicker">Study</div>
+                                <h3>語學堂比較</h3>
+                                <p>比較學費、地區、班級密度、宿舍可得性與續留路線，不只看學校名氣。</p>
+                                <strong>適合用來承接留學與語言學習流量。</strong>
+                                <div class="card-link">進入比較頁 →</div>
+                            </a>
+
+                            <a href="comparison_hub.html" class="compare-card" data-reveal>
+                                <div class="card-kicker">Beauty</div>
+                                <h3>整形診所比較</h3>
+                                <p>把價格透明度、翻譯陪診、恢復安排與真實案例放在同一個頁面。</p>
+                                <strong>高搜尋、高商業意圖，也最需要信任。</strong>
+                                <div class="card-link">看透明報價 →</div>
+                            </a>
+
+                            <a href="comparison_hub.html" class="compare-card" data-reveal>
+                                <div class="card-kicker">University</div>
+                                <h3>韓國大學比較</h3>
+                                <p>不只是排名，而是科系、學費、國際學生支援和畢業後延伸機會。</p>
+                                <strong>適合做 SEO 長尾與高教育意圖內容。</strong>
+                                <div class="card-link">看學校清單 →</div>
+                            </a>
+
+                            <a href="comparison_hub.html" class="compare-card" data-reveal>
+                                <div class="card-kicker">Logistics</div>
+                                <h3>物流公司比較</h3>
+                                <p>如果要做電商、代購或跨境供應鏈，最先需要比較的是報價、時效、售後與退換處理。</p>
+                                <strong>能把內容流量直接接到合作與服務。</strong>
+                                <div class="card-link">看運營比較 →</div>
+                            </a>
+                        </div>
+
+                        <aside class="board-card" data-reveal>
+                            <h3>目前最值得先做的比較專題</h3>
+                            <div class="board-list">
+                                <div class="board-item">
+                                    <strong>1. 語學堂費用 vs. 成效</strong>
+                                    <span>最適合直接切預算焦慮與停留策略。</span>
+                                </div>
+                                <div class="board-item">
+                                    <strong>2. 醫美診所透明報價</strong>
+                                    <span>高流量，高轉換，也最吃真實案例。</span>
+                                </div>
+                                <div class="board-item">
+                                    <strong>3. 韓國大學路線圖</strong>
+                                    <span>把名校崇拜改成更能做決策的比較框架。</span>
+                                </div>
+                                <div class="board-item">
+                                    <strong>4. 物流與代購通路</strong>
+                                    <span>很適合導向 B2B 合作與顧問服務。</span>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <section id="guides" class="section">
+                <div class="container">
+                    <div class="section-head" data-reveal>
+                        <div>
+                            <div class="section-tag">Guides</div>
+                            <h2>攻略不是主角，但要變成決策支援</h2>
+                        </div>
+                        <p>攻略內容還是要有，但它應該服務於問題與比較，而不是自己變成首頁中心。</p>
+                    </div>
+
+                    <div class="guide-grid">
+                        <a href="korea-landing-page.html" class="guide-card" data-reveal>
+                            <div class="card-kicker">Arrival Guide</div>
+                            <h3>初到韓國的 7 天清單</h3>
+                            <p>銀行、手機、租房、交通卡與基礎生活動線，讓新手不會第一週就亂掉。</p>
+                            <div class="card-link">看攻略 →</div>
+                        </a>
+
+                        <a href="marketing_funnel.html" class="guide-card" data-reveal>
+                            <div class="card-kicker">Planning Guide</div>
+                            <h3>從內容到服務的決策漏斗</h3>
+                            <p>把流量入口、信任建立、決策工具與服務轉換接在一起，不再各做各的。</p>
+                            <div class="card-link">看漏斗頁 →</div>
+                        </a>
+
+                        <a href="quiz-korea-ready.html" class="guide-card" data-reveal>
+                            <div class="card-kicker">Readiness Guide</div>
+                            <h3>1 分鐘測你適不適合先來韓國</h3>
+                            <p>適合當入口內容，也適合做名單收集前的低門檻互動工具。</p>
+                            <div class="card-link">做快速診斷 →</div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="cases" class="section">
+                <div class="container">
+                    <div class="section-head" data-reveal>
+                        <div>
+                            <div class="section-tag">Cases</div>
+                            <h2>真實案例</h2>
+                        </div>
+                        <p>這一區是你的最大優勢。你不是轉貼資料，而是可以用居韓 10 年的視角，把「決策前後的差別」講清楚。</p>
+                    </div>
+
+                    <div class="case-grid">
+                        <article class="case-card" data-reveal>
+                            <div class="case-topline">
+                                <span>學生案例</span>
+                                <span>Budget reset</span>
+                            </div>
+                            <h3>先從語學堂進場，再轉學位路線</h3>
+                            <p>原本只想短期學語言，重新計算學費與居住成本後，改成更能延伸停留的規劃。</p>
+                            <div class="case-result">
+                                <strong>Result</strong>
+                                <p>先縮小城市與學校範圍，再讓預算和身份策略對齊。</p>
+                            </div>
+                        </article>
+
+                        <article class="case-card" data-reveal>
+                            <div class="case-topline">
+                                <span>打工度假案例</span>
+                                <span>Expectation gap</span>
+                            </div>
+                            <h3>先找生活圈，再找工作</h3>
+                            <p>不是每個人都適合一來就住首爾。先選對地區，工作與住宿成本會一起變合理。</p>
+                            <div class="case-result">
+                                <strong>Result</strong>
+                                <p>把求職速度和生活穩定度一起拉高，而不是只追熱鬧地段。</p>
+                            </div>
+                        </article>
+
+                        <article class="case-card" data-reveal>
+                            <div class="case-topline">
+                                <span>整形案例</span>
+                                <span>Trust build</span>
+                            </div>
+                            <h3>從「低價」改成「可控風險」</h3>
+                            <p>比價之後才發現，翻譯、術後回診和恢復安排才是真正影響體驗的成本。</p>
+                            <div class="case-result">
+                                <strong>Result</strong>
+                                <p>用透明比較加案例，讓服務不只是媒合，而是風險管理。</p>
+                            </div>
+                        </article>
+
+                        <article class="case-card" data-reveal>
+                            <div class="case-topline">
+                                <span>電商案例</span>
+                                <span>Go-to-market</span>
+                            </div>
+                            <h3>先試通路，再談設公司</h3>
+                            <p>很多人太早想進入法人與固定成本，實際上先驗證商品、物流和合作方更重要。</p>
+                            <div class="case-result">
+                                <strong>Result</strong>
+                                <p>先用輕量營運模式找出可複製的單位經濟，再決定重投入。</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tools" class="section">
+                <div class="container">
+                    <div class="section-head" data-reveal>
+                        <div>
+                            <div class="section-tag">Tools</div>
+                            <h2>Korea Decision Engine</h2>
+                        </div>
+                        <p>最強轉換點不應該只是 CTA，而是一個可以幫人先做出方向判斷的工具。這裡先用預算、韓文程度、停留時間與目標做第一輪判斷。</p>
+                    </div>
+
+                    <div class="tool-shell">
+                        <section class="tool-card" data-reveal>
+                            <h3>3 分鐘找到最適合你的韓國路線</h3>
+                            <p>先跑一輪，再決定要不要看比較內容、案例，或直接進服務入口。這樣首頁才像產品，而不是內容堆疊。</p>
+
+                            <form id="decision-form">
+                                <div class="tool-grid">
+                                    <div class="field">
+                                        <label for="budget">預算</label>
+                                        <select id="budget" name="budget">
+                                            <option value="low">50 萬台幣以下</option>
+                                            <option value="mid" selected>50 到 150 萬台幣</option>
+                                            <option value="high">150 萬台幣以上</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="korean-level">韓文程度</label>
+                                        <select id="korean-level" name="korean-level">
+                                            <option value="none" selected>0 基礎</option>
+                                            <option value="basic">能日常對話</option>
+                                            <option value="advanced">可面試 / 商務溝通</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="duration">預計停留時間</label>
+                                        <select id="duration" name="duration">
+                                            <option value="short">3 到 6 個月</option>
+                                            <option value="mid" selected>6 到 12 個月</option>
+                                            <option value="long">1 年以上</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="field">
+                                        <label for="priority">你現在最想要的是</label>
+                                        <select id="priority" name="priority">
+                                            <option value="study">先把語言 / 學歷打底</option>
+                                            <option value="earn" selected>先找到能活下去的路</option>
+                                            <option value="career">往正式工作發展</option>
+                                            <option value="business">測市場、做生意</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="tool-actions">
+                                    <button class="btn btn-primary" type="submit">立即分析</button>
+                                    <button class="btn btn-secondary" type="button" id="reset-tool">重設條件</button>
+                                </div>
+                            </form>
+                        </section>
+
+                        <aside class="result-panel" data-reveal aria-live="polite">
+                            <div class="result-tag" id="result-tag">Recommended Route</div>
+                            <h3 id="result-route">打工度假</h3>
+                            <p id="result-summary">你目前更適合用可控成本先進場，先確認生活圈、工作型態與韓文需求，再決定要不要延伸成留學或工作路線。</p>
+
+                            <div class="result-box">
+                                <strong>為什麼是這條路</strong>
+                                <ul class="result-list" id="result-reasons">
+                                    <li>你的預算與停留時間組合，適合先做低風險測試。</li>
+                                    <li>在韓文還沒到工作穩定門檻前，直接衝正式工作成本偏高。</li>
+                                    <li>先跑生活與收入模型，比直接投入大成本更合理。</li>
+                                </ul>
+                            </div>
+
+                            <div class="result-box">
+                                <strong>下一步先做什麼</strong>
+                                <ul class="result-list" id="result-actions">
+                                    <li>先看工作機會與住宿成本比較。</li>
+                                    <li>再補一輪韓文與履歷準備。</li>
+                                    <li>最後決定是否需要 1:1 規劃服務。</li>
+                                </ul>
+                            </div>
+
+                            <a id="result-link" href="quiz-korea-ready.html" class="result-cta">去看對應入口</a>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+            <section id="services" class="section">
+                <div class="container">
+                    <div class="section-head" data-reveal>
+                        <div>
+                            <div class="section-tag">Services</div>
+                            <h2>服務入口</h2>
+                        </div>
+                        <p>服務放在最後，因為前面已經先幫使用者完成問題辨識、比較與方向判斷。這時候再進服務，阻力最低。</p>
+                    </div>
+
+                    <div class="service-grid">
+                        <a href="pricing.html" class="service-card primary" data-reveal>
+                            <div class="card-kicker">Landing Kit</div>
+                            <h3>落地套組</h3>
+                            <p>適合還在釐清租房、生活設定、前期流程的人，先把最容易踩雷的部分收斂掉。</p>
+                            <div class="service-footer">
+                                <span>適合新手進場</span>
+                                <span>查看方案 →</span>
+                            </div>
+                        </a>
+
+                        <a href="contact-expert.html" class="service-card" data-reveal>
+                            <div class="card-kicker">Study Planning</div>
+                            <h3>留學規劃</h3>
+                            <p>把語學堂、學位、預算、停留年限與未來工作延伸路線放到同一張決策地圖。</p>
+                            <div class="service-footer">
+                                <span>適合留學 / 轉學位</span>
+                                <span>預約診斷 →</span>
+                            </div>
+                        </a>
+
+                        <a href="product_showcase.html" class="service-card" data-reveal>
+                            <div class="card-kicker">Matchmaking / B2B</div>
+                            <h3>整形媒合 / 商業合作</h3>
+                            <p>把診所媒合、合作開發、通路驗證與商業落地拆成更能成交的實際服務入口。</p>
+                            <div class="service-footer">
+                                <span>適合高意圖客群</span>
+                                <span>看合作模式 →</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="closing-banner" data-reveal>
+                        <div>
+                            <h2>先讓人知道自己在做什麼決定，再讓他選你的服務</h2>
+                            <p>這就是首頁應該變成 Korea Decision Engine 的原因。從 Problem Hook 開始，經過 Compare、Cases、Tools，最後才走到 Action。</p>
+                        </div>
+                        <a href="contact-expert.html" class="nav-cta">預約 1:1 決策諮詢</a>
+                    </div>
+                    <!-- 贊助Banner/合作區 -->
+                    <section class="sponsor-section" style="margin:32px 0;">
+                        <div class="sponsor-banner">
+                            <h3>品牌合作・廣告窗口</h3>
+                            <p>首頁Banner、Blog Sidebar、推薦文章、Footer Sponsor</p>
+                            <button class="sponsor-cta">申請合作 / 查看方案</button>
+                        </div>
+                        <div class="affiliate-list">
+                            <span>合作夥伴：SaaS、教育、旅遊、金融</span>
+                            <span>佣金10–40%</span>
+                        </div>
+                    </section>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="container footer-bar">
+                <div>© 2026 SEOULMATE 31. Built for Korea decisions, not just Korea content.</div>
+                <div class="footer-links">
+                    <a href="comparison_hub.html">Compare Hub</a>
+                    <a href="quiz-korea-ready.html">Decision Quiz</a>
+                    <a href="contact-expert.html">Consulting</a>
+                    <a href="admin.html">Admin</a>
+                </div>
+            </div>
+            <!-- Chat按鍵、流量統計、R2圖片上傳入口 -->
+            <div class="footer-chat" style="margin:24px 0;">
+                <button class="chat-btn" onclick="openChat()">💬 即時訊息 / AI客服</button>
+            </div>
+            <div class="footer-analytics" style="margin-bottom:24px;">
+                <span>今日流量：<span id="traffic-count">--</span></span>
+                <button class="upload-btn" onclick="openR2Upload()">R2圖片上傳</button>
+            </div>
+            <script>
+                // Chat功能（簡易彈窗）
+                function openChat() {
+                    alert('即時訊息功能即將上線，敬請期待！');
+                }
+                // R2圖片上傳入口（彈窗）
+                function openR2Upload() {
+                    alert('R2圖片上傳功能即將整合，敬請期待！');
+                }
+                // 流量統計（範例）
+                document.addEventListener('DOMContentLoaded', function() {
+                    var count = localStorage.getItem('traffic_count') || 0;
+                    count++;
+                    localStorage.setItem('traffic_count', count);
+                    document.getElementById('traffic-count').textContent = count;
+                });
+            </script>
+        </footer>
+    </div>
+
+    <script src="db.js"></script>
+    <script>
+        const routeCatalog = {
+            study: {
+                label: '留學 / 語學堂',
+                summary: '你現在更適合先把語言、停留身份和學習成本算清楚，再決定要不要往學位或工作延伸。',
+                reasons: [
+                    '韓文還沒有到可以直接吃工作市場優勢的程度。',
+                    '用留學路線先把在韓停留與學習節奏穩住，風險更低。',
+                    '這條路最適合先做學費、住宿與學校比較。'
+                ],
+                actions: [
+                    '先比語學堂 / 大學，不要只看品牌。',
+                    '把總預算拆成學費、住宿、保險與生活費。',
+                    '確認簽證與續留路線，再決定是否需要顧問規劃。'
+                ],
+                href: 'comparison_hub.html',
+                cta: '先看留學比較'
+            },
+            holiday: {
+                label: '打工度假',
+                summary: '你目前更適合用可控成本先進場，先確認生活圈、工作型態與韓文需求，再決定要不要延伸成留學或工作路線。',
+                reasons: [
+                    '你的預算與停留時間組合，適合先做低風險測試。',
+                    '在韓文還沒到穩定就業門檻前，先用彈性路線比較合理。',
+                    '先確認自己適不適合在韓國生活，比直接重投入更重要。'
+                ],
+                actions: [
+                    '先看工作機會與住宿成本比較。',
+                    '整理可接受的地區與工種，不要只盯首爾。',
+                    '再補一輪韓文與履歷準備。'
+                ],
+                href: 'quiz-korea-ready.html',
+                cta: '先做適合度診斷'
+            },
+            work: {
+                label: '工作 / 職涯路線',
+                summary: '你的條件更接近直接往正式工作發展，重點會是語言能力、履歷包裝與產業選擇，而不是先花錢買一段模糊的停留。',
+                reasons: [
+                    '韓文能力與停留時間已經接近找工作的基本門檻。',
+                    '如果現在先去讀語言，成本不一定比直接找工作有效。',
+                    '你更需要的是工作市場與產業差異的比較。'
+                ],
+                actions: [
+                    '先整理韓文履歷與面試版本。',
+                    '比較不同產業對語言與簽證的要求。',
+                    '確認你需要的是工作策略還是身份轉換策略。'
+                ],
+                href: 'contact-expert.html',
+                cta: '預約職涯診斷'
+            },
+            business: {
+                label: '商業佈局 / 做生意',
+                summary: '你更適合先做市場驗證與合作測試，而不是直接衝公司設立。先找需求、通路和夥伴，再決定重投入。',
+                reasons: [
+                    '你的預算與目標已經比較接近商業投入，而不是單純體驗生活。',
+                    '商業路線最怕太早背固定成本，所以先驗證會更安全。',
+                    '你真正需要的是比較物流、通路、合作方與單位經濟。'
+                ],
+                actions: [
+                    '先明確化商品、服務或合作模式。',
+                    '比較物流、渠道、客群與韓國端合作資源。',
+                    '再決定是否進入商業顧問或媒合服務。'
+                ],
+                href: 'product_showcase.html',
+                cta: '看商業入口'
+            }
+        };
+
+        const presets = {
+            study: { budget: 'mid', korean: 'none', duration: 'mid', priority: 'study' },
+            holiday: { budget: 'low', korean: 'none', duration: 'mid', priority: 'earn' },
+            business: { budget: 'high', korean: 'basic', duration: 'long', priority: 'business' }
+        };
+
+        function getCurrentUserSession() {
+            const session = window.FutureDB?.getSession?.();
+            if (session) return session;
+
+            try {
+                return JSON.parse(localStorage.getItem('sm_session') || 'null');
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function updateMemberCta() {
+            const cta = document.getElementById('member-cta');
+            if (!cta) return;
+
+            const session = getCurrentUserSession();
+            if (!session) return;
+
+            const plan = String(session.plan || '').toLowerCase();
+            cta.textContent = session.email ? '會員中心' : '登入 / 會員中心';
+            cta.href = session.role === 'admin' ? 'admin.html' : 'member_center.html';
+
+            if (plan === 'elite' || plan === 'pro') {
+                cta.textContent = '進入高階會員中心';
+            }
+        }
+
+        function setActivePath(routeKey) {
+            document.querySelectorAll('.path-card').forEach((button) => {
+                button.classList.toggle('active', button.dataset.preset === routeKey);
+            });
+        }
+
+        function applyResult(routeKey) {
+            const route = routeCatalog[routeKey];
+            if (!route) return;
+
+            document.getElementById('result-tag').textContent = 'Recommended Route';
+            document.getElementById('result-route').textContent = route.label;
+            document.getElementById('result-summary').textContent = route.summary;
+
+            document.getElementById('result-reasons').innerHTML = route.reasons
+                .map((item) => `<li>${item}</li>`)
+                .join('');
+
+            document.getElementById('result-actions').innerHTML = route.actions
+                .map((item) => `<li>${item}</li>`)
+                .join('');
+
+            const link = document.getElementById('result-link');
+            link.href = route.href;
+            link.textContent = route.cta;
+        }
+
+        function evaluateRoute(values) {
+            const scores = { study: 0, holiday: 0, work: 0, business: 0 };
+
+            if (values.priority === 'study') scores.study += 4;
+            if (values.priority === 'earn') {
+                scores.holiday += 4;
+                scores.work += 1;
+            }
+            if (values.priority === 'career') scores.work += 4;
+            if (values.priority === 'business') scores.business += 5;
+
+            if (values.budget === 'low') {
+                scores.holiday += 2;
+                scores.study += 1;
+            }
+            if (values.budget === 'mid') {
+                scores.study += 2;
+                scores.holiday += 1;
+                scores.work += 1;
+            }
+            if (values.budget === 'high') {
+                scores.business += 2;
+                scores.work += 2;
+                scores.study += 1;
+            }
+
+            if (values.korean === 'none') {
+                scores.study += 3;
+                scores.holiday += 2;
+            }
+            if (values.korean === 'basic') {
+                scores.holiday += 2;
+                scores.study += 1;
+                scores.work += 1;
+                scores.business += 1;
+            }
+            if (values.korean === 'advanced') {
+                scores.work += 4;
+                scores.business += 2;
+            }
+
+            if (values.duration === 'short') {
+                scores.holiday += 2;
+                scores.study += 1;
+            }
+            if (values.duration === 'mid') {
+                scores.study += 2;
+                scores.holiday += 1;
+            }
+            if (values.duration === 'long') {
+                scores.work += 3;
+                scores.business += 2;
+                scores.study += 1;
+            }
+
+            return Object.entries(scores)
+                .sort((a, b) => b[1] - a[1])[0][0];
+        }
+
+        function readFormValues() {
+            return {
+                budget: document.getElementById('budget').value,
+                korean: document.getElementById('korean-level').value,
+                duration: document.getElementById('duration').value,
+                priority: document.getElementById('priority').value
+            };
+        }
+
+        function applyPreset(routeKey) {
+            const preset = presets[routeKey];
+            if (!preset) return;
+
+            document.getElementById('budget').value = preset.budget;
+            document.getElementById('korean-level').value = preset.korean;
+            document.getElementById('duration').value = preset.duration;
+            document.getElementById('priority').value = preset.priority;
+            setActivePath(routeKey);
+
+            const computedRoute = evaluateRoute(readFormValues());
+            applyResult(computedRoute);
+            document.getElementById('tools').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function revealOnScroll() {
+            const nodes = document.querySelectorAll('[data-reveal]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.14 });
+
+            nodes.forEach((node) => observer.observe(node));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateMemberCta();
+            revealOnScroll();
+            applyResult('holiday');
+
+            document.querySelectorAll('.path-card').forEach((button) => {
+                button.addEventListener('click', () => applyPreset(button.dataset.preset));
+            });
+
+            document.getElementById('decision-form').addEventListener('submit', (event) => {
+                event.preventDefault();
+                const route = evaluateRoute(readFormValues());
+                setActivePath('');
+                applyResult(route);
+            });
+
+            document.getElementById('reset-tool').addEventListener('click', () => {
+                document.getElementById('budget').value = 'mid';
+                document.getElementById('korean-level').value = 'none';
+                document.getElementById('duration').value = 'mid';
+                document.getElementById('priority').value = 'earn';
+                setActivePath('');
+                applyResult('holiday');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,374 @@
+<!-- cspell:ignore SEOULMATE Csvg Crect -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>加入 SeoulMate | 開啟韓國之門</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;700;900&family=DM+Sans:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0f;
+            --surface: #13131a;
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #f0f0f5;
+            --muted: rgba(240, 240, 245, 0.45);
+            --c1: #FF3E5E;
+            /* 落地 — 珊瑚紅 */
+            --c2: #00C9A7;
+            /* 商業 — 薄荷綠 */
+            --c3: #FF6B9D;
+            /* 爆爆 — 粉紅 */
+            --yellow: #FFD23F;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        /* ── GLOWS ── */
+        .glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .glow-1 {
+            top: -100px;
+            left: -100px;
+            background: var(--c1);
+        }
+
+        .glow-2 {
+            bottom: -100px;
+            right: -100px;
+            background: var(--c3);
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            padding: 32px 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, var(--c1), var(--c3));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        /* ── MAIN ── */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .signup-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 48px;
+            width: 100%;
+            max-width: 480px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+            animation: cardFade 0.6s ease-out;
+        }
+
+        @keyframes cardFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .description {
+            color: var(--muted);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-bottom: 8px;
+            margin-left: 12px;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 20px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--c1);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(255, 62, 94, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--c1), var(--c3));
+            color: #fff;
+            border: none;
+            padding: 18px;
+            border-radius: 14px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 62, 94, 0.3);
+        }
+
+        .form-error {
+            display: none;
+            background: rgba(255, 62, 94, 0.1);
+            border: 1px solid rgba(255, 62, 94, 0.3);
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #ff8a9a;
+            font-size: 13px;
+            margin-top: -12px;
+            margin-bottom: 8px;
+        }
+        .form-error.show { display: block; }
+
+        /* 密碼強度列 */
+        .pw-bar-wrap {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+            height: 4px;
+        }
+        .pw-segment {
+            flex: 1;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.08);
+            transition: background 0.25s ease;
+        }
+        .pw-hint {
+            font-size: 11px;
+            margin-top: 6px;
+            color: var(--muted);
+            margin-left: 12px;
+            min-height: 16px;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .login-link a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .login-link a:hover {
+            color: var(--c1);
+        }
+
+        footer {
+            padding: 40px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 480px) {
+            .signup-card {
+                padding: 32px 24px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+
+    <nav>
+        <a href="index" class="nav-logo">SEOULMATE31</a>
+    </nav>
+
+    <main>
+        <div class="signup-card">
+            <h1>JOIN THE CLUB</h1>
+            <p class="description">解鎖韓國落地生活指南、商業深度報告與 VIP 醫美諮詢。立即加入 SeoulMate 會員中心。</p>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label>中文姓名 FULL NAME</label>
+                    <input type="text" id="name" placeholder="例如：林小明" required>
+                </div>
+                <div class="form-group">
+                    <label>電子郵件 EMAIL ADDRESS</label>
+                    <input type="email" id="email" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>設定密碼 PASSWORD</label>
+                    <input type="password" id="password" placeholder="請輸入至少8 位字元" required oninput="checkPwStrength(this.value)">
+                    <div class="pw-bar-wrap"><div class="pw-segment" id="pw-s1"></div><div class="pw-segment" id="pw-s2"></div><div class="pw-segment" id="pw-s3"></div><div class="pw-segment" id="pw-s4"></div></div>
+                    <div class="pw-hint" id="pw-hint"></div>
+                </div>
+                <div class="form-error" id="signupError">
+                    <span class="material-symbols-outlined" style="font-size:15px;vertical-align:middle;margin-right:4px;">error</span>
+                    <span id="signupErrorMsg">請填寫所有欄位。</span>
+                </div>
+                <button type="submit" id="btn-signup" class="btn-submit">立即註冊 UNLOCK NOW →</button>
+            </form>
+
+            <div class="login-link">
+                已經有帳號了？ <a href="login">直接登入</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 SeoulMate · Korea Everything Platform</p>
+        <div style="margin-top:10px; display:flex; gap:15px; justify-content:center;">
+            <a href="#" style="color:var(--muted); text-decoration:none;">隱私權政策</a>
+            <a href="#" style="color:var(--muted); text-decoration:none;">服務條款</a>
+        </div>
+    </footer>
+
+    <script src="db_logs.js"></script>
+    <script src="db.js"></script>
+    <script>
+        // Redirect if already logged in
+        if (window.FutureDB?.isLoggedIn()) window.location.href = 'member.html';
+
+        function showError(msg) {
+            const el = document.getElementById('signupError');
+            document.getElementById('signupErrorMsg').innerHTML = msg;
+            el.style.display = 'block';
+        }
+        function hideError() {
+            document.getElementById('signupError').style.display = 'none';
+        }
+
+        const PW_COLORS = ['#ff4444', '#ff8800', '#facc15', '#00ff88'];
+        const PW_LABELS = ['安全性弱', '尚可接受', '安全性中', '非常安全'];
+        function checkPwStrength(val) {
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+            for (let i = 1; i <= 4; i++) {
+                const seg = document.getElementById('pw-s' + i);
+                seg.style.background = i <= score ? PW_COLORS[score - 1] : 'rgba(255,255,255,0.08)';
+            }
+            document.getElementById('pw-hint').textContent = val.length === 0 ? '' : (PW_LABELS[score - 1] || '');
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            hideError();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+
+            if (!name || !email || !password) { showError('請填寫所有欄位。'); return; }
+            if (password.length < 8) { showError('密碼至少需要 8 位字元。'); return; }
+
+            if (window.FutureDB?.findUserByEmail(email)) {
+                showError('該 Email 已註冊，請 <a href="login" style="color:#fff;font-weight:bold;">直接登入</a>。');
+                return;
+            }
+
+            const btn = document.getElementById('btn-signup');
+            btn.textContent = '處理中...';
+            btn.disabled = true;
+
+            const user = window.FutureDB?.saveUser({ name, email, password, plan: 'free' });
+            if (user) {
+                window.FutureDB.startSession(user);
+                if (window.SystemLogger) SystemLogger.log('SIGNUP_COMPLETE', { email, name });
+            }
+            window.location.href = 'success.html';
+        });
+    </script>
+    <script src="translator.js"></script>
+</body>
+
+</html>

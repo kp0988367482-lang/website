@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard - SeoulMate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+        .font-bebas { font-family: 'Bebas Neue', cursive; }
+        .font-dm-mono { font-family: 'DM Mono', monospace; }
+        .bg-accent-pink { background-color: #ff2a5f; }
+        .text-accent-pink { color: #ff2a5f; }
+        .bg-accent-gold { background-color: #facc15; }
+        .text-accent-gold { color: #facc15; }
+        .bg-accent-cyan { background-color: #00e5ff; }
+        .text-accent-cyan { color: #00e5ff; }
+    </style>
+</head>
+<body class="flex">
+    <!-- Sidebar for desktop -->
+    <aside class="hidden md:block w-64 bg-black p-6 space-y-4">
+        <h1 class="font-bebas text-3xl text-white">SeoulMate</h1>
+        <nav class="space-y-2">
+            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 bg-gray-700 text-white">總覽 Overview</a>
+            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">我的方案 My Plan</a>
+            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">訂單記錄 Orders</a>
+            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">我的諮詢 My Inquiries</a>
+            <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">設定 Settings</a>
+        </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-10">
+        <div id="overview-page">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="font-bebas text-4xl">總覽 Overview</h2>
+                <div id="plan-badge" class="text-right"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-gray-400 text-sm">訂閱天數</h3>
+                    <p id="stats-days" class="font-dm-mono text-3xl">--</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-gray-400 text-sm">訂單數</h3>
+                    <p id="stats-orders" class="font-dm-mono text-3xl">--</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <h3 class="text-gray-400 text-sm">累積諮詢次數</h3>
+                    <p id="stats-inquiries" class="font-dm-mono text-3xl">--</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="cctv_dashboard.html" class="bg-gray-800 p-6 rounded-lg text-center hover:bg-gray-700">CCTV 後台</a>
+                <a href="ai_command_center.html" class="bg-gray-800 p-6 rounded-lg text-center hover:bg-gray-700">AI 指揮中心</a>
+                <a href="contact-expert.html" class="bg-gray-800 p-6 rounded-lg text-center hover:bg-gray-700">聯絡顧問</a>
+                <a href="comparison_hub.html" class="bg-gray-800 p-6 rounded-lg text-center hover:bg-gray-700">比較中心</a>
+            </div>
+        </div>
+        <div id="plan-page" class="hidden">
+            <h2 class="font-bebas text-4xl mb-8">我的方案 My Plan</h2>
+            <div class="bg-gray-800 rounded-lg p-8">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 id="plan-name" class="text-2xl font-bold"></h3>
+                        <p id="plan-billing-date" class="text-gray-400"></p>
+                    </div>
+                    <a id="upgrade-button" href="pricing.html" class="bg-accent-pink text-white py-2 px-6 rounded-lg hidden">Upgrade Plan</a>
+                </div>
+                <div id="plan-features" class="mt-6 space-y-3">
+                    <!-- Features will be populated by JS -->
+                </div>
+            </div>
+        </div>
+        <div id="orders-page" class="hidden">
+            <h2 class="font-bebas text-4xl mb-8">訂單記錄 Orders</h2>
+            <div id="orders-table-container">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="py-3">Date</th>
+                            <th class="py-3">Plan</th>
+                            <th class="py-3">Amount</th>
+                            <th class="py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-table-body">
+                        <!-- Rows will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="orders-empty-state" class="hidden text-center py-16">
+                <p>尚無訂單，立即升級方案</p>
+                <a href="pricing.html" class="mt-4 inline-block bg-accent-pink text-white py-2 px-6 rounded-lg">Upgrade Plan</a>
+            </div>
+        </div>
+        <div id="inquiries-page" class="hidden">
+            <h2 class="font-bebas text-4xl mb-8">我的諮詢 My Inquiries</h2>
+            <div id="inquiries-table-container">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="py-3">Submission Date</th>
+                            <th class="py-3">Category</th>
+                            <th class="py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inquiries-table-body">
+                        <!-- Rows will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="inquiries-empty-state" class="hidden text-center py-16">
+                <p>尚未提交諮詢</p>
+                <a href="contact-expert.html" class="mt-4 inline-block bg-accent-pink text-white py-2 px-6 rounded-lg">Submit Inquiry</a>
+            </div>
+        </div>
+        <div id="settings-page" class="hidden">
+            <h2 class="font-bebas text-4xl mb-8">設定 Settings</h2>
+        </div>
+    </main>
+
+    <!-- Bottom tab bar for mobile -->
+    <nav class="md:hidden fixed bottom-0 inset-x-0 bg-black flex justify-around">
+        <a href="#" class="p-4 text-white">Overview</a>
+        <a href="#" class="p-4 text-gray-400">My Plan</a>
+        <a href="#" class="p-4 text-gray-400">Orders</a>
+        <a href="#" class="p-4 text-gray-400">Inquiries</a>
+        <a href="#" class="p-4 text-gray-400">Settings</a>
+    </nav>
+
+    <script src="/stitch_assets/db.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = FutureDB.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const planName = session.plan || 'starter';
+            const expiryDate = new Date(new Date(session.loginAt).getTime() + 30 * 24 * 60 * 60 * 1000);
+
+            // --- Populate Welcome Header ---
+            const welcomeHeader = document.querySelector('#overview-page h2');
+            welcomeHeader.textContent = `歡迎回來, ${session.name}`;
+
+            // --- Populate Plan Badge ---
+            const planBadge = document.getElementById('plan-badge');
+            const planColors = {
+                starter: 'bg-gray-500',
+                pro: 'bg-accent-pink',
+                elite: 'bg-accent-gold'
+            };
+            planBadge.innerHTML = `
+                <span class="px-3 py-1 text-sm font-semibold text-white rounded-full ${planColors[planName.toLowerCase()]}">${planName}</span>
+                <p class="text-xs text-gray-400 mt-1">Expires on ${expiryDate.toLocaleDateString()}</p>
+            `;
+
+            // --- Populate Quick Stats ---
+            const daysSinceLogin = Math.floor((new Date() - new Date(session.loginAt)) / (1000 * 60 * 60 * 24));
+            document.getElementById('stats-days').textContent = daysSinceLogin;
+
+            const userOrders = FutureDB.getUserOrders(session.email);
+            document.getElementById('stats-orders').textContent = userOrders.length;
+            
+            const userInquiries = FutureDB.getInquiries().filter(i => i.email === session.email);
+            document.getElementById('stats-inquiries').textContent = userInquiries.length;
+
+            // --- Populate My Plan Page ---
+            const allFeatures = {
+                'Starter': ['Basic A', 'Basic B', 'Basic C'],
+                'Pro': ['Basic A', 'Basic B', 'Basic C', 'Pro D', 'Pro E'],
+                'Elite': ['Basic A', 'Basic B', 'Basic C', 'Pro D', 'Pro E', 'Elite F', 'Elite G']
+            };
+
+            document.getElementById('plan-name').textContent = `${planName} Plan`;
+            document.getElementById('plan-billing-date').textContent = `Next billing on ${expiryDate.toLocaleDateString()}`;
+            
+            const featuresContainer = document.getElementById('plan-features');
+            featuresContainer.innerHTML = '';
+            const userFeatures = allFeatures[planName];
+
+            for (const feature of allFeatures['Elite']) {
+                const included = userFeatures.includes(feature);
+                const li = document.createElement('div');
+                li.className = 'flex items-center';
+                li.innerHTML = `
+                    <span class="mr-3">${included ? '✅' : '❌'}</span>
+                    <span class="${included ? 'text-white' : 'text-gray-500 line-through'}">${feature}</span>
+                `;
+                featuresContainer.appendChild(li);
+            }
+
+            if (planName.toLowerCase() !== 'elite') {
+                document.getElementById('upgrade-button').classList.remove('hidden');
+            }
+            
+            // --- Populate Orders Page ---
+            const ordersTableBody = document.getElementById('orders-table-body');
+            const ordersEmptyState = document.getElementById('orders-empty-state');
+            const ordersTableContainer = document.getElementById('orders-table-container');
+
+            if (userOrders.length === 0) {
+                ordersTableContainer.classList.add('hidden');
+                ordersEmptyState.classList.remove('hidden');
+            } else {
+                ordersTableBody.innerHTML = '';
+                userOrders.forEach(order => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-800';
+                    row.innerHTML = `
+                        <td class="py-3">${new Date(order.timestamp).toLocaleDateString()}</td>
+                        <td class="py-3">${order.planName}</td>
+                        <td class="py-3">${order.amount}</td>
+                        <td class="py-3">${order.status}</td>
+                    `;
+                    ordersTableBody.appendChild(row);
+                });
+            }
+
+            // --- Populate Inquiries Page ---
+            const inquiriesTableBody = document.getElementById('inquiries-table-body');
+            const inquiriesEmptyState = document.getElementById('inquiries-empty-state');
+            const inquiriesTableContainer = document.getElementById('inquiries-table-container');
+
+            if (userInquiries.length === 0) {
+                inquiriesTableContainer.classList.add('hidden');
+                inquiriesEmptyState.classList.remove('hidden');
+            } else {
+                inquiriesTableBody.innerHTML = '';
+                userInquiries.forEach(inquiry => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-800';
+                    row.innerHTML = `
+                        <td class="py-3">${new Date(inquiry.submittedAt).toLocaleDateString()}</td>
+                        <td class="py-3">${inquiry.type}</td>
+                        <td class="py-3">${inquiry.status}</td>
+                    `;
+                    inquiriesTableBody.appendChild(row);
+                });
+            }
+
+            // --- Navigation Logic ---
+            const pages = ['overview', 'plan', 'orders', 'inquiries', 'settings'];
+            const navLinks = document.querySelectorAll('aside nav a');
+            const mobileNavLinks = document.querySelectorAll('nav.md\\:hidden a');
+
+            function showPage(pageId) {
+                pages.forEach(p => {
+                    const el = document.getElementById(`${p}-page`);
+                    if (el) el.classList.add('hidden');
+                });
+                const activePage = document.getElementById(`${pageId}-page`);
+                if (activePage) activePage.classList.remove('hidden');
+            }
+
+            navLinks.forEach((link, index) => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navLinks.forEach(l => l.classList.remove('bg-gray-700', 'text-white'));
+                    link.classList.add('bg-gray-700', 'text-white');
+                    showPage(pages[index]);
+                });
+            });
+            
+            mobileNavLinks.forEach((link, index) => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    mobileNavLinks.forEach(l => {
+                        l.classList.add('text-gray-400');
+                        l.classList.remove('text-white');
+                    });
+                    link.classList.add('text-white');
+                    link.classList.remove('text-gray-400');
+                    showPage(pages[index]);
+                });
+            });
+
+            // Show default page
+            showPage('overview');
+        });
+    </script>
+</body>
+</html>

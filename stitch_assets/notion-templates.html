@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion 模板商店 — 韓國落地工具包 | SeoulMate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.1);
+            --primary: #ff4757;
+            --gold: #ffd700;
+            --text: #ffffff;
+            --muted: rgba(255,255,255,0.5);
+            --notion: #000000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10,10,15,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 140px 40px 80px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,215,0,0.1);
+            border: 1px solid var(--gold);
+            border-radius: 99px;
+            padding: 8px 20px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 24px;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 88px);
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, var(--muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .template-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .template-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .template-card.featured {
+            grid-column: span 2;
+        }
+
+        .template-card.featured::before {
+            content: 'BEST SELLER';
+            position: absolute;
+            top: 24px;
+            right: -35px;
+            transform: rotate(45deg);
+            background: var(--gold);
+            color: #000;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 6px 45px;
+            letter-spacing: 1.5px;
+            z-index: 10;
+        }
+
+        .template-preview {
+            height: 240px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .template-preview::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(10,10,15,0.8) 100%);
+        }
+
+        .notion-badge {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            background: #fff;
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .template-content {
+            padding: 32px;
+        }
+
+        .template-category {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .template-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .template-desc {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .template-features {
+            list-style: none;
+            margin-bottom: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .template-features li {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .template-features li::before {
+            content: '✓';
+            color: var(--gold);
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .template-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .template-price {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .price-amount {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 40px;
+            line-height: 1;
+            color: #fff;
+        }
+
+        .price-currency {
+            font-size: 16px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .buy-btn {
+            background: linear-gradient(135deg, var(--gold), #ffed4e);
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+        }
+
+        .bundle-section {
+            background: linear-gradient(135deg, rgba(255,71,87,0.08), rgba(255,215,0,0.08));
+            border: 2px solid var(--gold);
+            border-radius: 32px;
+            padding: 60px;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .bundle-icon {
+            font-size: 72px;
+            margin-bottom: 24px;
+        }
+
+        .bundle-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 52px;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .bundle-subtitle {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+
+        .bundle-savings {
+            display: inline-block;
+            background: var(--gold);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 99px;
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 32px;
+            letter-spacing: 1px;
+        }
+
+        .bundle-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 72px;
+            margin-bottom: 32px;
+        }
+
+        .bundle-price span {
+            font-size: 28px;
+            color: var(--muted);
+        }
+
+        .bundle-btn {
+            background: #fff;
+            color: #000;
+            padding: 24px 60px;
+            border-radius: 99px;
+            border: none;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .bundle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 50px rgba(255,255,255,0.2);
+        }
+
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 16px;
+        }
+
+        .faq-question {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .faq-answer {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 1200px) {
+            .template-card.featured {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 120px 20px 60px; }
+            .templates-grid { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; gap: 24px; }
+            .bundle-section { padding: 40px 30px; }
+            .hero-title { font-size: 42px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">SEOULMATE</div>
+        <div class="nav-links">
+            <a href="/index.html">首頁</a>
+            <a href="/quiz-korea-ready.html">免費診斷</a>
+            <a href="/benefits">方案比較</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-badge">🔥 即買即用 · 終身更新</div>
+            <h1 class="hero-title">NOTION 模板商店</h1>
+            <p class="hero-subtitle">
+                專為華人設計的韓國落地工具包，複製即用，省下 100+ 小時研究時間。
+            </p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">847+</div>
+                    <div class="stat-label">已購買用戶</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4.9/5</div>
+                    <div class="stat-label">平均評分</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">終身</div>
+                    <div class="stat-label">免費更新</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="templates-grid">
+            <!-- Template 1: Featured -->
+            <div class="template-card featured">
+                <div class="template-preview">
+                    🛂
+                    <div class="notion-badge">
+                        <span>📝</span>
+                        Notion Template
+                    </div>
+                </div>
+                <div class="template-content">
+                    <div class="template-category">簽證 · 必備</div>
+                    <div class="template-title">韓國簽證申請全攻略</div>
+                    <div class="template-desc">
+                        F2 簽證、D2 留學簽、H1 打工度假簽證完整流程，附文件清單、範本、常見問題解答。
+                    </div>
+                    <ul class="template-features">
+                        <li>簽證類型完整對比表（F/D/H/E系列）</li>
+                        <li>申請文件 Checklist + 範本下載</li>
+                        <li>財力證明計算器</li>
+                        <li>面試常見問題 + 標準答案</li>
+                        <li>被拒簽應對方案</li>
+                    </ul>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">19</span>
+                            <span class="price-currency">USD</span>
+                        </div>
+                        <a href="/stripe-checkout.html?product=visa-guide" class="buy-btn">
+                            立即購買 →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 2 -->
+            <div class="template-card">
+                <div class="template-preview">
+                    🏠
+                    <div class="notion-badge">
+                        <span>📝</span>
+                        Notion
+                    </div>
+                </div>
+                <div class="template-content">
+                    <div class="template-category">租房 · 防雷</div>
+                    <div class="template-title">首爾租房比較清單</div>
+                    <div class="template-desc">
+                        房源評估表、價格對比、合約中韓對照、防詐騙 Checklist。
+                    </div>
+                    <ul class="template-features">
+                        <li>20+ 租房平台推薦</li>
+                        <li>價格區間地圖（江南/弘大/梨大/新村）</li>
+                        <li>租房合約中韓對照範本</li>
+                        <li>押金/月租試算器</li>
+                    </ul>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">15</span>
+                            <span class="price-currency">USD</span>
+                        </div>
+                        <a href="/stripe-checkout.html?product=housing" class="buy-btn">
+                            購買 →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 3 -->
+            <div class="template-card">
+                <div class="template-preview">
+                    🏪
+                    <div class="notion-badge">
+                        <span>📝</span>
+                        Notion
+                    </div>
+                </div>
+                <div class="template-content">
+                    <div class="template-category">創業 · 開店</div>
+                    <div class="template-title">韓國開店商業計劃書</div>
+                    <div class="template-desc">
+                        選址評估、裝修預算、營運成本、合作商家名單，一站式開店工具包。
+                    </div>
+                    <ul class="template-features">
+                        <li>開店流程完整時間軸</li>
+                        <li>地段評估打分表</li>
+                        <li>裝修估價比較工具</li>
+                        <li>營運成本試算器</li>
+                    </ul>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">49</span>
+                            <span class="price-currency">USD</span>
+                        </div>
+                        <a href="/stripe-checkout.html?product=business-plan" class="buy-btn">
+                            購買 →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 4 -->
+            <div class="template-card">
+                <div class="template-preview">
+                    💉
+                    <div class="notion-badge">
+                        <span>📝</span>
+                        Notion
+                    </div>
+                </div>
+                <div class="template-content">
+                    <div class="template-category">醫美 · 比價</div>
+                    <div class="template-title">醫美診所評估表</div>
+                    <div class="template-desc">
+                        50+ 診所對比、價格範圍、真實評價、Before/After 案例庫。
+                    </div>
+                    <ul class="template-features">
+                        <li>診所評分矩陣（價格/技術/服務/風險）</li>
+                        <li>手術項目價格對比表</li>
+                        <li>真實案例 & 評價整理</li>
+                        <li>術後護理 Checklist</li>
+                    </ul>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">29</span>
+                            <span class="price-currency">USD</span>
+                        </div>
+                        <a href="/stripe-checkout.html?product=medical-guide" class="buy-btn">
+                            購買 →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 5 -->
+            <div class="template-card">
+                <div class="template-preview">
+                    🎓
+                    <div class="notion-badge">
+                        <span>📝</span>
+                        Notion
+                    </div>
+                </div>
+                <div class="template-content">
+                    <div class="template-category">留學 · 申請</div>
+                    <div class="template-title">留學申請文件包</div>
+                    <div class="template-desc">
+                        2026 大學排名、科系對比、申請流程、推薦信範本、面試指南。
+                    </div>
+                    <ul class="template-features">
+                        <li>韓國大學 Top 50 排名</li>
+                        <li>科系評比（商/理/工/藝術）</li>
+                        <li>申請文件 SOP 範本</li>
+                        <li>學費/生活費試算器</li>
+                    </ul>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">39</span>
+                            <span class="price-currency">USD</span>
+                        </div>
+                        <a href="/stripe-checkout.html?product=study-guide" class="buy-btn">
+                            購買 →
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Template 6 -->
+            <div class="template-card">
+                <div class="template-preview">
+                    ✈️
+                    <div class="notion-badge">
+                        <span>📝</span>
+                        Notion
+                    </div>
+                </div>
+                <div class="template-content">
+                    <div class="template-category">打工度假</div>
+                    <div class="template-title">打工度假全套工具</div>
+                    <div class="template-desc">
+                        簽證申請、找工作平台、住宿比較、生活預算、緊急聯絡清單。
+                    </div>
+                    <ul class="template-features">
+                        <li>H1 簽證申請完整流程</li>
+                        <li>找工作網站 + 履歷範本</li>
+                        <li>Share House 推薦清單</li>
+                        <li>每月生活開銷預算表</li>
+                    </ul>
+                    <div class="template-footer">
+                        <div class="template-price">
+                            <span class="price-currency">$</span>
+                            <span class="price-amount">25</span>
+                            <span class="price-currency">USD</span>
+                        </div>
+                        <a href="/stripe-checkout.html?product=working-holiday" class="buy-btn">
+                            購買 →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bundle Section -->
+        <div class="bundle-section">
+            <div class="bundle-icon">💎</div>
+            <div class="bundle-title">完整落地套組</div>
+            <div class="bundle-subtitle">包含以上所有 6 個模板 + 終身免費更新</div>
+            <div class="bundle-savings">省下 $77 USD（原價 $176）</div>
+            <div class="bundle-price">
+                <span>$</span>99<span> USD</span>
+            </div>
+            <button class="bundle-btn" onclick="window.location.href='/stripe-checkout.html?product=full-bundle'">
+                立即購買完整套組 →
+            </button>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+            <h2 class="faq-title">常見問題</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">購買後如何取得模板？</div>
+                <div class="faq-answer">
+                    付款完成後，您會立即收到 Email，內含 Notion 模板連結。點擊連結即可複製到您的 Notion 帳號，開始使用。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">支援哪些付款方式？</div>
+                <div class="faq-answer">
+                    支援 Visa/Mastercard 信用卡、Apple Pay、Google Pay、WeChat Pay、支付寶等多種支付方式，安全由 Stripe 處理。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">模板會定期更新嗎？</div>
+                <div class="faq-answer">
+                    會！我們每季度更新模板內容（簽證政策、房租行情、大學排名等）。購買後終身免費取得所有更新版本。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">不滿意可以退款嗎？</div>
+                <div class="faq-answer">
+                    購買後 7 天內，如果覺得模板不符合需求，可以全額退款，無需理由。
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">需要會使用 Notion 嗎？</div>
+                <div class="faq-answer">
+                    不需要！我們提供詳細的使用教學影片。即使是第一次使用 Notion，也能輕鬆上手。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="translator.js"></script>
+</body>
+</html>

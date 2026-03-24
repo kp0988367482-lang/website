@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>支付成功 — SeoulMate Elite Member</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;700&family=DM+Sans:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #030305;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --muted: rgba(255, 255, 255, 0.5);
+            --c1: #D4AF37; 
+            --yellow: #f59e0b;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ── CONFETTI ── */
+        .confetti-wrap {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .confetti-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Bebas Neue';
+            font-size: 24px;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--coral), #FF6B9D);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        /* ── MAIN CARD ── */
+        .success-wrap {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 40px 20px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* ── CHECKMARK SVG ── */
+        .check-circle {
+            width: 96px;
+            height: 96px;
+        }
+
+        .check-bg {
+            fill: none;
+            stroke: rgba(0, 201, 167, 0.15);
+            stroke-width: 3;
+        }
+
+        .check-ring {
+            fill: none;
+            stroke: var(--mint);
+            stroke-width: 3;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+            stroke-linecap: round;
+            animation: ringDraw 0.8s cubic-bezier(.4, 0, .2, 1) 0.2s forwards;
+        }
+
+        .check-mark {
+            fill: none;
+            stroke: var(--mint);
+            stroke-width: 4;
+            stroke-dasharray: 60;
+            stroke-dashoffset: 60;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            animation: checkDraw 0.5s ease 0.9s forwards;
+        }
+
+        @keyframes ringDraw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes checkDraw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 8vw, 68px);
+            letter-spacing: 4px;
+            line-height: 1;
+            animation: fadeUp 0.6s 1s ease both;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 15px;
+            animation: fadeUp 0.6s 1.1s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── MEMBERSHIP CARD ── */
+        .member-card {
+            width: 100%;
+            background: linear-gradient(135deg, #0f0f1f, #1a1a2e);
+            border: 1px solid rgba(0, 201, 167, 0.25);
+            border-radius: 24px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            animation: fadeUp 0.6s 1.2s ease both;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--mint), var(--coral));
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .card-logo {
+            font-family: 'Bebas Neue';
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: var(--muted);
+        }
+
+        .card-tier {
+            background: var(--coral);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .card-name {
+            font-family: 'Bebas Neue';
+            font-size: 32px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .card-id {
+            font-size: 12px;
+            color: var(--c1);
+            letter-spacing: 2px;
+        }
+
+        .card-valid {
+            margin-top: 20px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .card-valid-item {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .card-valid-item strong {
+            color: var(--text);
+            display: block;
+            font-size: 13px;
+        }
+
+        /* ── BENEFITS ── */
+        .benefits-row {
+            display: flex;
+            gap: 16px;
+            width: 100%;
+            animation: fadeUp 0.6s 1.3s ease both;
+        }
+
+        .benefit-pill {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .benefit-pill .material-symbols-outlined {
+            color: var(--c1);
+            font-size: 28px;
+        }
+
+        .benefit-pill span:last-child {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        /* ── CTA ── */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--mint), #00A68B);
+            color: #fff;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 15px;
+            transition: all 0.3s;
+            animation: fadeUp 0.6s 1.4s ease both;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(0, 201, 167, 0.3);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            font-size: 12px;
+            color: var(--muted);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="confettiCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;"></canvas>
+
+    <nav>
+        <a href="index.html" class="logo">SEOULMATE</a>
+        <span style="font-size:13px; color:var(--mint);">✓ 支付已確認</span>
+    </nav>
+
+    <div class="success-wrap">
+        <!-- Animated Checkmark -->
+        <svg class="check-circle" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+            <circle class="check-bg" cx="48" cy="48" r="45" />
+            <circle class="check-ring" cx="48" cy="48" r="45" transform="rotate(-90 48 48)" />
+            <polyline class="check-mark" points="26,50 40,64 70,36" />
+        </svg>
+
+        <div>
+            <h1>WELCOME TO<br>THE CLUB</h1>
+            <p class="subtitle">您的支付已成功處理。您的首爾精英之旅從現在開始。</p>
+        </div>
+
+        <!-- Membership Card -->
+        <div class="member-card">
+            <div class="card-header">
+                <div class="card-logo">SEOULMATE</div>
+                <div class="card-tier">ELITE ANNUAL</div>
+            </div>
+            <div class="card-name" id="cardName">—</div>
+            <div class="card-id" id="cardId">SM-2026-ELITE-LOADING</div>
+            <div class="card-valid">
+                <div class="card-valid-item"><strong>2026</strong>加入年份</div>
+                <div class="card-valid-item"><strong id="expireDate">—</strong>到期日</div>
+            </div>
+        </div>
+
+        <!-- 3 Benefits -->
+        <div class="benefits-row">
+            <div class="benefit-pill">
+                <span class="material-symbols-outlined">verified_user</span>
+                <span>Visa &<br>Admin</span>
+            </div>
+            <div class="benefit-pill">
+                <span class="material-symbols-outlined">spa</span>
+                <span>Medical<br>Beauty</span>
+            </div>
+            <div class="benefit-pill">
+                <span class="material-symbols-outlined">business_center</span>
+                <span>Business<br>Hub</span>
+            </div>
+        </div>
+
+        <a href="member.html" class="cta-btn">
+            進入會員中心 Enter Member Center
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+    </div>
+
+    <footer>© 2026 SeoulMate · Elite Member</footer>
+
+    <script src="db.js"></script>
+    <script src="db_logs.js"></script>
+    <script>
+        // ── Populate member card from session ──
+        const session = window.FutureDB?.getSession();
+        if (session) {
+            document.getElementById('cardName').textContent = session.name || 'Elite Member';
+            const uid = 'SM-' + (session.userId || Date.now()).toString().slice(-6).toUpperCase();
+            document.getElementById('cardId').textContent = 'SM-2026-ELITE-' + uid;
+        }
+        const expire = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+        document.getElementById('expireDate').textContent = expire.toLocaleDateString('zh-TW');
+
+        if (window.SystemLogger) SystemLogger.log('SUCCESS_PAGE_VISIT', { from: document.referrer });
+
+        // ── Confetti ──
+        const canvas = document.getElementById('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+        const colors = ['#00C9A7', '#FF3E5E', '#FFD23F', '#FF6B9D', '#ffffff'];
+        const particles = Array.from({ length: 80 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            size: Math.random() * 8 + 4,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speed: Math.random() * 2 + 1,
+            angle: Math.random() * 360,
+            spin: (Math.random() - 0.5) * 4,
+            opacity: Math.random() * 0.8 + 0.2,
+        }));
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.y += p.speed;
+                p.angle += p.spin;
+                if (p.y > canvas.height) { p.y = -20; p.x = Math.random() * canvas.width; }
+                ctx.save();
+                ctx.globalAlpha = p.opacity;
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.5);
+                ctx.restore();
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+        animateConfetti();
+    </script>
+
+    <script src="translator.js"></script>
+</body>
+
+</html>

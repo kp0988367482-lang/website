@@ -1,0 +1,480 @@
+<!-- cspell:ignore SEOULMATE -->
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>方案定價 | SeoulMate 情報等級</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Bebas Neue', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            pink:    '#ff2a5f',
+                            purple:  '#9d00ff',
+                            cyan:    '#00e5ff',
+                            gold:    '#facc15',
+                            dark:    '#0a0a0a',
+                            surface: '#141414',
+                            border:  '#2a2a2a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10, 10, 10, 0.85);
+        }
+        /* ── Pricing Card ── */
+        .pricing-card {
+            background: rgba(20, 20, 20, 0.7);
+            border: 1px solid #2a2a2a;
+            border-radius: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .pricing-card.featured {
+            border-color: #ff2a5f;
+            background: rgba(255, 42, 95, 0.04);
+        }
+        .pricing-card.featured:hover {
+            border-color: #ff2a5f;
+            box-shadow: 0 20px 60px rgba(255, 42, 95, 0.2);
+        }
+        .pricing-card.elite {
+            border-color: #facc15;
+            background: rgba(250, 204, 21, 0.03);
+        }
+        .pricing-card.elite:hover {
+            border-color: #facc15;
+            box-shadow: 0 20px 60px rgba(250, 204, 21, 0.15);
+        }
+        .saas-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .saas-pill {
+            padding: 6px 10px;
+            border-radius: 9999px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.7);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        /* ── Toggle ── */
+        .billing-toggle {
+            background: #141414;
+            border: 1px solid #2a2a2a;
+            border-radius: 9999px;
+            padding: 4px;
+            display: inline-flex;
+        }
+        .billing-btn {
+            padding: 8px 24px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: rgba(255,255,255,0.4);
+            border: none;
+            background: transparent;
+        }
+        .billing-btn.active {
+            background: #ffffff;
+            color: #0a0a0a;
+        }
+        /* ── Feature check ── */
+        .feat-check  { color: #00e5ff; }
+        .feat-cross  { color: rgba(255,255,255,0.15); }
+        .feat-gold   { color: #facc15; }
+        /* ── FAQ ── */
+        .faq-item { border-bottom: 1px solid #2a2a2a; }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.2s ease;
+        }
+        .faq-answer.open { max-height: 200px; padding-bottom: 1rem; }
+        /* ── Comparison Table TH ── */
+        .table-header {
+            background: rgba(20,20,20,0.9);
+            position: sticky;
+            top: 64px;
+            z-index: 10;
+        }
+        /* ── Ambient ── */
+        .ambient {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Ambient Glows -->
+    <div class="ambient w-[700px] h-[500px] bg-brand-pink/6" style="top:-200px;left:-200px;"></div>
+    <div class="ambient w-[600px] h-[400px] bg-brand-purple/5" style="bottom:0;right:-200px;"></div>
+
+    <!-- Navigation -->
+    <nav class="nav-blur sticky top-0 z-50 border-b border-brand-border px-6 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="/" class="font-display text-2xl tracking-[3px] hover:text-brand-pink transition-colors">
+                SEOULMATE31<span class="text-brand-pink">.</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-white/40">
+                <a href="comparison_hub" class="hover:text-white transition-colors">比較中心</a>
+                <a href="solo_services" class="hover:text-white transition-colors">單人服務</a>
+                <a href="contact-expert" class="hover:text-white transition-colors">專家諮詢</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="login.html" class="hidden sm:block text-sm font-bold text-white/40 hover:text-white transition-colors px-4 py-2">登入</a>
+                <a href="/benefits" class="px-5 py-2 rounded-full bg-brand-pink text-white text-sm font-bold hover:bg-pink-600 transition-colors shadow-[0_0_20px_rgba(255,42,95,0.3)]">
+                    立即升級
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="relative z-10">
+
+        <!-- ── HERO ──────────────────────────────────────── -->
+        <section class="max-w-4xl mx-auto px-6 pt-20 pb-8 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-pink/30 bg-brand-pink/5 text-brand-pink text-xs font-bold uppercase tracking-[3px] mb-8">
+                <span class="material-symbols-outlined text-sm">verified</span>
+                KOREA. ALL IN.
+            </div>
+            <h1 class="font-display text-6xl sm:text-8xl tracking-[3px] leading-none text-white mb-6">
+                去韓國，<br><span style="background: linear-gradient(135deg,#ff2a5f,#9d00ff); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">先把路走順</span>
+            </h1>
+            <p class="text-white/50 text-lg max-w-xl mx-auto mb-10">
+                不是再給你一堆看不完的資料，而是把簽證、找房、開戶、找資源的順序排好。你現在在哪一步，就選那一版。
+            </p>
+
+            <!-- Billing Toggle -->
+            <div class="billing-toggle mx-auto mb-2">
+                <button class="billing-btn active" id="btn-monthly" onclick="setBilling('monthly')">月繳</button>
+                <button class="billing-btn" id="btn-annual" onclick="setBilling('annual')">
+                    年繳
+                    <span class="ml-1.5 bg-brand-pink text-white text-[9px] font-black px-2 py-0.5 rounded-full">省20%</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ── PRICING CARDS ──────────────────────────────── -->
+        <section class="max-w-6xl mx-auto px-6 pb-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+
+                <!-- ① Starter -->
+                <div class="pricing-card p-8 flex flex-col">
+                    <div class="mb-8">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-white/50 text-[10px] font-black uppercase tracking-widest mb-4">
+                            <span class="material-symbols-outlined text-sm">database</span> 先落地版
+                        </div>
+                        <h2 class="font-display text-3xl tracking-widest text-white mb-1">STARTER</h2>
+                        <p class="text-xs text-white/40 mb-6">剛要去韓國，先把生活安頓的人</p>
+                        <div class="flex items-end gap-1">
+                            <span class="font-display text-5xl text-white" id="price-starter">NT$490</span>
+                            <span class="text-white/40 text-sm mb-2" id="period-starter">/ 月</span>
+                        </div>
+                        <p class="text-[11px] text-white/30 mt-1" id="annual-note-starter"></p>
+                        <div class="saas-strip">
+                            <span class="saas-pill">先安頓</span>
+                            <span class="saas-pill">少踩雷</span>
+                            <span class="saas-pill">每週更新</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm">
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>簽證、租房、開戶核心指南</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>韓國新手最常踩雷清單</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>每週一次重點更新整理</span></li>
+                        <li class="flex items-center gap-3 opacity-30"><span class="material-symbols-outlined text-base feat-cross">cancel</span><span>可直接套用的模板與清單</span></li>
+                        <li class="flex items-center gap-3 opacity-30"><span class="material-symbols-outlined text-base feat-cross">cancel</span><span>會員優先回覆</span></li>
+                        <li class="flex items-center gap-3 opacity-30"><span class="material-symbols-outlined text-base feat-cross">cancel</span><span>一對一顧問對焦</span></li>
+                    </ul>
+                    <a href="/benefits?product=starter" class="block text-center w-full py-3.5 rounded-xl border border-white/15 text-white text-sm font-bold hover:bg-white/5 hover:border-white/30 transition-all">
+                        先從這版開始
+                    </a>
+                </div>
+
+                <!-- ② Pro (Featured) -->
+                <div class="pricing-card featured p-8 flex flex-col">
+                    <!-- Most Popular Badge -->
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <div class="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-brand-pink text-white text-[10px] font-black uppercase tracking-widest shadow-[0_0_20px_rgba(255,42,95,0.5)]">
+                            <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">star</span> 最多人選擇
+                        </div>
+                    </div>
+                    <div class="mb-8 mt-2">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-pink/10 text-brand-pink text-[10px] font-black uppercase tracking-widest mb-4">
+                            <span class="material-symbols-outlined text-sm">workspace_premium</span> 開始跑版
+                        </div>
+                        <h2 class="font-display text-3xl tracking-widest text-white mb-1">PRO</h2>
+                        <p class="text-xs text-white/40 mb-6">已經準備行動，想少走彎路的人</p>
+                        <div class="flex items-end gap-1">
+                            <span class="font-display text-5xl text-white" id="price-pro">NT$990</span>
+                            <span class="text-white/40 text-sm mb-2" id="period-pro">/ 月</span>
+                        </div>
+                        <p class="text-[11px] text-brand-pink mt-1 font-bold" id="annual-note-pro"></p>
+                        <div class="saas-strip">
+                            <span class="saas-pill">照著做</span>
+                            <span class="saas-pill">省時間</span>
+                            <span class="saas-pill">最多人選</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm">
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>包含先落地版全部內容</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>可直接套用的模板與清單</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>熱門服務 / 資源推薦</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>會員優先回覆</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>每月重點整理與提醒</span></li>
+                        <li class="flex items-center gap-3 opacity-30"><span class="material-symbols-outlined text-base feat-cross">cancel</span><span>一對一顧問對焦</span></li>
+                    </ul>
+                    <a href="/benefits?product=alpha" class="block text-center w-full py-3.5 rounded-xl bg-brand-pink text-white text-sm font-bold hover:bg-pink-600 transition-all shadow-[0_0_20px_rgba(255,42,95,0.3)]">
+                        多數人都先選這版 →
+                    </a>
+                </div>
+
+                <!-- ③ Elite -->
+                <div class="pricing-card elite p-8 flex flex-col">
+                    <div class="mb-8">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-gold/10 text-brand-gold text-[10px] font-black uppercase tracking-widest mb-4">
+                            <span class="material-symbols-outlined text-sm">diamond</span> 有人帶版
+                        </div>
+                        <h2 class="font-display text-3xl tracking-widest text-white mb-1">ELITE</h2>
+                        <p class="text-xs text-white/40 mb-6">不想自己試錯，想有人一起判斷的人</p>
+                        <div class="flex items-end gap-1">
+                            <span class="font-display text-5xl text-white" id="price-elite">NT$2,990</span>
+                            <span class="text-white/40 text-sm mb-2" id="period-elite">/ 月</span>
+                        </div>
+                        <p class="text-[11px] text-brand-gold mt-1 font-bold" id="annual-note-elite"></p>
+                        <div class="saas-strip">
+                            <span class="saas-pill">一起判斷</span>
+                            <span class="saas-pill">白名單</span>
+                            <span class="saas-pill">優先處理</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8 flex-1 text-sm">
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-check" style="font-variation-settings:'FILL' 1">check_circle</span><span>包含開始跑版全部內容</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-gold" style="font-variation-settings:'FILL' 1">star</span><span class="text-brand-gold font-semibold">1 對 1 首爾顧問對焦</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-gold" style="font-variation-settings:'FILL' 1">star</span><span class="text-brand-gold font-semibold">客製資源白名單</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-gold" style="font-variation-settings:'FILL' 1">star</span><span class="text-brand-gold font-semibold">重要事項優先協助</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-gold" style="font-variation-settings:'FILL' 1">star</span><span class="text-brand-gold font-semibold">企業 / 高客單需求可另外安排</span></li>
+                        <li class="flex items-center gap-3"><span class="material-symbols-outlined text-base feat-gold" style="font-variation-settings:'FILL' 1">star</span><span class="text-brand-gold font-semibold">適合不想自己繞遠路的人</span></li>
+                    </ul>
+                    <a href="/benefits?product=elite" class="block text-center w-full py-3.5 rounded-xl bg-brand-gold text-black text-sm font-black hover:bg-yellow-400 transition-all shadow-[0_0_20px_rgba(250,204,21,0.3)]">
+                        我要直接有人帶 →
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Trust bar -->
+            <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 mt-12 text-xs text-white/25 font-bold uppercase tracking-widest">
+                <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">lock</span>安全加密付款</span>
+                <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">bolt</span>付款完成立即開通</span>
+                <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">event_available</span>年繳月繳都可選</span>
+                <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">support_agent</span>中文客服支援</span>
+            </div>
+        </section>
+
+        <!-- ── FEATURE COMPARISON TABLE ───────────────────── -->
+        <section class="max-w-5xl mx-auto px-6 pb-24">
+            <h2 class="font-display text-4xl tracking-widest text-center text-white mb-12">
+                每一版差在哪裡
+            </h2>
+            <div class="overflow-x-auto rounded-2xl border border-brand-border">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="table-header border-b border-brand-border">
+                            <th class="text-left px-6 py-5 text-white/40 font-bold uppercase text-xs tracking-widest w-1/2">你會用到的內容</th>
+                            <th class="px-6 py-5 text-center text-white/60 font-bold text-xs uppercase tracking-widest">先落地</th>
+                            <th class="px-6 py-5 text-center text-brand-pink font-bold text-xs uppercase tracking-widest">開始跑</th>
+                            <th class="px-6 py-5 text-center text-brand-gold font-bold text-xs uppercase tracking-widest">有人帶</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparison-table">
+                        <!-- Rows injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ── FAQ ─────────────────────────────────────────── -->
+        <section class="max-w-3xl mx-auto px-6 pb-24">
+            <h2 class="font-display text-4xl tracking-widest text-center text-white mb-12">
+                常見問題
+            </h2>
+            <div id="faq-list" class="rounded-2xl border border-brand-border overflow-hidden">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- ── CTA FOOTER ───────────────────────────────────── -->
+        <section class="max-w-4xl mx-auto px-6 pb-28 text-center">
+            <div class="rounded-3xl border border-brand-border bg-gradient-to-br from-brand-pink/5 to-brand-purple/5 p-12 md:p-16">
+                <p class="text-[10px] font-black uppercase tracking-[4px] text-brand-pink mb-4">還在卡住，就先選最熱門那版</p>
+                <h3 class="font-display text-5xl md:text-6xl tracking-widest text-white mb-4">
+                    先選一版，今天開始
+                </h3>
+                <p class="text-white/50 mb-10 text-lg">大多數人不是缺資訊，是缺一個有人幫你把順序排好的起點。最常見的選擇是 Alpha Pro。</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/benefits?product=alpha" class="px-10 py-4 rounded-2xl bg-brand-pink text-white font-black text-base hover:bg-pink-600 transition-all shadow-[0_0_30px_rgba(255,42,95,0.4)]">
+                        先從 Alpha Pro 開始 →
+                    </a>
+                    <a href="contact-expert.html" class="px-10 py-4 rounded-2xl border border-brand-border text-white font-bold text-base hover:bg-white/5 hover:border-white/30 transition-all">
+                        我想先聊聊
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /.relative -->
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-border py-10 text-center">
+        <div class="flex flex-wrap items-center justify-center gap-8 text-xs text-white/25 font-bold uppercase tracking-widest mb-4">
+            <a href="/" class="hover:text-white/50 transition-colors">首頁</a>
+            <a href="comparison_hub" class="hover:text-white/50 transition-colors">比較中心</a>
+            <a href="contact-expert" class="hover:text-white/50 transition-colors">聯絡我們</a>
+            <a href="login" class="hover:text-white/50 transition-colors">會員登入</a>
+        </div>
+        <p class="text-xs text-white/15">© 2026 SeoulMate Global · 保留所有權利</p>
+    </footer>
+
+    <script>
+        // ── PRICING DATA ──
+        const pricing = {
+            monthly:  { starter: 'NT$490',   pro: 'NT$990',   elite: 'NT$2,990',  periodLabel: '/ 月' },
+            annual:   { starter: 'NT$3,900',  pro: 'NT$7,900', elite: 'NT$23,900', periodLabel: '/ 年' },
+        };
+        const annualNotes = {
+            starter: '年繳等於每月 NT$325，省下 NT$1,980',
+            pro:     '年繳等於每月 NT$658，省下 NT$4,000',
+            elite:   '年繳等於每月 NT$1,992，省下 NT$12,000',
+        };
+
+        let currentBilling = 'monthly';
+
+        function setBilling(type) {
+            currentBilling = type;
+            ['monthly', 'annual'].forEach(t => {
+                document.getElementById('btn-' + t).classList.toggle('active', t === type);
+            });
+            const d = pricing[type];
+            ['starter', 'pro', 'elite'].forEach(plan => {
+                document.getElementById('price-' + plan).textContent = d[plan];
+                document.getElementById('period-' + plan).textContent = d.periodLabel;
+                const note = document.getElementById('annual-note-' + plan);
+                note.textContent = type === 'annual' ? annualNotes[plan] : '';
+            });
+        }
+
+        // ── COMPARISON TABLE ──
+        const features = [
+            { name: '簽證、租房、開戶核心指南', starter: true,  pro: true,  elite: true  },
+            { name: '韓國新手最常踩雷清單',     starter: true,  pro: true,  elite: true  },
+            { name: '每週一次重點更新整理',     starter: true,  pro: true,  elite: true  },
+            { name: '可直接套用的模板與清單',   starter: false, pro: true,  elite: true  },
+            { name: '熱門服務 / 資源推薦',      starter: false, pro: true,  elite: true  },
+            { name: '會員優先回覆',             starter: false, pro: true,  elite: true  },
+            { name: '每月重點整理與提醒',       starter: false, pro: true,  elite: true  },
+            { name: '1 對 1 首爾顧問對焦',      starter: false, pro: false, elite: true  },
+            { name: '客製資源白名單',           starter: false, pro: false, elite: true  },
+            { name: '重要事項優先協助',         starter: false, pro: false, elite: true  },
+            { name: '企業 / 高客單需求安排',    starter: false, pro: false, elite: true  },
+        ];
+
+        function renderCell(val, isElite) {
+            if (val === true)  return `<span class="material-symbols-outlined text-lg feat-check" style="font-variation-settings:'FILL' 1">check_circle</span>`;
+            if (val === false) return `<span class="material-symbols-outlined text-lg feat-cross">do_not_disturb_on</span>`;
+            const color = isElite ? 'text-brand-gold' : 'text-white/60';
+            return `<span class="text-xs font-bold ${color}">${val}</span>`;
+        }
+
+        const tbody = document.getElementById('comparison-table');
+        features.forEach((f, i) => {
+            const bg = i % 2 === 0 ? '' : 'bg-white/[0.02]';
+            tbody.innerHTML += `
+                <tr class="${bg} border-b border-brand-border/50 last:border-0">
+                    <td class="px-6 py-4 text-sm text-white/70">${f.name}</td>
+                    <td class="px-6 py-4 text-center">${renderCell(f.starter, false)}</td>
+                    <td class="px-6 py-4 text-center">${renderCell(f.pro, false)}</td>
+                    <td class="px-6 py-4 text-center">${renderCell(f.elite, true)}</td>
+                </tr>`;
+        });
+
+        // ── FAQ ──
+        const faqs = [
+            { q: '我還沒確定哪天出發，現在適合先買嗎？', a: '如果你已經開始查簽證、租房或開戶，現在就適合。越早把順序搞清楚，落地後越不容易亂。' },
+            { q: '完全不會韓文，也看得懂嗎？',           a: '可以。SeoulMate 的內容會先用中文把事情講清楚，重點不是資訊有多炫，而是你下一步要做什麼。' },
+            { q: '買完之後多久可以開始用？',             a: '付款完成後會立即開通，你可以當天開始看內容、整理清單、照著做。' },
+            { q: '支援哪些付款方式？',                   a: '目前以信用卡為主；部分裝置與幣別也會顯示 Apple Pay、Google Pay 或 Link 等快捷付款。' },
+            { q: '之後想升級方案，可以嗎？',             a: '可以。很多人會先從 Starter 或 Pro 開始，等確定自己需要更多協助時再升級。' },
+            { q: '如果我是公司或高客單需求呢？',         a: '直接選 Elite，或先透過「我想先聊聊」告訴我們你的情況，我們會幫你判斷最省時間的做法。' },
+        ];
+
+        const faqList = document.getElementById('faq-list');
+        faqs.forEach((item, i) => {
+            faqList.innerHTML += `
+                <div class="faq-item">
+                    <button class="w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFAQ(${i})">
+                        <span class="font-semibold text-sm text-white/80">${item.q}</span>
+                        <span class="material-symbols-outlined text-white/30 text-xl shrink-0 transition-transform" id="faq-icon-${i}">expand_more</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-white/40 leading-relaxed" id="faq-ans-${i}">${item.a}</div>
+                </div>`;
+        });
+
+        function toggleFAQ(i) {
+            const ans = document.getElementById('faq-ans-' + i);
+            const icon = document.getElementById('faq-icon-' + i);
+            const isOpen = ans.classList.contains('open');
+            // Close all
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('[id^="faq-icon-"]').forEach(ic => {
+                ic.style.transform = '';
+                ic.textContent = 'expand_more';
+            });
+            if (!isOpen) {
+                ans.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+    <script src="translator.js"></script>
+</body>
+</html>

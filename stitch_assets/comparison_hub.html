@@ -1,0 +1,434 @@
+<!-- cspell:ignore SEOULMATE KAIST MEDIHEAL -->
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeoulMate | 現實資訊大公開 - Comparison Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Bebas Neue', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#ff2a5f',
+                            purple: '#9d00ff',
+                            cyan: '#00e5ff',
+                            dark: '#0a0a0a',
+                            surface: '#141414',
+                            border: '#2a2a2a',
+                            yellow: '#facc15'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+        }
+        .text-gradient-clinics {
+            background: linear-gradient(135deg, #ff2a5f, #ff7b9a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-logistics {
+            background: linear-gradient(135deg, #00e5ff, #0077ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-beauty {
+            background: linear-gradient(135deg, #9d00ff, #ff2a5f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-uni {
+            background: linear-gradient(135deg, #facc15, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10, 10, 10, 0.7);
+        }
+        /* Custom Table Styling */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .compare-table th, .compare-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .compare-table th {
+            color: #888;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .compare-table tr:hover td {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-brand-pink selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 border-b border-brand-border nav-blur">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="font-display text-2xl tracking-widest text-white decoration-none hover:text-brand-cyan transition-colors">SEOULMATE</a>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-400">
+                <a href="#clinics" class="hover:text-brand-pink transition-colors">醫美整形</a>
+                <a href="#logistics" class="hover:text-brand-cyan transition-colors">物流代購</a>
+                <a href="#beauty" class="hover:text-brand-purple transition-colors">K-Beauty</a>
+                <a href="#universities" class="hover:text-[#facc15] transition-colors">大學留學</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="digital_shop.html" class="text-sm font-semibold text-gray-300 hover:text-white transition-colors">數位商城</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-6 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gradient-to-r from-brand-pink/10 via-brand-purple/10 to-brand-cyan/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto text-center relative z-10 mt-10">
+            <div class="inline-flex items-center space-x-2 bg-brand-border/50 border border-brand-border px-4 py-2 rounded-full mb-6">
+                <span class="material-symbols-outlined text-sm text-brand-pink">hotel_class</span>
+                <span class="text-xs font-semibold tracking-wider text-gray-300 uppercase">Information Hub & Real Cases</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8">
+                現實資訊大公開<br/>
+                <span class="text-gray-400 font-display tracking-widest mt-2 block text-4xl">COMPARISON HUB</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+                全網最真實、拒絕純業配。我們整理了韓國最高流量領域：醫美、物流、美妝與留學市場的客觀數據、費用試算與素人成功案例。找推薦、比價格，都在這裡。
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 pb-32 space-y-40">
+
+        <!-- 1. Clinics (醫美比較) -->
+        <section id="clinics" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row items-end justify-between mb-12 border-b border-brand-border pb-6 gap-6">
+                <div>
+                    <h2 class="font-display text-4xl sm:text-5xl tracking-wide text-white"><span class="text-gradient-clinics">01</span> / 韓國醫美比較</h2>
+                    <p class="text-gray-400 mt-3 text-lg">整形、皮膚管理、微整形診所大亂鬥。直接看客觀評分與真實 Before/After。</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="bg-brand-pink/10 text-brand-pink border border-brand-pink/20 px-3 py-1 rounded-full text-xs font-bold">高 CPC</span>
+                    <span class="bg-brand-pink/10 text-brand-pink border border-brand-pink/20 px-3 py-1 rounded-full text-xs font-bold">嚴選轉介紹</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                <!-- Data Table (Takes up 2 columns) -->
+                <div class="lg:col-span-2 glass-card rounded-2xl p-6 overflow-x-auto">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold">🔥 2026 第一線診所透明報價對比</h3>
+                        <button class="text-sm text-brand-pink hover:text-white transition-colors">查看完整名冊 ➔</button>
+                    </div>
+                    <table class="compare-table min-w-full">
+                        <thead>
+                            <tr>
+                                <th>診所名稱</th>
+                                <th>主打專長</th>
+                                <th>海內外價差(約)</th>
+                                <th>用戶評分</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-bold flex items-center gap-3"><img src="https://ui-avatars.com/api/?name=X&background=ff2a5f&color=fff&rounded=true&size=32" alt="icon"> 狎鷗亭 X 診所</td>
+                                <td>鼻修復、輪廓</td>
+                                <td class="text-green-400">極小 (統一報價)</td>
+                                <td><span class="text-yellow-400">★★★★</span> 4.8</td>
+                                <td><button class="bg-white text-black text-xs px-3 py-1.5 rounded hover:bg-gray-200">免費代預約</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold flex items-center gap-3"><img src="https://ui-avatars.com/api/?name=L&background=9d00ff&color=fff&rounded=true&size=32" alt="icon"> 江南 L 皮膚科</td>
+                                <td>鈦提升、玻尿酸</td>
+                                <td class="text-red-400">外國人酌收 10% 翻譯費</td>
+                                <td><span class="text-yellow-400">★★★★</span> 4.7</td>
+                                <td><button class="bg-white text-black text-xs px-3 py-1.5 rounded hover:bg-gray-200">免費代預約</button></td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold flex items-center gap-3"><img src="https://ui-avatars.com/api/?name=P&background=00e5ff&color=fff&rounded=true&size=32" alt="icon"> 弘大 P 微整中心</td>
+                                <td>平價肉毒、水光針</td>
+                                <td class="text-gray-400">退稅後一致</td>
+                                <td><span class="text-yellow-400">★★★</span> 3.9</td>
+                                <td><button class="bg-white text-black text-xs px-3 py-1.5 rounded hover:bg-gray-200">免費代預約</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Case Studies -->
+                <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold mb-6 flex items-center gap-2"><span class="material-symbols-outlined text-brand-pink">photo_camera</span> 真實素人案例</h3>
+                        <div class="relative w-full h-48 bg-gray-800 rounded-xl overflow-hidden mb-4 group cursor-pointer border border-brand-border">
+                            <!-- Placeholder for Before/After Image -->
+                            <div class="absolute inset-0 flex items-center justify-center text-sm font-bold tracking-widest text-gray-500">
+                                BEFORE / AFTER
+                            </div>
+                            <div class="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4">
+                                <span class="bg-brand-pink text-white text-[10px] px-2 py-0.5 rounded uppercase font-bold">鼻部修復</span>
+                                <div class="text-sm mt-1">來自台灣 A 小姐的真實心得</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="contact-expert.html" class="w-full text-center bg-brand-pink text-white py-3 rounded-xl font-bold hover:scale-[1.02] transition-transform shadow-[0_0_15px_rgba(255,42,95,0.3)]">尋求專屬變美方案 (免費諮詢)</a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 2. Logistics (物流代購) -->
+        <section id="logistics" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row items-end justify-between mb-12 border-b border-brand-border pb-6 gap-6">
+                <div>
+                    <h2 class="font-display text-4xl sm:text-5xl tracking-wide text-white"><span class="text-gradient-logistics">02</span> / 電商與物流比較</h2>
+                    <p class="text-gray-400 mt-3 text-lg">批發、代購、直播主看過來。韓國 B2B 物流一條龍服務與速度/價格最猛對比。</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20 px-3 py-1 rounded-full text-xs font-bold">B2B Leads</span>
+                    <span class="bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20 px-3 py-1 rounded-full text-xs font-bold">獨家貨源</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Calculator -->
+                <div class="glass-card rounded-2xl p-8 border-t-4 border-t-brand-cyan">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold">📦 最低費用計算器</h3>
+                        <span class="material-symbols-outlined text-brand-cyan text-3xl">calculate</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-6">輸入您每月的包裹數量與重量，自動為您篩選韓國東大門/南大門最具性價比的配合物流商。</p>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-2 uppercase">月發貨包裹數量</label>
+                            <input type="range" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-brand-cyan">
+                            <div class="flex justify-between text-xs text-gray-500 mt-2"><span>10 件</span> <span>500+ 件</span></div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-2 uppercase">平均單件重量 (KG)</label>
+                            <div class="flex gap-2">
+                                <button class="flex-1 bg-brand-surface border border-brand-cyan text-brand-cyan py-2 rounded-lg text-sm font-bold">0-1 KG</button>
+                                <button class="flex-1 bg-brand-surface border border-brand-border text-gray-400 py-2 rounded-lg text-sm hover:border-gray-500 transition-colors">1-3 KG</button>
+                                <button class="flex-1 bg-brand-surface border border-brand-border text-gray-400 py-2 rounded-lg text-sm hover:border-gray-500 transition-colors">3+ KG</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="w-full bg-brand-cyan text-black py-3 rounded-xl font-bold text-lg hover:bg-[#00cce6] transition-colors shadow-[0_0_15px_rgba(0,229,255,0.4)]">開始精算最低運費</button>
+                </div>
+
+                <!-- Feature List & Referral -->
+                <div class="flex flex-col gap-6">
+                    <div class="glass-card rounded-2xl p-6 flex-1">
+                        <h4 class="text-lg font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-brand-cyan">speed</span> 速度 vs 價格對比大賽</h4>
+                        <ul class="space-y-4 text-sm text-gray-300">
+                            <li class="flex justify-between border-b border-brand-border pb-2">
+                                <span>A 級特快物流 (航空)</span>
+                                <span class="text-white font-bold">2-3天 / 首重 8,000₩</span>
+                            </li>
+                            <li class="flex justify-between border-b border-brand-border pb-2">
+                                <span>經濟海運快線 (批發推)</span>
+                                <span class="text-white font-bold">5-7天 / 首重 4,500₩</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>EMS 國際正規</span>
+                                <span class="text-white font-bold">約一周 / 依官網加成</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6 bg-gradient-to-br from-brand-surface to-[#002233] border-brand-cyan/30 flex-1 flex flex-col justify-center items-center text-center">
+                        <h4 class="text-xl font-bold mb-2">需要一條龍代收代發現場接洽？</h4>
+                        <p class="text-sm text-gray-400 mb-4">我們擁有第一線資源，提供客製化網上貨源代切、實體拿貨服務。</p>
+                        <a href="contact-expert.html" class="inline-block bg-white text-black px-6 py-2 rounded-full font-bold text-sm hover:scale-105 transition-transform">申請代購 / B2B 合作</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 3. K-Beauty (美妝比較) -->
+        <section id="beauty" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row items-end justify-between mb-12 border-b border-brand-border pb-6 gap-6">
+                <div>
+                    <h2 class="font-display text-4xl sm:text-5xl tracking-wide text-white"><span class="text-gradient-beauty">03</span> / K-Beauty 美妝評鑑</h2>
+                    <p class="text-gray-400 mt-3 text-lg">Olive Young 爆品真的好用嗎？從成分對比到 2026 最新熱銷榜單全收錄。</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="bg-brand-purple/10 text-brand-purple border border-brand-purple/20 px-3 py-1 rounded-full text-xs font-bold">Olive Young</span>
+                    <span class="bg-brand-purple/10 text-brand-purple border border-brand-purple/20 px-3 py-1 rounded-full text-xs font-bold">成分解析</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Product Card -->
+                <div class="glass-card rounded-xl p-5 text-center relative group">
+                    <div class="absolute top-3 left-3 bg-brand-purple text-white w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold z-10">1</div>
+                    <div class="w-24 h-24 mx-auto bg-gray-800 rounded-full mb-4 border-2 border-transparent group-hover:border-brand-purple transition-colors overflow-hidden relative">
+                        <!-- Placeholder -->
+                    </div>
+                    <h4 class="font-bold text-sm mb-1 line-clamp-1">玻尿酸精華</h4>
+                    <p class="text-xs text-gray-400 mb-3">#保濕王者 #OliveYoung第一</p>
+                    <a href="#" class="block w-full border border-brand-purple text-brand-purple hover:bg-brand-purple hover:text-white py-1.5 rounded text-xs font-bold transition-colors">🔥 查看全網最低價</a>
+                </div>
+                
+                 <!-- Product Card -->
+                 <div class="glass-card rounded-xl p-5 text-center relative group">
+                    <div class="absolute top-3 left-3 bg-brand-surface border border-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold z-10">2</div>
+                    <div class="w-24 h-24 mx-auto bg-gray-800 rounded-full mb-4 border-2 border-transparent group-hover:border-brand-purple transition-colors overflow-hidden relative"></div>
+                    <h4 class="font-bold text-sm mb-1 line-clamp-1">VT 積雪草微針精華</h4>
+                    <p class="text-xs text-gray-400 mb-3">#零毛孔 #代購爆款</p>
+                    <a href="#" class="block w-full border border-brand-border hover:border-gray-400 text-gray-300 py-1.5 rounded text-xs font-bold transition-colors">前往比價 ➔</a>
+                </div>
+
+                 <!-- Product Card -->
+                 <div class="glass-card rounded-xl p-5 text-center relative group">
+                    <div class="absolute top-3 left-3 bg-brand-surface border border-gray-600 text-gray-300 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold z-10">3</div>
+                    <div class="w-24 h-24 mx-auto bg-gray-800 rounded-full mb-4 border-2 border-transparent group-hover:border-brand-purple transition-colors overflow-hidden relative"></div>
+                    <h4 class="font-bold text-sm mb-1 line-clamp-1">MEDIHEAL 膠原蛋白棉片</h4>
+                    <p class="text-xs text-gray-400 mb-3">#妝前必備 #服貼度升級</p>
+                    <a href="#" class="block w-full border border-brand-border hover:border-gray-400 text-gray-300 py-1.5 rounded text-xs font-bold transition-colors">前往比價 ➔</a>
+                </div>
+
+                <!-- Promo Card -->
+                <div class="glass-card rounded-xl p-5 bg-gradient-to-b from-brand-purple/20 to-transparent flex flex-col items-center justify-center text-center">
+                    <span class="material-symbols-outlined text-4xl text-brand-purple mb-2">library_books</span>
+                    <h4 class="font-bold text-sm mb-2">2026 美妝產業報告</h4>
+                    <p class="text-xs text-gray-400 mb-4">掌握獨家批發名單</p>
+                    <a href="digital_shop.html#reports" class="bg-white text-black text-xs px-4 py-2 rounded-full font-bold shadow-lg">購買報告 $199</a>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 4. Universities (大學/留學) -->
+        <section id="universities" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row items-end justify-between mb-12 border-b border-brand-border pb-6 gap-6">
+                <div>
+                    <h2 class="font-display text-4xl sm:text-5xl tracking-wide text-white"><span class="text-gradient-uni">04</span> / 韓國大學排行與分析</h2>
+                    <p class="text-gray-400 mt-3 text-lg">拒絕野雞大學！2026 最新綜合排名、熱門科系就業率、學費與外國人獎學金全攻略。</p>
+                </div>
+                 <div class="flex gap-2">
+                    <span class="bg-[#facc15]/10 text-[#facc15] border border-[#facc15]/20 px-3 py-1 rounded-full text-xs font-bold">2026 Ranking</span>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-0 overflow-hidden flex flex-col md:flex-row shadow-[0_0_40px_rgba(250,204,21,0.05)] border-[#facc15]/20 border">
+                <!-- Data Area -->
+                <div class="flex-1 p-8 border-r border-brand-border relative">
+                    <div class="absolute top-0 right-0 p-4">
+                        <span class="bg-brand-surface border border-brand-border text-[10px] text-gray-400 px-2 py-1 rounded uppercase">List Preview</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6">🏆 SKY 等級及 Top 10 名校快覽</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between bg-brand-surface p-4 rounded-xl border border-brand-border hover:border-[#facc15]/50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-[#facc15] text-black font-display text-xl flex items-center justify-center rounded-lg">#1</div>
+                                <div>
+                                    <div class="font-bold">首爾大學 (Seoul National University)</div>
+                                    <div class="text-xs text-gray-400">國立 / 綜合最強 / 獎學金門檻極高</div>
+                                </div>
+                            </div>
+                            <div class="text-right hidden sm:block">
+                                <div class="text-sm font-bold">就業率 92%</div>
+                                <div class="text-xs text-gray-500">學期費 ~300萬₩</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between bg-brand-surface p-4 rounded-xl border border-brand-border hover:border-[#facc15]/50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-gray-200 text-black font-display text-xl flex items-center justify-center rounded-lg">#2</div>
+                                <div>
+                                    <div class="font-bold">韓國科學技術院 (KAIST)</div>
+                                    <div class="text-xs text-gray-400">國立 / 理工殿堂 / 全額獎學金為主</div>
+                                </div>
+                            </div>
+                            <div class="text-right hidden sm:block">
+                                <div class="text-sm font-bold">就業/深造 98%</div>
+                                <div class="text-xs text-gray-500">學期費 ~340萬₩</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between bg-brand-surface p-4 rounded-xl border border-brand-border hover:border-[#facc15]/50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-yellow-700 text-white font-display text-xl flex items-center justify-center rounded-lg">#3</div>
+                                <div>
+                                    <div class="font-bold">延世大學 (Yonsei University)</div>
+                                    <div class="text-xs text-gray-400">重點私立 / 商科與醫科 / 國際化程度高</div>
+                                </div>
+                            </div>
+                            <div class="text-right hidden sm:block">
+                                <div class="text-sm font-bold">就業率 89%</div>
+                                <div class="text-xs text-gray-500">學期費 ~450萬₩</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-500 mb-3">只顯示前三名預覽。想看 Top 50 完整名單與外國人錄取率秘密？</p>
+                    </div>
+                </div>
+
+                <!-- Call to Action Side -->
+                <div class="w-full md:w-80 bg-gradient-to-b from-[#1a170b] to-brand-dark p-8 flex flex-col justify-center items-center text-center">
+                    <span class="material-symbols-outlined text-6xl text-[#facc15] mb-4">download</span>
+                    <h4 class="text-xl font-bold text-white mb-2">2026 大學白皮書</h4>
+                    <p class="text-sm text-gray-400 mb-6">完整 50 大名單、學費試算、簽證轉換條件，一次打包帶走。</p>
+                    <div class="text-3xl font-display text-[#facc15] mb-4">$49</div>
+                    <a href="digital_shop.html#reports" class="w-full bg-[#facc15] text-black py-3 rounded-xl font-bold hover:bg-yellow-400 transition-colors shadow-[0_0_15px_rgba(250,204,21,0.2)]">付費下載完整版</a>
+                    <div class="text-xs text-gray-500 mt-4">每年更新最新數據</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-border py-12 text-center text-sm text-gray-500">
+        <div class="font-display text-2xl tracking-widest text-white mb-4 opacity-50">SEOULMATE</div>
+        <p>Copyright © 2026 SeoulMate Comparison Data. 投資理財或醫療行為請自行評估風險。</p>
+    </footer>
+
+    <script src="translator.js"></script>
+</body>
+</html>

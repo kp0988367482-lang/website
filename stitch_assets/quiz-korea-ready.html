@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1分鐘診斷 — 你適合來韓國嗎？ | SeoulMate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.1);
+            --primary: #ff4757;
+            --gold: #ffd700;
+            --text: #ffffff;
+            --muted: rgba(255,255,255,0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            max-width: 700px;
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 60px 50px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-container::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--gold));
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0; left: 0;
+            height: 4px;
+            background: var(--gold);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 3px;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--gold);
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .quiz-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff, var(--muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .quiz-subtitle {
+            font-size: 15px;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-number {
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .question-text {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .option-btn {
+            background: rgba(255,255,255,0.02);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 20px 28px;
+            color: var(--text);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: rgba(255,71,87,0.08);
+            transform: translateX(8px);
+        }
+
+        .option-btn .icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 32px;
+            border-radius: 16px;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-prev {
+            background: var(--surface);
+            color: var(--muted);
+            border: 1px solid var(--border);
+        }
+
+        .btn-prev:hover {
+            background: rgba(255,255,255,0.08);
+            color: var(--text);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary), #ff6b81);
+            color: #fff;
+        }
+
+        .btn-next:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255,71,87,0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Result Screen */
+        .result-section {
+            display: none;
+            text-align: center;
+        }
+
+        .result-section.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 24px;
+        }
+
+        .result-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 42px;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .result-desc {
+            font-size: 16px;
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .recommendation-card {
+            background: rgba(255,215,0,0.08);
+            border: 2px solid var(--gold);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .rec-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .rec-list {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .rec-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+        }
+
+        .rec-list li:last-child {
+            border-bottom: none;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .cta-btn {
+            flex: 1;
+            padding: 20px;
+            border-radius: 16px;
+            border: none;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, var(--gold), #ffed4e);
+            color: #000;
+        }
+
+        .cta-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(255,215,0,0.3);
+        }
+
+        .cta-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 768px) {
+            .quiz-container { padding: 40px 30px; }
+            .quiz-title { font-size: 36px; }
+            .question-text { font-size: 20px; }
+            .option-btn { padding: 16px 20px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="progress-bar" id="progressBar"></div>
+        
+        <div class="logo">SEOULMATE</div>
+
+        <div class="quiz-header" id="quizHeader">
+            <div class="quiz-title">你適合來韓國嗎？</div>
+            <div class="quiz-subtitle">1分鐘快速診斷 · 獲得專屬建議</div>
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question-section active" data-question="1">
+            <div class="question-number">Question 1/5</div>
+            <div class="question-text">你的韓語程度？</div>
+            <div class="options">
+                <button class="option-btn" onclick="selectAnswer(1, 0)">
+                    <span class="icon">😅</span>
+                    <span>完全不會（連안녕都不太確定）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(1, 1)">
+                    <span class="icon">📚</span>
+                    <span>初級（會基本問候、點餐）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(1, 2)">
+                    <span class="icon">💬</span>
+                    <span>中級（能日常對話、看懂招牌）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(1, 3)">
+                    <span class="icon">🔥</span>
+                    <span>高級/流利（可工作、看韓綜無字幕）</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-section" data-question="2">
+            <div class="question-number">Question 2/5</div>
+            <div class="question-text">預算範圍？（美金 USD）</div>
+            <div class="options">
+                <button class="option-btn" onclick="selectAnswer(2, 0)">
+                    <span class="icon">💸</span>
+                    <span>< $1,500 USD（節約型）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(2, 1)">
+                    <span class="icon">💵</span>
+                    <span>$1,500 - $3,000 USD（標準型）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(2, 2)">
+                    <span class="icon">💰</span>
+                    <span>$3,000 - $6,000 USD（舒適型）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(2, 3)">
+                    <span class="icon">💎</span>
+                    <span>> $6,000 USD（無預算限制）</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-section" data-question="3">
+            <div class="question-number">Question 3/5</div>
+            <div class="question-text">來韓國的主要目的？</div>
+            <div class="options">
+                <button class="option-btn" onclick="selectAnswer(3, 'study')">
+                    <span class="icon">🎓</span>
+                    <span>留學 / 交換學生 / 語言學校</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(3, 'work')">
+                    <span class="icon">✈️</span>
+                    <span>打工度假 / 找工作機會</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(3, 'business')">
+                    <span class="icon">🏪</span>
+                    <span>開店 / 創業 / 電商考察</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(3, 'medical')">
+                    <span class="icon">💉</span>
+                    <span>醫美整形 / 皮膚管理</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-section" data-question="4">
+            <div class="question-number">Question 4/5</div>
+            <div class="question-text">計劃停留多久？</div>
+            <div class="options">
+                <button class="option-btn" onclick="selectAnswer(4, 0)">
+                    <span class="icon">⚡</span>
+                    <span>< 3個月（短期旅遊/考察）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(4, 1)">
+                    <span class="icon">📅</span>
+                    <span>3-6個月（語言學校/打工度假）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(4, 2)">
+                    <span class="icon">🗓️</span>
+                    <span>6-12個月（留學/工作簽）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(4, 3)">
+                    <span class="icon">🏠</span>
+                    <span>長期定居（F2簽證/永居）</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-section" data-question="5">
+            <div class="question-number">Question 5/5</div>
+            <div class="question-text">最大的顧慮是什麼？</div>
+            <div class="options">
+                <button class="option-btn" onclick="selectAnswer(5, 'language')">
+                    <span class="icon">🗣️</span>
+                    <span>語言障礙（怕溝通不良）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(5, 'visa')">
+                    <span class="icon">🛂</span>
+                    <span>簽證申請（流程複雜）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(5, 'housing')">
+                    <span class="icon">🏠</span>
+                    <span>找房子（怕被騙/租金太貴）</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer(5, 'money')">
+                    <span class="icon">💸</span>
+                    <span>資金不足（生活費/啟動資金）</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Section -->
+        <div class="result-section" id="resultSection">
+            <div class="result-icon" id="resultIcon">✅</div>
+            <div class="result-title" id="resultTitle">你適合來韓國！</div>
+            <div class="result-desc" id="resultDesc">
+                根據你的條件與目標，我們建議你從以下方案開始：
+            </div>
+
+            <div class="recommendation-card" id="recommendationCard">
+                <div class="rec-title" id="recTitle">🎓 推薦：韓國落地新手包</div>
+                <ul class="rec-list" id="recList">
+                    <li>✅ F2 簽證申請完整指南</li>
+                    <li>✅ 首爾租房防雷清單</li>
+                    <li>✅ 銀行開戶中文教學</li>
+                    <li>✅ 生活開銷真實數據</li>
+                    <li>✅ 7天快速適應計劃</li>
+                </ul>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="/benefits" class="cta-btn cta-primary">
+                    立即購買套組 $49 USD →
+                </a>
+                <a href="/index.html" class="cta-btn cta-secondary">
+                    查看更多方案
+                </a>
+            </div>
+        </div>
+
+        <div class="nav-buttons" id="navButtons">
+            <button class="btn btn-prev" onclick="prevQuestion()" id="prevBtn" disabled>← 上一題</button>
+            <button class="btn btn-next" onclick="nextQuestion()" id="nextBtn" disabled>下一題 →</button>
+        </div>
+    </div>
+
+    <script>
+        const answers = {};
+        let currentQuestion = 1;
+        const totalQuestions = 5;
+
+        function selectAnswer(questionNum, value) {
+            answers[questionNum] = value;
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+            
+            // Visual feedback
+            const buttons = document.querySelector(`[data-question="${questionNum}"] .options`).querySelectorAll('.option-btn');
+            buttons.forEach(btn => {
+                btn.style.borderColor = 'var(--border)';
+                btn.style.background = 'rgba(255,255,255,0.02)';
+            });
+            event.currentTarget.style.borderColor = 'var(--primary)';
+            event.currentTarget.style.background = 'rgba(255,71,87,0.12)';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                // Hide current question
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove('active');
+                
+                currentQuestion++;
+                
+                // Show next question
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                
+                // Update progress bar
+                updateProgressBar();
+                
+                // Update buttons
+                document.getElementById('prevBtn').disabled = false;
+                document.getElementById('nextBtn').disabled = !answers[currentQuestion];
+            } else {
+                // Show results
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.remove('active');
+                currentQuestion--;
+                document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+                updateProgressBar();
+                
+                document.getElementById('prevBtn').disabled = currentQuestion === 1;
+                document.getElementById('nextBtn').disabled = false;
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestion) / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            // Hide quiz sections
+            document.querySelectorAll('.question-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('navButtons').style.display = 'none';
+            document.getElementById('quizHeader').style.display = 'none';
+            
+            // Show result
+            const resultSection = document.getElementById('resultSection');
+            resultSection.classList.add('active');
+            
+            // Calculate result based on answers
+            const purpose = answers[3];
+            const budget = answers[2];
+            const duration = answers[4];
+            
+            let recommendation = {};
+            
+            if (purpose === 'study') {
+                recommendation = {
+                    icon: '🎓',
+                    title: '你適合來韓國留學！',
+                    desc: '根據你的條件，我們推薦從語言學校或交換學生開始',
+                    package: '韓國落地新手包',
+                    price: '$49',
+                    features: [
+                        '✅ F2 簽證申請完整指南',
+                        '✅ 學校申請文件範本',
+                        '✅ 首爾租房防雷清單',
+                        '✅ 銀行開戶中文教學',
+                        '✅ 行政韓語 Top 10'
+                    ]
+                };
+            } else if (purpose === 'business') {
+                recommendation = {
+                    icon: '🏪',
+                    title: '你適合在韓國創業！',
+                    desc: '適合有資金和商業想法的創業者',
+                    package: '商業進軍套組',
+                    price: '$129',
+                    features: [
+                        '✅ 韓國開店完整流程',
+                        '✅ 地段選址評估工具',
+                        '✅ 裝潢估價比較表',
+                        '✅ 合作商家推薦名單',
+                        '✅ 1小時專家諮詢'
+                    ]
+                };
+            } else if (purpose === 'medical') {
+                recommendation = {
+                    icon: '💉',
+                    title: '你適合來韓國醫美！',
+                    desc: '我們幫你找到最值得信賴的診所',
+                    package: '醫美安心方案',
+                    price: '$79',
+                    features: [
+                        '✅ 診所評比完整報告',
+                        '✅ 手術項目價格對比',
+                        '✅ 真實案例 Before/After',
+                        '✅ 中文翻譯陪同推薦',
+                        '✅ 術後追蹤資源'
+                    ]
+                };
+            } else {
+                recommendation = {
+                    icon: '✈️',
+                    title: '你適合打工度假！',
+                    desc: '邊玩邊賺，體驗韓國生活',
+                    package: '打工度假全攻略',
+                    price: '$59',
+                    features: [
+                        '✅ 簽證申請步驟圖解',
+                        '✅ 找工作平台推薦',
+                        '✅ 住宿 Share House 清單',
+                        '✅ 生活開銷預算表',
+                        '✅ 緊急狀況處理指南'
+                    ]
+                };
+            }
+            
+            // Update result display
+            document.getElementById('resultIcon').textContent = recommendation.icon;
+            document.getElementById('resultTitle').textContent = recommendation.title;
+            document.getElementById('resultDesc').textContent = recommendation.desc;
+            document.getElementById('recTitle').textContent = `💡 推薦：${recommendation.package}`;
+            
+            const recList = document.getElementById('recList');
+            recList.innerHTML = recommendation.features.map(f => `<li>${f}</li>`).join('');
+            
+            // Update CTA button
+            document.querySelector('.cta-primary').innerHTML = `立即購買 ${recommendation.price} USD →`;
+            
+            // Update progress to 100%
+            document.getElementById('progressBar').style.width = '100%';
+        }
+
+        // Initialize
+        updateProgressBar();
+    </script>
+    <script src="translator.js"></script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!-- cspell:ignore SEOULMATE Coupang Kakao KASIT -->
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <title>SeoulMate | 數位資產與高階模版 Shop & Digital Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Bebas Neue', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-pink': '#ff2a5f',
+                        'brand-purple': '#9d00ff',
+                        'brand-cyan': '#00e5ff',
+                        'brand-dark': '#0a0a0a',
+                        'brand-surface': '#141414',
+                        'brand-border': '#2a2a2a'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+        }
+        .premium-text-gradient {
+            background: linear-gradient(135deg, #00e5ff, #9d00ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(157, 0, 255, 0.15);
+            border-color: rgba(157, 0, 255, 0.3);
+        }
+        .glossy-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .card-hover:hover .glossy-overlay {
+            opacity: 1;
+        }
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10, 10, 10, 0.7);
+        }
+        .asset-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .asset-chip {
+            padding: 6px 10px;
+            border-radius: 9999px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #cbd5e1;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-brand-purple selection:text-white">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 border-b border-brand-border nav-blur">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="font-display text-2xl tracking-widest text-white decoration-none hover:text-brand-cyan transition-colors">SEOULMATE</a>
+            <select onchange="setCurrency(this.value)" id="currency-select" class="bg-brand-dark border border-brand-border rounded-lg px-3 py-1.5 text-white text-xs font-bold focus:outline-none focus:border-brand-cyan cursor-pointer appearance-none">
+                <option value="USD">$ USD</option>
+                <option value="TWD">NT$ TWD</option>
+                <option value="HKD">HK$ HKD</option>
+                <option value="CNY">¥ CNY</option>
+                <option value="SGD">S$ SGD</option>
+                <option value="MYR">RM MYR</option>
+                <option value="EUR">€ EUR</option>
+                <option value="GBP">£ GBP</option>
+                <option value="JPY">¥ JPY</option>
+                <option value="AUD">A$ AUD</option>
+                <option value="CAD">C$ CAD</option>
+                <option value="KRW">₩ KRW</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-40 pb-20 px-6 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-purple/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center space-x-2 bg-brand-border/50 border border-brand-border px-4 py-2 rounded-full mb-8">
+                <span class="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+                <span class="text-xs font-semibold tracking-wider text-gray-300 uppercase">Premium Digital Assets</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+                一次下載，<span class="premium-text-gradient">永久掌握</span><br />
+                韓國商業實戰武器庫。
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed mb-10">
+                從商業企劃、行銷策略到高階市場調研報告，專為想在韓國落地或擴張的創業者與獨立接案者打造的「系統化數位資產」。
+            </p>
+        </div>
+    </section>
+
+    <!-- Content Store -->
+    <main class="max-w-7xl mx-auto px-6 pb-32 space-y-32">
+
+        <!-- Category 1: Templates -->
+        <section id="templates" class="scroll-mt-24">
+            <div class="flex items-end justify-between mb-10 border-b border-brand-border pb-4">
+                <div>
+                    <h2 class="font-display text-4xl tracking-wide text-white">01 / TEMPLATES</h2>
+                    <p class="text-gray-400 mt-2">高階商業模板商店，製作一次，反覆販售。直接套用，省下百小時摸索。</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Product Card -->
+                <div class="bg-brand-surface border border-brand-border rounded-2xl p-8 relative overflow-hidden card-hover group flex flex-col">
+                    <div class="glossy-overlay"></div>
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="bg-brand-dark border border-brand-border p-3 rounded-xl"><span class="material-symbols-outlined text-brand-cyan">insert_chart</span></div>
+                        <span class="bg-brand-dark text-gray-300 text-xs font-bold px-3 py-1 rounded-full border border-brand-border">Notion & PDF</span>
+                    </div>
+                    <div class="asset-stack">
+                        <span class="asset-chip">Template SaaS</span>
+                        <span class="asset-chip">Node T-01</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">韓國市場商業計畫模板</h3>
+                    <p class="text-gray-400 text-sm mb-8 flex-grow">Business Plan Template。專為外國人要在韓國商圈（東大門/江南等）開店或建立據點量身打造的 Pitch Deck 與財務測算表。</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <div class="text-2xl font-bold" data-price-usd="49"><span class="price-main">$49</span> <span class="text-sm text-gray-500 font-normal line-through ml-1">$99</span></div>
+                        <button onclick="buyProduct('韓國市場商業計畫模板', 49, this)" class="bg-brand-pink text-white px-5 py-2 rounded-lg text-sm font-bold shadow-[0_0_15px_rgba(255,42,95,0.4)] hover:scale-105 transition-transform">立即下載</button>
+                    </div>
+                    <p class="text-[11px] text-gray-500 text-right mt-2">✓ 付款後立即下載，無需等待</p>
+                </div>
+
+                <!-- Product Card -->
+                <div class="bg-brand-surface border border-brand-border rounded-2xl p-8 relative overflow-hidden card-hover group flex flex-col">
+                    <div class="glossy-overlay"></div>
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="bg-brand-dark border border-brand-border p-3 rounded-xl"><span class="material-symbols-outlined text-brand-purple">campaign</span></div>
+                        <span class="bg-brand-dark text-gray-300 text-xs font-bold px-3 py-1 rounded-full border border-brand-border">Figma & Doc</span>
+                    </div>
+                    <div class="asset-stack">
+                        <span class="asset-chip">Template SaaS</span>
+                        <span class="asset-chip">Node T-02</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">在地行銷策略大禮包</h3>
+                    <p class="text-gray-400 text-sm mb-8 flex-grow">Marketing Strategy Pack。包含 Naver Blog SEO 關鍵字佈局、KakaoTalk 頻道經營 SOP 與小紅書導流韓國醫美實戰範例。</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <div class="text-2xl font-bold" data-price-usd="39"><span class="price-main">$39</span></div>
+                        <button onclick="buyProduct('在地行銷策略大禮包', 39, this)" class="bg-white text-black px-5 py-2 rounded-lg text-sm font-bold hover:scale-105 transition-transform">立即下載</button>
+                    </div>
+                    <p class="text-[11px] text-gray-500 text-right mt-2">✓ 付款後立即下載，無需等待</p>
+                </div>
+
+                <!-- Product Card -->
+                <div class="bg-brand-surface border border-brand-border rounded-2xl p-8 relative overflow-hidden card-hover group flex flex-col">
+                    <div class="glossy-overlay"></div>
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="bg-brand-dark border border-brand-border p-3 rounded-xl"><span class="material-symbols-outlined text-[#ffea00]">timeline</span></div>
+                        <span class="bg-brand-dark text-gray-300 text-xs font-bold px-3 py-1 rounded-full border border-brand-border">Roadmap</span>
+                    </div>
+                    <div class="asset-stack">
+                        <span class="asset-chip">Template SaaS</span>
+                        <span class="asset-chip">Node T-03</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">一人企業落地 Roadmap</h3>
+                    <p class="text-gray-400 text-sm mb-8 flex-grow">Startup Roadmap。從申請 D-10 / D-8 簽證、找合夥人、簽署辦公室合約的 90 天完整執行檢查清單，避開所有法律地雷。</p>
+                    <div class="flex items-center justify-between mt-auto">
+                        <div class="text-2xl font-bold" data-price-usd="19"><span class="price-main">$19</span></div>
+                        <button onclick="buyProduct('一人企業落地 Roadmap', 19, this)" class="bg-white text-black px-5 py-2 rounded-lg text-sm font-bold hover:scale-105 transition-transform">立即下載</button>
+                    </div>
+                    <p class="text-[11px] text-gray-500 text-right mt-2">✓ 付款後立即下載，無需等待</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category 2: Reports -->
+        <section id="reports" class="scroll-mt-24">
+             <div class="flex items-end justify-between mb-10 border-b border-brand-border pb-4">
+                <div>
+                    <h2 class="font-display text-4xl tracking-wide text-white">02 / REPORTS</h2>
+                    <p class="text-gray-400 mt-2">年度深度研究報告，首爾第一線實地產業分析資料，每年更新。</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Large Product Card -->
+                <div class="bg-gradient-to-br from-brand-surface to-brand-dark border border-brand-border rounded-2xl p-8 sm:p-12 relative overflow-hidden card-hover group flex sm:flex-row flex-col gap-8">
+                    <div class="glossy-overlay"></div>
+                    <div class="sm:w-1/3 w-full bg-brand-dark rounded-xl border border-brand-border flex items-center justify-center p-8 relative">
+                        <span class="material-symbols-outlined text-6xl text-white opacity-50 absolute">school</span>
+                        <div class="text-center z-10">
+                            <div class="font-display text-2xl text-white tracking-widest">2026</div>
+                            <div class="text-xs text-brand-cyan mt-1">EDITION</div>
+                        </div>
+                    </div>
+                    <div class="flex-1 flex flex-col">
+                        <span class="text-brand-cyan text-xs font-bold uppercase tracking-wider mb-2">Exclusive Data</span>
+                        <div class="asset-stack">
+                            <span class="asset-chip">Report SaaS</span>
+                            <span class="asset-chip">Node R-01</span>
+                            <span class="asset-chip">Annual Update</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">2026 韓國大學排行與選系白皮書</h3>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">Korea University Ranking 2026。市面上最誠實的留學指南。揭露語學堂真實花費、前 50 大名校外國人獎學金申請成功率與畢業後 E-7 工作簽轉換數據。</p>
+                        <div class="flex items-center justify-between mt-auto pt-6 border-t border-brand-border">
+                            <div class="text-3xl font-bold" data-price-usd="49"><span class="price-main">$49</span> <span class="text-sm font-normal text-gray-400">/ PDF 版</span></div>
+                            <button onclick="buyProduct('2026 韓國大學排行與選系白皮書', 49, this)" class="bg-white text-black px-8 py-3 rounded-lg text-sm font-bold shadow-lg hover:bg-gray-200 transition-colors">購買報告</button>
+                        </div>
+                        <p class="text-[11px] text-gray-500 text-right mt-3">✓ 付款後立即下載，無需等待</p>
+                    </div>
+                </div>
+
+                <!-- Large Product Card -->
+                <div class="bg-gradient-to-br from-brand-surface to-[#1a1014] border border-brand-border rounded-2xl p-8 sm:p-12 relative overflow-hidden card-hover group flex sm:flex-row flex-col gap-8">
+                    <div class="glossy-overlay"></div>
+                    <div class="sm:w-1/3 w-full bg-brand-dark rounded-xl border border-brand-border flex items-center justify-center p-8 relative">
+                        <span class="material-symbols-outlined text-6xl text-brand-pink opacity-20 absolute">face_retouching_natural</span>
+                        <div class="text-center z-10">
+                            <div class="font-display text-2xl text-brand-pink tracking-widest">K-BEAUTY</div>
+                            <div class="text-xs text-gray-400 mt-1">MARKET</div>
+                        </div>
+                    </div>
+                    <div class="flex-1 flex flex-col">
+                        <span class="text-brand-pink text-xs font-bold uppercase tracking-wider mb-2">Industry Secret</span>
+                        <div class="asset-stack">
+                            <span class="asset-chip">Report SaaS</span>
+                            <span class="asset-chip">Node R-02</span>
+                            <span class="asset-chip">Enterprise Use</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3">韓國醫美與護膚品產業鍊解密報告</h3>
+                        <p class="text-gray-400 text-sm mb-6 flex-grow">Korean Cosmetic Market。包含代購批發商名單、醫美診所外國人報價單對比，以及成分分析。是想做韓國代購或雙向代理的必備聖經。</p>
+                        <div class="flex items-center justify-between mt-auto pt-6 border-t border-brand-border">
+                            <div class="text-3xl font-bold" data-price-usd="199"><span class="price-main">$199</span> <span class="text-sm font-normal text-gray-400">/ 企業授權版</span></div>
+                            <button onclick="buyProduct('韓國醫美與護膚品產業鍊解密報告（企業授權版）', 199, this)" class="bg-brand-pink text-white px-8 py-3 rounded-lg text-sm font-bold shadow-[0_0_20px_rgba(255,42,95,0.4)] hover:bg-[#ff154a] transition-colors">購買報告</button>
+                        </div>
+                        <p class="text-[11px] text-gray-500 text-right mt-3">✓ 付款後立即下載，無需等待</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category 3: Decision Tools (Lead Generation & Aspell) -->
+        <section id="tools" class="scroll-mt-24">
+             <div class="flex items-end justify-between mb-10 border-b border-brand-border pb-4">
+                <div>
+                    <h2 class="font-display text-4xl tracking-wide text-white">03 / DECISION TOOLS</h2>
+                    <p class="text-gray-400 mt-2">最強 Lead Magnet：互動式決策工具。自動分析您的需求並產出客製化報告。</p>
+                </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-brand-dark via-brand-surface to-brand-dark border border-brand-border rounded-3xl p-10 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-brand-cyan/10 rounded-full blur-[80px] pointer-events-none"></div>
+                
+                <div class="asset-stack justify-center relative z-10">
+                    <span class="asset-chip">Lead SaaS</span>
+                    <span class="asset-chip">Node Q-01</span>
+                    <span class="asset-chip">Auto Scoring</span>
+                </div>
+                <h3 class="text-3xl font-bold mb-4 relative z-10">韓國落地：快篩決策引擎</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto mb-8 relative z-10">不知道自己適合哪種簽證？不知道來韓國能做什麼生意？回答 10 個問題，系統自動運算給您專屬的初階分析結果。</p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-10">
+                    <div class="bg-brand-dark border border-brand-border rounded-xl p-6 w-full sm:w-64 text-left">
+                        <div class="asset-stack">
+                            <span class="asset-chip">Entry Node</span>
+                        </div>
+                        <div class="text-sm font-bold text-gray-300 mb-2">基礎版 Quick Check</div>
+                        <div class="text-2xl font-display tracking-wider mb-4">FREE</div>
+                        <a href="#start-quiz" class="block text-center bg-white text-black py-2 rounded-lg text-sm font-bold">開始免費測試</a>
+                    </div>
+                    
+                    <div class="bg-gradient-to-b from-brand-surface to-brand-dark border border-brand-cyan/50 rounded-xl p-6 w-full sm:w-64 text-left relative transform sm:-translate-y-4 shadow-[0_0_30px_rgba(0,229,255,0.1)]">
+                        <div class="absolute -top-3 right-4 bg-brand-cyan text-black text-[10px] font-bold px-2 py-1 rounded">HOT</div>
+                        <div class="asset-stack">
+                            <span class="asset-chip">Upgrade Node</span>
+                            <span class="asset-chip">PDF Output</span>
+                        </div>
+                        <div class="text-sm font-bold text-brand-cyan mb-2">完整深度報告版</div>
+                        <div class="text-2xl font-display tracking-wider mb-4" data-price-usd="19"><span class="price-main">$19</span></div>
+                        <button onclick="buyProduct('韓國落地快篩決策引擎（完整深度報告版）', 19, this)" class="block w-full text-center bg-brand-cyan text-black py-2 rounded-lg text-sm font-bold shadow-[0_0_15px_rgba(0,229,255,0.3)]">解鎖完整報告</button>
+                        <div class="text-[10px] text-gray-400 text-center mt-3">✓ 付款後立即下載 · 可折抵諮詢費用</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Social Proof / 購買者後기 -->
+    <section class="max-w-7xl mx-auto px-6 pb-32">
+        <div class="text-center mb-14">
+            <div class="inline-flex items-center space-x-2 bg-brand-border/50 border border-brand-border px-4 py-2 rounded-full mb-6">
+                <span class="text-xs font-semibold tracking-wider text-brand-cyan uppercase">Real Buyers · 真實後기</span>
+            </div>
+            <h2 class="font-display text-4xl tracking-wide text-white">他們買了，然後呢？</h2>
+            <p class="text-gray-400 mt-3 max-w-xl mx-auto">這不是網路上查得到的資訊。是花了真實時間與金錢才踩出來的路。</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Review 1 -->
+            <div class="bg-brand-surface border border-brand-border rounded-2xl p-7 flex flex-col gap-4">
+                <div class="flex text-yellow-400 text-sm">★★★★★</div>
+                <p class="text-gray-300 text-sm leading-relaxed">「商業計畫模板直接幫我省掉找顧問的費用。江南 창업 센터的審核委員說這份 Pitch Deck 是他見過最清楚的外國人申請案。」</p>
+                <div class="flex items-center gap-3 mt-auto pt-4 border-t border-brand-border">
+                    <div class="w-8 h-8 rounded-full bg-brand-cyan/20 flex items-center justify-center text-xs font-bold text-brand-cyan">陳</div>
+                    <div>
+                        <div class="text-sm font-bold text-white">陳 O 宇</div>
+                        <div class="text-xs text-gray-500">台灣 → 江南創業 · 購入商業計畫模板</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="bg-brand-surface border border-brand-border rounded-2xl p-7 flex flex-col gap-4">
+                <div class="flex text-yellow-400 text-sm">★★★★★</div>
+                <p class="text-gray-300 text-sm leading-relaxed">「白皮書裡的獎學金申請成功率數據太真實了，完全顛覆我從 YouTube 看到的說法。申請前先看這個，少走半年彎路。」</p>
+                <div class="flex items-center gap-3 mt-auto pt-4 border-t border-brand-border">
+                    <div class="w-8 h-8 rounded-full bg-brand-purple/20 flex items-center justify-center text-xs font-bold text-brand-purple">林</div>
+                    <div>
+                        <div class="text-sm font-bold text-white">林 O 妍</div>
+                        <div class="text-xs text-gray-500">香港 → 延世語學堂 · 購入大學排行白皮書</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="bg-brand-surface border border-brand-border rounded-2xl p-7 flex flex-col gap-4">
+                <div class="flex text-yellow-400 text-sm">★★★★★</div>
+                <p class="text-gray-300 text-sm leading-relaxed">「D-10簽證那段寫得超詳細，連需要準備哪家公證單位都講清楚。我自己查了三個月沒搞懂，買完 Roadmap две週就備齊所有文件。」</p>
+                <div class="flex items-center gap-3 mt-auto pt-4 border-t border-brand-border">
+                    <div class="w-8 h-8 rounded-full bg-yellow-400/20 flex items-center justify-center text-xs font-bold text-yellow-400">吳</div>
+                    <div>
+                        <div class="text-sm font-bold text-white">吳 O 翰</div>
+                        <div class="text-xs text-gray-500">馬來西亞 → 申請 D-10 · 購入一人企業 Roadmap</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 4 -->
+            <div class="bg-brand-surface border border-brand-border rounded-2xl p-7 flex flex-col gap-4">
+                <div class="flex text-yellow-400 text-sm">★★★★☆</div>
+                <p class="text-gray-300 text-sm leading-relaxed">「醫美報告的批發商名單是我見過最完整的，還有真實報價對比。做代購一定要買，不然被坑都不知道。小紅書上那些根本是業配。」</p>
+                <div class="flex items-center gap-3 mt-auto pt-4 border-t border-brand-border">
+                    <div class="w-8 h-8 rounded-full bg-brand-pink/20 flex items-center justify-center text-xs font-bold text-brand-pink">黃</div>
+                    <div>
+                        <div class="text-sm font-bold text-white">黃 O 瑩</div>
+                        <div class="text-xs text-gray-500">新加坡 → 韓國醫美代購 · 購入醫美報告</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 5 -->
+            <div class="bg-brand-surface border border-brand-border rounded-2xl p-7 flex flex-col gap-4">
+                <div class="flex text-yellow-400 text-sm">★★★★★</div>
+                <p class="text-gray-300 text-sm leading-relaxed">「快篩決策引擎問卷做完直接告訴我適合 D-8 不是 D-10，省得我花錢諮詢移民顧問。$19 真的超值，後來又買了諮詢折抵也很划算。」</p>
+                <div class="flex items-center gap-3 mt-auto pt-4 border-t border-brand-border">
+                    <div class="w-8 h-8 rounded-full bg-green-400/20 flex items-center justify-center text-xs font-bold text-green-400">王</div>
+                    <div>
+                        <div class="text-sm font-bold text-white">王 O 翔</div>
+                        <div class="text-xs text-gray-500">台灣 → 首爾創業 · 購入決策引擎</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 6 -->
+            <div class="bg-gradient-to-br from-brand-surface to-brand-dark border border-brand-cyan/20 rounded-2xl p-7 flex flex-col gap-4 relative">
+                <div class="absolute top-4 right-4 text-[10px] font-bold bg-brand-cyan/10 text-brand-cyan px-2 py-1 rounded">精選</div>
+                <div class="flex text-yellow-400 text-sm">★★★★★</div>
+                <p class="text-gray-300 text-sm leading-relaxed">「行銷大禮包的 Naver Blog 關鍵字策略完全是內行人才知道的東西。我的診所客戶導流成本降了 40%。這種資訊付費絕對值得，免費的都是假的。」</p>
+                <div class="flex items-center gap-3 mt-auto pt-4 border-t border-brand-border">
+                    <div class="w-8 h-8 rounded-full bg-brand-cyan/20 flex items-center justify-center text-xs font-bold text-brand-cyan">劉</div>
+                    <div>
+                        <div class="text-sm font-bold text-white">劉 O 安</div>
+                        <div class="text-xs text-gray-500">香港 → 江南診所行銷 · 購入行銷策略大禮包</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-border py-12 text-center text-sm text-gray-500">
+        <div class="font-display text-2xl tracking-widest text-white mb-4 opacity-50">SEOULMATE</div>
+        <p>Copyright © 2026 SeoulMate Digital Assets. All rights reserved.</p>
+    </footer>
+
+    <script src="db.js"></script>
+    <script>
+        const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : window.location.origin;
+        const SHOP_CURRENCY_KEY = 'sm_shop_currency';
+
+        const RATES = { USD:1, EUR:0.92, GBP:0.79, JPY:149, AUD:1.55, CAD:1.36, KRW:1350, TWD:31.5, HKD:7.82, SGD:1.35, MYR:4.7, CNY:7.2 };
+        const SYMBOLS = { USD:'$', EUR:'€', GBP:'£', JPY:'¥', AUD:'A$', CAD:'C$', KRW:'₩', TWD:'NT$', HKD:'HK$', SGD:'S$', MYR:'RM', CNY:'¥' };
+        let activeCurrency = 'USD';
+
+        function formatPrice(usd, currency) {
+            const val = Math.round(usd * RATES[currency]);
+            return SYMBOLS[currency] + val.toLocaleString();
+        }
+
+        function setCurrency(currency) {
+            activeCurrency = currency;
+            localStorage.setItem(SHOP_CURRENCY_KEY, currency);
+            const sel = document.getElementById('currency-select');
+            if (sel) sel.value = currency;
+            document.querySelectorAll('[data-price-usd]').forEach(el => {
+                el.querySelector('.price-main').textContent = formatPrice(parseFloat(el.dataset.priceUsd), currency);
+            });
+        }
+
+        async function buyProduct(productName, priceUSD, btnEl) {
+            const orig = btnEl.innerHTML;
+            btnEl.disabled = true;
+            btnEl.innerHTML = '<span style="opacity:.7">處理中...</span>';
+
+            try {
+                const session = window.FutureDB?.getSession?.();
+                const res = await fetch(`${API_BASE}/stripe-api/create-checkout-session`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount: priceUSD,
+                        planName: productName,
+                        buyerEmail: session?.email || '',
+                        buyerName: session?.name || '',
+                        currency: activeCurrency.toLowerCase()
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data?.error || '無法建立結帳連線');
+                }
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error('未收到付款連結');
+                }
+            } catch (err) {
+                btnEl.disabled = false;
+                btnEl.innerHTML = orig;
+                const toast = document.createElement('div');
+                toast.textContent = '❌ ' + err.message + '（請確認伺服器已啟動）';
+                toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#ff2a5f;color:#fff;padding:12px 24px;border-radius:12px;font-size:13px;font-weight:700;z-index:9999;';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 4000);
+            }
+        }
+
+        setCurrency(localStorage.getItem(SHOP_CURRENCY_KEY) || 'USD');
+    </script>
+
+</body>
+</html>

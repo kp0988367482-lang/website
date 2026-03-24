@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeoulMate | 行銷增長策略與變現漏斗</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;700;900&family=DM+Sans:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #030305;
+            --surface: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --muted: rgba(255, 255, 255, 0.5);
+            --c1: #D4AF37; 
+            --red: #ff3b3b;
+            --yellow: #f59e0b;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        }
+
+        /* ── NAVBAR ── */
+
+        .header {
+            padding: 140px 40px 60px;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 8vw, 72px);
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px 100px;
+        }
+
+        /* ── FUNNEL ── */
+        .funnel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 60px 0;
+            gap: 8px;
+        }
+
+        .funnel-stage {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            clip-path: polygon(10% 0, 90% 0, 85% 100%, 15% 100%);
+            transition: transform 0.3s ease;
+        }
+
+        .funnel-stage:hover {
+            transform: scale(1.02);
+        }
+
+        .s1 { background: var(--c1); width: 100%; max-width: 800px; }
+        .s2 { background: rgba(255,255,255,0.1); width: 100%; max-width: 600px; }
+        .s3 { background: rgba(255,255,255,0.05); border: 1px solid var(--border); width: 100%; max-width: 400px; }
+        .s4 { background: var(--yellow); color: #000; width: 100%; max-width: 250px; }
+
+        /* ── STATS ── */
+        .results {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .stat-item h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            color: var(--c1);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--muted);
+        }
+
+        /* ── PRICING ── */
+        .pricing-section-title {
+            text-align: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 40px;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .price-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .price-card.featured {
+            border-color: var(--c1);
+            background: rgba(255, 62, 94, 0.03);
+            transform: translateY(-10px);
+        }
+
+        .price-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--c1);
+            color: #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 11px;
+            padding: 4px 40px;
+            transform: rotate(45deg);
+        }
+
+        .plan-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 64px;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+
+        .plan-price span {
+            font-size: 18px;
+            color: var(--muted);
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .features li {
+            padding: 10px 0;
+            color: var(--muted);
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .btn-price {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid var(--border);
+        }
+
+        .price-card.featured .btn-price {
+            background: var(--c1);
+            border: none;
+        }
+
+        .btn-price:hover {
+            transform: scale(1.02);
+        }
+
+        /* ── TESTIMONIAL ── */
+        .testimonial {
+            margin-top: 100px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .quote {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 20px;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .author {
+            margin-top: 24px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            color: var(--c1);
+            letter-spacing: 1px;
+        }
+
+        footer {
+            padding: 60px 40px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header style="position:sticky; top:20px; z-index:100; background:rgba(3,3,5,0.7); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.08); margin:0 20px; border-radius:40px;">
+        <div style="max-width:1440px; margin:0 auto; height:64px; display:flex; align-items:center; justify-content:space-between; padding: 0 24px;">
+            <div style="display:flex; align-items:center; gap:32px;">
+                <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:4px; color:#fff;">
+                    <h1 style="font-family:'Bebas Neue'; letter-spacing:2px; font-size:24px; margin:0;">SEOULMATE<span style="color:var(--c1)">31</span></h1>
+                </a>
+                <nav style="display:flex; gap:24px; font-size:14px; font-weight:500;">
+                    <a style="color:rgba(255,255,255,0.6); text-decoration:none;" href="/">探索 Explore</a>
+                    <a style="color:rgba(255,255,255,0.6); text-decoration:none;" href="product_showcase.html">精英評測 Compare</a>
+                    <a style="color:rgba(255,255,255,0.6); text-decoration:none;" href="/benefits">實戰資源 Resources</a>
+                    <a style="color:#fff; text-decoration:none; font-weight:800;" href="marketing_funnel.html">頂級諮詢 Consult</a>
+                </nav>
+            </div>
+            <div style="display:flex; align-items:center; gap:16px; margin-left:auto;">
+                <a href="login.html" style="color:rgba(255,255,255,0.6); text-decoration:none; font-size:14px;">登入 Login</a>
+                <a href="signup.html" style="background:var(--yellow); color:#000; padding:8px 20px; border-radius:30px; text-decoration:none; font-weight:900; font-size:13px; box-shadow:0 4px 15px rgba(245,158,11,0.3);">獲取 THE INTEL PASS →</a>
+            </div>
+        </div>
+    </header>
+
+    <header class="header">
+        <h1 class="title">MARKETING FUNNEL</h1>
+        <p class="subtitle">從流量獲取到忠誠訂閱的完整增長引擎與變現策略</p>
+    </header>
+
+    <div class="container">
+
+        <div class="funnel-container">
+            <div class="funnel-stage s1">EXPOSURE · 社交媒體與 SEO 曝光</div>
+            <div class="funnel-stage s2">INTEREST · 深度內容與案例分析</div>
+            <div class="funnel-stage s3">DEPOSITION · 數位產品與工具訂閱</div>
+            <div class="funnel-stage s4">LOYALTY · VIP 長期會員中心</div>
+        </div>
+
+        <div class="results">
+            <div class="stat-item">
+                <h2>3.8x</h2>
+                <div class="stat-label">AVG. ROAS</div>
+            </div>
+            <div class="stat-item">
+                <h2>67%</h2>
+                <div class="stat-label">CONVERSION LIFT</div>
+            </div>
+            <div class="stat-item">
+                <h2>15K+</h2>
+                <div class="stat-label">TRUSTED CLIENTS</div>
+            </div>
+        </div>
+
+        <h2 class="pricing-section-title">SELECT YOUR GROWTH PATH</h2>
+        <div class="pricing-grid">
+
+            <div class="price-card">
+                <div class="plan-name">STARTUP</div>
+                <div class="plan-price">$299<span> / mo</span></div>
+                <ul class="features">
+                    <li>基礎數據市場報告</li>
+                    <li>核心比較工具存取</li>
+                    <li>每月一次專家諮詢</li>
+                </ul>
+                <a href="signup.html" class="btn-price">CHOOSE PLAN</a>
+            </div>
+
+            <div class="price-card featured">
+                <div class="plan-name">PROFESSIONAL</div>
+                <div class="plan-price">$999<span> / mo</span></div>
+                <ul class="features">
+                    <li>完整市場深度洞察</li>
+                    <li>全平台 SEO 硬核優化</li>
+                    <li>專屬變現路徑設計</li>
+                    <li>24/7 優先技術支援</li>
+                </ul>
+                <a href="signup.html" class="btn-price">GET STARTED</a>
+            </div>
+
+            <div class="price-card">
+                <div class="plan-name">ENTERPRISE</div>
+                <div class="plan-price">CUSTOM</div>
+                <ul class="features">
+                    <li>1-on-1 全球戰略合作</li>
+                    <li>完整企業組織架構搭建</li>
+                    <li>ROAS 加速飛輪系統</li>
+                    <li>私人訂製解決方案</li>
+                </ul>
+                <a href="signup.html" class="btn-price">CONTACT US</a>
+            </div>
+
+        </div>
+
+        <div class="testimonial">
+            <p class="quote">"SeoulMate 的轉化路徑設計讓我們在短短三個月內，實現了目標訂閱用戶數 200% 的爆炸性增長，這正是我們在韓國市場需要的核心競爭力。"</p>
+            <div class="author">— CHIEF MARKETING OFFICER, K-BEAUTY GLOBAL</div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 SeoulMate Marketing Strategy. All Rights Reserved.</p>
+    </footer>
+
+
+    <script src="translator.js"></script>
+</body>
+
+</html>

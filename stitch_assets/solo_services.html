@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeoulMate | 一人企業服務與變現引擎</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Bebas Neue', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            pink: '#ff2a5f',
+                            purple: '#9d00ff',
+                            cyan: '#00e5ff',
+                            dark: '#0a0a0a',
+                            surface: '#141414',
+                            border: '#2a2a2a',
+                            green: '#00ff88'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(10, 10, 10, 0.7);
+        }
+        .text-gradient-purple {
+            background: linear-gradient(135deg, #9d00ff, #00e5ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 滾動動畫 Classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* KPI Number Style */
+        .kpi-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            line-height: 1;
+            background: linear-gradient(135deg, white, #a3a3a3);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(45deg, #00e5ff, #9d00ff, #ff2a5f);
+            z-index: -1;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .glow-border:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-cyan selection:text-black">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 border-b border-brand-border nav-blur">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="index.html" class="font-display text-2xl tracking-widest text-white decoration-none hover:text-brand-cyan transition-colors">SEOULMATE</a>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-400">
+                <a href="#kpi" class="hover:text-brand-cyan transition-colors">核心數據</a>
+                <a href="#consulting" class="hover:text-brand-purple transition-colors">一人諮詢</a>
+                <a href="#referral" class="hover:text-brand-pink transition-colors">轉介紹網絡</a>
+                <a href="#advertise" class="hover:text-brand-green transition-colors">廣告合作</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="https://calendly.com" target="_blank" class="bg-white text-black px-5 py-2.5 rounded-full text-sm font-bold hover:bg-gray-200 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.3)]">自動預約 1:1</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-40 pb-20 relative">
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-purple/20 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-brand-cyan/10 rounded-full blur-[100px]"></div>
+        </div>
+        <div class="max-w-5xl mx-auto px-6 text-center relative z-10 fade-in-up">
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-6">
+                一人企業，<span class="text-gradient-purple">無限規模。</span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                將我的 10,000 小時經驗化為您的商業捷徑。從 1:1 高階專屬諮詢、在地轉介紹通道，到月租制廣告曝光，幫助您自動化拓展韓國市場。
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#consulting" class="px-8 py-4 bg-brand-purple text-white rounded-xl font-bold hover:bg-[#8500d9] transition-all shadow-[0_0_20px_rgba(157,0,255,0.4)]">預約我的時間</a>
+                <a href="#advertise" class="px-8 py-4 bg-brand-surface border border-brand-border text-white rounded-xl font-bold hover:border-gray-500 transition-colors">看廣告方案</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 0. Core KPI Dashboard Section -->
+    <section id="kpi" class="py-20 border-y border-brand-border bg-brand-dark relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between mb-12 fade-in-up">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-300 tracking-widest uppercase">Platform Authority</h2>
+                    <p class="text-sm text-gray-500 mt-1">Real-time Performance Metrics & Impact</p>
+                </div>
+                <div class="flex items-center gap-2 text-brand-green text-sm font-bold bg-brand-green/10 px-3 py-1 rounded-full border border-brand-green/20">
+                    <span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span> SYSTEM ONLINE
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- KPI 1: ROAS -->
+                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between fade-in-up" style="transition-delay: 0.1s;">
+                    <span class="material-symbols-outlined text-brand-cyan mb-4">monitoring</span>
+                    <div>
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Avg. ROAS</div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="kpi-number" data-target="8.5">0.0</span><span class="text-xl text-gray-500">x</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500 mt-2">廣告合作客戶平均投資回報率</p>
+                    </div>
+                </div>
+
+                <!-- KPI 2: DAU -->
+                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between fade-in-up glow-border" style="transition-delay: 0.2s;">
+                    <span class="material-symbols-outlined text-brand-pink mb-4">group</span>
+                    <div>
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Targeted DAU</div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="kpi-number" data-target="25000">0</span><span class="text-xl text-gray-500">+</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500 mt-2">精準瞄準韓國落地需求之活躍用戶</p>
+                    </div>
+                </div>
+
+                <!-- KPI 3: NRR -->
+                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between fade-in-up" style="transition-delay: 0.3s;">
+                    <span class="material-symbols-outlined text-brand-purple mb-4">payments</span>
+                    <div>
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Sub NRR</div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="kpi-number" data-target="115">0</span><span class="text-xl text-gray-500">%</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500 mt-2">淨收入留存率 (The Intel Pass 收費訂閱)</p>
+                    </div>
+                </div>
+
+                <!-- KPI 4: OKR Progress -->
+                <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between fade-in-up" style="transition-delay: 0.4s;">
+                    <span class="material-symbols-outlined text-[#facc15] mb-4">flag</span>
+                    <div>
+                        <div class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Q2 OKR: Network</div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="kpi-number" data-target="92">0</span><span class="text-xl text-gray-500">%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-1 mt-3">
+                            <div class="bg-[#facc15] h-1 rounded-full transition-all duration-1000 ease-out" style="width: 0%" id="okr-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6 py-32 space-y-32">
+
+        <!-- 1. 1:1 Consulting -->
+        <section id="consulting" class="fade-in-up flex flex-col md:flex-row gap-12 items-center">
+            <div class="flex-1">
+                <span class="text-brand-purple font-bold tracking-widest text-sm uppercase mb-2 block">01 · Solo Services</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">高階 1:1 視訊諮詢</h2>
+                <p class="text-gray-400 mb-8 leading-relaxed">
+                    全自動化預約與收款。無論是檢視您的韓國商業策略、評估留學代辦合約陷阱，或是討論自媒體變現路徑。我只提供最銳利、不廢話的務實解法。
+                </p>
+                
+                <div class="space-y-4 mb-8">
+                    <div class="glass-panel p-5 rounded-xl flex justify-between items-center group cursor-pointer hover:border-brand-purple transition-colors">
+                        <div>
+                            <div class="font-bold text-lg mb-1 group-hover:text-brand-purple transition-colors">⚡ Quick Strategy Call (30 mins)</div>
+                            <div class="text-sm text-gray-500">快速破解盲點，確認方向可行性</div>
+                        </div>
+                        <div class="text-2xl font-display tracking-wider">$100</div>
+                    </div>
+                    <div class="glass-panel p-5 rounded-xl flex justify-between items-center group cursor-pointer hover:border-brand-purple transition-colors relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-brand-purple text-[10px] font-bold px-2 py-0.5 rounded-bl-lg">POPULAR</div>
+                        <div>
+                            <div class="font-bold text-lg mb-1 group-hover:text-brand-purple transition-colors">🧠 Deep Dive Session (60 mins)</div>
+                            <div class="text-sm text-gray-500">完整商業模式健檢、資源對接與後續 Email 支援</div>
+                        </div>
+                        <div class="text-2xl font-display tracking-wider">$200</div>
+                    </div>
+                </div>
+                <a href="#" class="inline-flex items-center gap-2 text-white bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold transition-colors">
+                    <span class="material-symbols-outlined">event</span> 透過 Calendly 自動預約
+                </a>
+            </div>
+            <div class="md:w-5/12 w-full glass-panel p-8 rounded-3xl relative">
+                 <div class="absolute -top-4 -right-4 bg-[#141414] border border-[#2a2a2a] p-3 rounded-xl shadow-xl flex items-center gap-3">
+                     <div class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center"><span class="material-symbols-outlined text-sm text-white">check</span></div>
+                     <div><div class="text-xs text-gray-400">Stripe Payment</div><div class="text-sm font-bold">Successfully Paid</div></div>
+                 </div>
+                 <h3 class="font-bold mb-4 border-b border-[#2a2a2a] pb-2">諮詢流程大解密</h3>
+                 <ul class="space-y-6">
+                     <li class="flex gap-4"><div class="text-brand-purple font-display text-2xl">1</div><div><div class="font-bold text-sm">付款與填表</div><div class="text-[10px] text-gray-500">在 Calendly 付款並提供背景資料</div></div></li>
+                     <li class="flex gap-4"><div class="text-brand-purple font-display text-2xl">2</div><div><div class="font-bold text-sm">事前研究</div><div class="text-[10px] text-gray-500">我會花 1-2 小時分析你的需求</div></div></li>
+                     <li class="flex gap-4"><div class="text-brand-purple font-display text-2xl">3</div><div><div class="font-bold text-sm">Google Meet 視訊</div><div class="text-[10px] text-gray-500">直奔主題，提供 Action Items</div></div></li>
+                 </ul>
+            </div>
+        </section>
+
+        <!-- 2. Services & Referrals -->
+        <section id="referral" class="fade-in-up">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-pink font-bold tracking-widest text-sm uppercase mb-2 block">02 · Done-For-You & Referral</span>
+                <h2 class="text-4xl font-bold mb-4">語言服務與轉介紹網路</h2>
+                <p class="text-gray-400">將龐大的在地人脈與語言專長轉化為高利潤的轉介紹佣金 (10% - 30%)，雙贏的商業模式。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-panel p-8 rounded-3xl group hover:border-brand-pink transition-colors">
+                    <span class="material-symbols-outlined text-4xl text-brand-pink mb-4">translate</span>
+                    <h3 class="text-2xl font-bold mb-3">高階商務翻譯與資源套件</h3>
+                    <p class="text-sm text-gray-400 mb-6">不只是翻譯，是商業對接。合約翻譯、計畫書在地化，或是直接購買我們已經翻譯完成的「批發商聯絡資料庫標準版」。</p>
+                    <div class="flex gap-3">
+                        <span class="text-xs bg-brand-surface border border-brand-border px-3 py-1 rounded-full text-gray-300">客製化報價</span>
+                        <span class="text-xs bg-brand-pink/10 border border-brand-pink/30 px-3 py-1 rounded-full text-brand-pink font-bold">數位產品發售中</span>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-8 rounded-3xl group hover:border-brand-cyan transition-colors">
+                    <span class="material-symbols-outlined text-4xl text-brand-cyan mb-4">handshake</span>
+                    <h3 class="text-2xl font-bold mb-3">嚴選轉介紹 (B2B / B2C)</h3>
+                    <p class="text-sm text-gray-400 mb-6">透過我們龐大的用戶流量庫，精準對接需求方與供給方，打造無風險被動收入。保證雙方品質，並收取業界合理佣金。</p>
+                    
+                    <ul class="text-xs text-gray-300 space-y-2 mb-6">
+                        <li class="flex justify-between border-b border-brand-border pb-1"><span>🏥 醫美診所引流</span> <span class="font-bold text-white">$50–$500 / 筆</span></li>
+                        <li class="flex justify-between border-b border-brand-border pb-1"><span>🎓 留學代辦合約</span> <span class="font-bold text-white">$100–$500 / 位</span></li>
+                        <li class="flex justify-between"><span>📦 國際物流開戶</span> <span class="font-bold text-white">月運費 5-10% 分潤</span></li>
+                    </ul>
+                    <a href="contact-expert.html" class="text-sm text-brand-cyan font-bold hover:underline">我是廠商，希望進入轉介紹白名單 ➔</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Advertising & Newsletter -->
+        <section id="advertise" class="fade-in-up bg-gradient-to-tr from-brand-surface to-[#0a1510] border border-brand-green/20 rounded-3xl p-8 md:p-16 relative overflow-hidden">
+            <div class="absolute right-0 top-0 w-1/2 h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+            
+            <span class="text-brand-green font-bold tracking-widest text-sm uppercase mb-2 block relative z-10">03 · Monetization Platform</span>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 relative z-10">廣告曝光與自有流量變現</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10 mt-12">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-brand-green">campaign</span> 品牌廣告版位配置</h3>
+                    <p class="text-sm text-gray-400 mb-6">直接面向極具購買力的大中華區受眾。我們拒絕按點擊計費 (CPC) 的繁瑣，採用單純高效的「月租買斷制」，省去雙方時間成本。</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center bg-[#0a0a0a] border border-[#2a2a2a] p-4 rounded-xl">
+                            <div><div class="font-bold text-sm text-white">首頁 Hero Banner 獨佔式版位</div><div class="text-[10px] text-gray-500">曝光保證，每月僅限一檔</div></div>
+                            <button class="bg-gray-800 text-xs px-3 py-1 rounded hover:bg-white hover:text-black transition-colors">看報價</button>
+                        </div>
+                        <div class="flex justify-between items-center bg-[#0a0a0a] border border-[#2a2a2a] p-4 rounded-xl">
+                            <div><div class="font-bold text-sm text-white">SEO 部落格推薦文章 (Sponsored)</div><div class="text-[10px] text-gray-500">永久置入，長尾流量收割機</div></div>
+                            <button class="bg-gray-800 text-xs px-3 py-1 rounded hover:bg-white hover:text-black transition-colors">看報價</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="glass-panel p-8 rounded-2xl border-brand-green/30">
+                        <h3 class="text-xl font-bold mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-[#ffea00]">mail</span> Newsletter Sponsoship</h3>
+                        <p class="text-sm text-gray-400 mb-6">SeoulMate 內部電子報：最高轉換率的 Owned Media。將您的品牌推廣給我們 10,000+ 活躍的高淨值訂閱者。</p>
+                        
+                        <div class="bg-black/50 p-4 rounded-xl mb-6">
+                            <div class="flex justify-between text-xs text-gray-400 mb-2"><span>開信率 (Open Rate)</span> <span>54.2%</span></div>
+                            <div class="w-full bg-gray-800 rounded-full h-1.5"><div class="bg-brand-green h-1.5 rounded-full" style="width: 54.2%"></div></div>
+                            
+                            <div class="flex justify-between text-xs text-gray-400 mt-4 mb-2"><span>點擊率 (CTR)</span> <span>12.8%</span></div>
+                            <div class="w-full bg-gray-800 rounded-full h-1.5"><div class="bg-brand-cyan h-1.5 rounded-full" style="width: 12.8%"></div></div>
+                        </div>
+
+                        <a href="contact-expert.html" class="block w-full text-center bg-white text-black py-3 rounded-lg font-bold text-sm hover:scale-[1.02] transition-transform">申請獨家電子報版位 ➔</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-brand-border py-12 text-center text-sm text-gray-500">
+        <div class="font-display text-2xl tracking-widest text-white mb-4 opacity-50">SEOULMATE</div>
+        <p>Copyright © 2026 SeoulMate Solo Engine. All rights reserved.</p>
+    </footer>
+
+    <!-- Animations Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Scroll Fade In Animation
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // 滾動到時再執行數字跳動以達最佳效果
+                        if(entry.target.id === 'kpi' || entry.target.querySelector('.kpi-number')) {
+                            animateNumbers();
+                            document.getElementById('okr-bar').style.width = '92%';
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-up').forEach((el) => {
+                observer.observe(el);
+            });
+
+            // 2. Number Counter Animation
+            let animated = false;
+            function animateNumbers() {
+                if(animated) return;
+                animated = true;
+                
+                const counters = document.querySelectorAll('.kpi-number');
+                const speed = 200; // The lower the slower
+
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const isDecimal = target % 1 !== 0;
+                    
+                    const updateCount = () => {
+                        const count = +counter.innerText;
+                        const inc = target / speed;
+
+                        if (count < target) {
+                            if(isDecimal) {
+                                counter.innerText = (count + inc).toFixed(1);
+                            } else {
+                                counter.innerText = Math.ceil(count + inc);
+                            }
+                            setTimeout(updateCount, 10);
+                        } else {
+                            if(isDecimal) {
+                                counter.innerText = target.toFixed(1);
+                            } else {
+                                // Add commas for thousands
+                                counter.innerText = target.toLocaleString();
+                            }
+                        }
+                    };
+                    updateCount();
+                });
+            }
+        });
+    </script>
+    <script src="translator.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Command | SeoulMate HQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { dark: '#0a0a0a', surface: '#141414', border: '#2a2a2a', accent: '#00e5ff' }
+                    },
+                    fontFamily: { mono: ['DM Mono', 'monospace'], sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0a0a; color: #fff; font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(20, 20, 20, 0.6); border: 1px solid #2a2a2a; backdrop-filter: blur(12px); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .status-active { background-color: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4); }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    
+    <!-- Top Bar -->
+    <header class="max-w-7xl mx-auto flex items-center justify-between mb-10">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-brand-accent/10 border border-brand-accent/20 rounded-lg flex items-center justify-center text-brand-accent">
+                <span class="material-symbols-outlined">admin_panel_settings</span>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg tracking-wide">SEOULMATE ADMIN</h1>
+                <p class="text-[10px] text-gray-500 font-mono uppercase">System Level: Root</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 px-3 py-1.5 bg-brand-surface border border-brand-border rounded-full">
+                <span class="status-dot status-active"></span>
+                <span class="text-xs font-mono text-gray-400">SERVER ONLINE</span>
+            </div>
+            <a href="index.html" class="text-xs font-bold text-gray-500 hover:text-white transition-colors">EXIT</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <!-- Sidebar Stats -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="glass-panel rounded-2xl p-6">
+                <h3 class="text-xs font-bold text-gray-500 uppercase mb-4">Total Revenue</h3>
+                <div class="text-3xl font-mono font-bold text-white mb-1">$12,450</div>
+                <div class="text-xs text-emerald-400 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">trending_up</span> +18% this week
+                </div>
+            </div>
+            
+            <div class="glass-panel rounded-2xl p-6">
+                <h3 class="text-xs font-bold text-gray-500 uppercase mb-4">Active Members</h3>
+                <div class="text-3xl font-mono font-bold text-white mb-1">842</div>
+                <div class="text-xs text-brand-accent flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">group_add</span> +32 new today
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-6 border-brand-accent/30 bg-brand-accent/5">
+                <h3 class="text-xs font-bold text-brand-accent uppercase mb-2">System Alert</h3>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    Stripe Webhook endpoint is receiving events. Database sync latency is normal (24ms).
+                </p>
+            </div>
+        </div>
+
+        <!-- Main Feed -->
+        <div class="lg:col-span-3">
+            <div class="glass-panel rounded-2xl p-8 min-h-[500px]">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="font-bold text-xl">Live Transaction Feed</h2>
+                    <button class="text-xs bg-brand-surface border border-brand-border px-3 py-1.5 rounded hover:bg-white/5 transition-colors">Refresh Data</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead>
+                            <tr class="border-b border-brand-border text-gray-500 font-mono text-xs uppercase">
+                                <th class="pb-4 pl-2">Time</th>
+                                <th class="pb-4">User / Email</th>
+                                <th class="pb-4">Plan Type</th>
+                                <th class="pb-4 text-right">Amount</th>
+                                <th class="pb-4 text-right pr-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-brand-border/50" id="tx-list">
+                            <!-- JS will populate this -->
+                            <tr class="group hover:bg-white/5 transition-colors">
+                                <td class="py-4 pl-2 font-mono text-gray-400">10:42 AM</td>
+                                <td class="py-4">
+                                    <div class="font-bold text-white">Alex Chen</div>
+                                    <div class="text-xs text-gray-500">alex.c@example.com</div>
+                                </td>
+                                <td class="py-4"><span class="bg-purple-500/20 text-purple-400 px-2 py-1 rounded text-xs font-bold">ELITE</span></td>
+                                <td class="py-4 text-right font-mono">$399.00</td>
+                                <td class="py-4 text-right pr-2"><span class="text-emerald-400 text-xs font-bold">PAID</span></td>
+                            </tr>
+                            <tr class="group hover:bg-white/5 transition-colors">
+                                <td class="py-4 pl-2 font-mono text-gray-400">09:15 AM</td>
+                                <td class="py-4">
+                                    <div class="font-bold text-white">Sarah Kim</div>
+                                    <div class="text-xs text-gray-500">skim@naver.com</div>
+                                </td>
+                                <td class="py-4"><span class="bg-brand-accent/20 text-brand-accent px-2 py-1 rounded text-xs font-bold">PRO</span></td>
+                                <td class="py-4 text-right font-mono">$99.00</td>
+                                <td class="py-4 text-right pr-2"><span class="text-emerald-400 text-xs font-bold">PAID</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Simple simulation of live data
+        const names = ['Jason Lee', 'Yu-Ting Wu', 'Mike Ross', 'Jenny Park'];
+        const plans = ['STARTER', 'PRO', 'ELITE'];
+        const amounts = {'STARTER': '$39.00', 'PRO': '$99.00', 'ELITE': '$399.00'};
+        
+        function addRandomRow() {
+            const tbody = document.getElementById('tx-list');
+            const name = names[Math.floor(Math.random() * names.length)];
+            const plan = plans[Math.floor(Math.random() * plans.length)];
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            const row = `
+                <tr class="group hover:bg-white/5 transition-colors animate-pulse">
+                    <td class="py-4 pl-2 font-mono text-brand-accent">${time}</td>
+                    <td class="py-4"><div class="font-bold text-white">${name}</div><div class="text-xs text-gray-500">user@example.com</div></td>
+                    <td class="py-4"><span class="bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-bold">${plan}</span></td>
+                    <td class="py-4 text-right font-mono">${amounts[plan]}</td>
+                    <td class="py-4 text-right pr-2"><span class="text-emerald-400 text-xs font-bold">JUST NOW</span></td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('afterbegin', row);
+            if(tbody.children.length > 8) tbody.lastElementChild.remove();
+        }
+
+        setInterval(addRandomRow, 5000);
+    </script>
+</body>
+</html>
