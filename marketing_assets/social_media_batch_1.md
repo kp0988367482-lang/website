@@ -31,7 +31,7 @@
 ### Ad 4 (Focus: Part-Time Jobs)
 - **Visual Idea:** A screen recording of someone scrolling through a Korean job site (like Albamon) showing many cool cafe/shop job listings. Then, it cuts to a pre-filled, professional-looking Korean resume template.
 - **Hook:** `為什麼你找的打工，時薪都比別人低？`
-- **Body:** `因為你沒在用韓國人找打工的 App。我們給你 App 教學和韓文履歷模板，讓你找到時薪更高的好工作。`
+- **Body:** `因為你沒在用韓國人找打工的 App。我們給你 App 教學和韓文履歷範本，讓你找到時薪更高的好工作。`
 - **CTA:** `用韓國人的方法找打工。`
 
 ---
